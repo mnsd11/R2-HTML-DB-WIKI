@@ -8,8 +8,10 @@
 ![GitHub forks](https://img.shields.io/github/forks/Aksel911/R2-HTML-DB-WIKI)
 
 **Созданно [Victor Pavlov](https://vk.com/akselrus) | [R2Genius](https://vk.com/r2genius)**
-**SOURCE CODE:** [R2-HTML-DB](https://github.com/Aksel911/R2-HTML-DB)
+
 *Современная вики для R2 Online по собственной базе данных с удобным интерфейсом и расширенным функционалом*
+
+```*SOURCE CODE:* [R2-HTML-DB](https://github.com/Aksel911/R2-HTML-DB)```
 </div>
 
 ## 🌟 Основные функции
