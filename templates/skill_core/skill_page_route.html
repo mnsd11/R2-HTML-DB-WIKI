@@ -1,0 +1,47 @@
+{% include "favicon.html" %}
+{% extends "skill_core/skill_page_main.html" %}
+
+
+{% block title %}Skills{% endblock %}
+
+{% block header %}Skills{% endblock %}
+
+{% block table_headers %}
+    <th>Image</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>mSPID</th>
+{% endblock %}
+
+{% block table_content %}
+    {% set seen_skills = [] %}
+    {% for skill in skills %}
+        {% if skill[0] not in seen_skills %}
+            {% set _ = seen_skills.append(skill[0]) %}
+            <tr>
+                <td class="skill-image-container">
+                    {% set file_path = item_resources[skill[0]] %}
+                    {% if file_path %}
+                        <div class="skill-wrapper" data-sort-id="{{ skill[0] }}">
+                            <img src="{{ file_path }}"
+                                 width="48"
+                                 height="48"
+                                 loading="lazy"
+                                 class="skill-image"
+                                 alt="{{ skill[1] }}"
+                                 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png';">
+                            <div class="skill-hover-text">[{{ skill[0] }}] {{ skill[3] }}</div>
+                        </div>
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                </td>
+                <td><a href="/skill/{{ skill[0] }}">{{ skill[1] }}</a></td>
+                <td>{{ skill[4] }}</td>
+                <td>{{ skill[2] }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+

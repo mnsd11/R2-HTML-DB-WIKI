@@ -1,0 +1,130 @@
+<!-- DT_MonsterAttributeAdd -->
+{% if monster_attribute_resist_data %}
+<style>
+    .dice-container {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .dice-damage {
+        
+        background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .dice-damage:hover {
+        transform: translateY(-2px);
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+    }
+    
+    .dice-icon {
+        background: #666;
+        color: white;
+        width: 24px;
+        height: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        font-size: 14px;
+        transform: rotate(-10deg);
+        transition: transform 0.3s ease;
+    }
+    
+    .dice-icon:hover {
+        transform: rotate(10deg);
+    }
+    
+    .damage-type {
+        font-size: 0.85em;
+        color: #666;
+        margin-left: 8px;
+        padding: 2px 6px;
+        background: #f0f0f0;
+        border-radius: 12px;
+        border: 1px dashed #ccc;
+    }
+
+    /* Dark theme */
+    .dark-theme .dice-damage {
+        background: linear-gradient(145deg, #333, #2a2a2a);
+        color: #fff;
+        border-color: #444;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .dark-theme .damage-type {
+        background: #2a2a2a;
+        color: #aaa;
+        border-color: #444;
+    }
+    
+    .dark-theme .dice-icon {
+        background: #444;
+        color: #fff;
+    }
+
+    /* Пульсация для высокого урона */
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(255,0,0,0.2); }
+        70% { box-shadow: 0 0 0 6px rgba(255,0,0,0); }
+        100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+    }
+</style>
+
+<div class="skill-section fadeIn">
+    <p class="section-star">★</p>
+    <h2 class="section-title">[Resist] Информация об атрибутах</h2>
+    <div class="skill-content">
+        <div class="stat-grid">
+            <!-- Базовая информация об атрибутах -->
+            <div class="stat-row">
+                <span class="stat-label">ID атрибута</span>
+                <span class="stat-value">{{ monster_attribute_resist_data.AID }}</span>
+            </div>
+           
+            <!-- Тип атрибута / Название атрибута / Уровень атрибута-->
+            <div class="stat-row">
+                <span class="stat-label">Тип атрибута</span>
+                <span class="stat-value">[{{ monster_attribute_resist_data.AType }}] {{ monster_attribute_resist_data.AName }} ур. {{ monster_attribute_resist_data.ALevel }}</span>
+            </div>
+           
+            <!-- Урон -->
+            {% if monster_attribute_resist_data.ADiceDamage %}
+            <div class="stat-row">
+                <span class="stat-label">Кубик урона</span>
+                <span class="stat-value">
+                    <div class="dice-container">
+                        <span class="dice-icon">
+                            <i class="fas fa-dice"></i>
+                        </span>
+                        <span class="dice-damage" {% if monster_attribute_resist_data.ADiceDamage.startswith('3') %}style="animation: pulse 2s infinite"{% endif %}>
+                            {{ monster_attribute_resist_data.ADiceDamage|replace('d', '⚅') }}
+                        </span>
+                        <span class="damage-type">физический</span>
+                    </div>
+                </span>
+            </div>
+            {% endif %}
+           
+            {% if monster_attribute_resist_data.ADamage %}
+            <div class="stat-row">
+                <span class="stat-label">Урон</span>
+                <span class="stat-value damage-value">
+                    <span class="dice-container">
+                        <span class="dice-damage">{{ monster_attribute_resist_data.ADamage }}</span>
+                        <span class="damage-type">базовый</span>
+                    </span>
+                </span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}

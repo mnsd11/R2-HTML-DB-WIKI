@@ -1,0 +1,61 @@
+<!-- Статистика -->
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Статистика</h2>
+	<div class="skill-content">
+		<div style="max-width: 400px; margin: 0 auto;">
+			<!-- Progress bars -->
+			<div class="stat-row">
+				<span style="width: 80px; text-align: left;">Опыт:</span>
+				<div class="progress fadeIn" style="flex-grow: 1;">
+					<div class="progress-bar exp-bar" role="progressbar"
+						 style="width: {{ item.mExp / 10 }}%;"
+						 aria-valuenow="{{ item.mExp }}"
+						 aria-valuemin="0"
+						 aria-valuemax="{{ item.mExp }}">
+						{{ item.mExp }} Exp
+					</div>
+				</div>
+			</div>
+
+			<div class="stat-row">
+				<span style="width: 80px; text-align: left;">HP:</span>
+				<div class="progress fadeIn" style="flex-grow: 1;">
+					<div class="progress-bar health-bar" role="progressbar"
+						 style="width: {{ item.MHP / 10 }}%;"
+						 aria-valuenow="{{ item.MHP }}"
+						 aria-valuemin="0"
+						 aria-valuemax="{{ item.MHP }}">
+						{{ item.MHP }} HP
+					</div>
+				</div>
+			</div>
+
+			<div class="stat-row">
+				<span style="width: 80px; text-align: left;">MP:</span>
+				<div class="progress fadeIn" style="flex-grow: 1;">
+					<div class="progress-bar mana-bar" role="progressbar"
+						 style="width: {{ item.MMP / 10 }}%;"
+						 aria-valuenow="{{ item.MMP }}"
+						 aria-valuemin="0"
+						 aria-valuemax="{{ item.MMP }}">
+						{{ item.MMP }} MP
+					</div>
+				</div>
+			</div>
+
+			<div class="stat-row">
+				<span style="width: 80px; text-align: left;">Репутация:</span>
+				<div class="progress fadeIn" style="flex-grow: 1;">
+					<div class="progress-bar chaotic-bar" role="progressbar"
+						 style="width: {{ item.MChaotic }}%;"
+						 aria-valuenow="{{ item.MChaotic }}"
+						 aria-valuemin="0"
+						 aria-valuemax="1000">
+						{{ item.MChaotic }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

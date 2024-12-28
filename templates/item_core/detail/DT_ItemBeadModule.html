@@ -1,0 +1,58 @@
+<!-- DT_ItemBeadModule -->
+{% if item_bead_module_data %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Информация о модуле</h2>
+	<div class="skill-content">
+		<div class="stat-grid">
+			<!-- Базовая информация о модуле -->
+			<div class="stat-row">
+				<span class="stat-label">ID модуля</span>
+				<span class="stat-value">{{ item_bead_module_data.MID }}</span>
+			</div>
+			<div class="stat-row">
+				<span class="stat-label">Название модуля</span>
+				<span class="stat-value">{{ item_bead_module_data.MName }}</span>
+			</div>
+			{% if item_bead_module_data.MDesc %}
+			<div class="stat-row">
+				<span class="stat-label">Описание</span>
+				<span class="stat-value">{{ item_bead_module_data.MDesc }}</span>
+			</div>
+			{% endif %}
+			
+			<!-- Тип и уровень -->
+			<div class="stat-row">
+				<span class="stat-label">Тип модуля</span>
+				<span class="stat-value">{{ item_bead_module_data.MType }}</span>
+			</div>
+			<div class="stat-row">
+				<span class="stat-label">Уровень модуля</span>
+				<span class="stat-value">{{ item_bead_module_data.MLevel }}</span>
+			</div>
+			
+			<!-- Параметры модуля -->
+			{% if item_bead_module_data.MAParam != 0 and item_bead_module_data.MAParamName %}
+			<div class="stat-row">
+				<span class="stat-label">{{ item_bead_module_data.MAParamName }}</span>
+				<span class="stat-value">{{ item_bead_module_data.MAParam }}</span>
+			</div>
+			{% endif %}
+			
+			{% if item_bead_module_data.MBParam != 0 and item_bead_module_data.MBParamName %}
+			<div class="stat-row">
+				<span class="stat-label">{{ item_bead_module_data.MBParamName }}</span>
+				<span class="stat-value">{{ item_bead_module_data.MBParam }}</span>
+			</div>
+			{% endif %}
+			
+			{% if item_bead_module_data.MCParam != 0 and item_bead_module_data.MCParamName %}
+			<div class="stat-row">
+				<span class="stat-label">{{ item_bead_module_data.MCParamName }}</span>
+				<span class="stat-value">{{ item_bead_module_data.MCParam }}</span>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endif %}

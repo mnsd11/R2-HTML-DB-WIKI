@@ -1,0 +1,72 @@
+<!-- TblSpecificProcItem -->
+{% if specificproc_data %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">SpecificProc</h2>
+	<div class="skill-content">
+		<div class="stat-grid">
+			{% if specificproc_data.mProcNo %}
+			<div class="stat-row">
+				<span class="stat-label">ProcNo</span>
+				<span class="stat-value">{{ specificproc_data.mProcNo }}</span>
+			</div>
+			{% endif %}
+
+			{% if specificproc_data.mProcDesc %}
+			<div class="stat-row">
+				<span class="stat-label">Описание ProcNo</span>
+				<span class="stat-value">{{ specificproc_data.mProcDesc }}</span>
+			</div>
+			{% endif %}
+
+			{% if specificproc_data.mAParam is not none %}
+			<div class="stat-row">
+				<span class="stat-label">Parameter A</span>
+				<span class="stat-value">
+					{{ specificproc_data.mAParam }}
+					{% if specificproc_data.mAParamDesc %}
+					<br><small>{{ specificproc_data.mAParamDesc }}</small>
+					{% endif %}
+				</span>
+			</div>
+			{% endif %}
+
+			{% if specificproc_data.mBParam is not none %}
+			<div class="stat-row">
+				<span class="stat-label">Parameter B</span>
+				<span class="stat-value">
+					{{ specificproc_data.mBParam }}
+					{% if specificproc_data.mBParamDesc %}
+					<br><small>{{ specificproc_data.mBParamDesc }}</small>
+					{% endif %}
+				</span>
+			</div>
+			{% endif %}
+
+			{% if specificproc_data.mCParam is not none %}
+			<div class="stat-row">
+				<span class="stat-label">Parameter C</span>
+				<span class="stat-value">
+					{{ specificproc_data.mCParam }}
+					{% if specificproc_data.mCParamDesc %}
+					<br><small>{{ specificproc_data.mCParamDesc }}</small>
+					{% endif %}
+				</span>
+			</div>
+			{% endif %}
+
+			{% if specificproc_data.mDParam is not none %}
+			<div class="stat-row">
+				<span class="stat-label">Parameter D</span>
+				<span class="stat-value">
+					{{ specificproc_data.mDParam }}
+					{% if specificproc_data.mDParamDesc %}
+					<br><small>{{ specificproc_data.mDParamDesc }}</small>
+					{% endif %}
+				</span>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endif %}

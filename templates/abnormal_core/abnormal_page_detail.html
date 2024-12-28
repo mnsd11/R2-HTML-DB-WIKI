@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "favicon.html" %}
+    <title>[{{ abnormal.abnormal_data.AType }}] {{ abnormal.abnormal_data.AName }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/bg/css/detail_css.css">
+</head>
+<body>
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i>
+            Назад
+        </button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <main>
+        <div class="container text-center">
+            <div class="row">
+                <!-- Первый блок -->
+                 
+                <!-- Информация -->
+                <div class="col-12 col-md-6">
+                    {% include 'abnormal_core/detail/abnormal_page_detail_information.html' %}
+
+
+
+
+                </div>
+
+                <!-- Второй блок -->
+                <div class="col-12 col-md-6">
+                    <h1 class="monster-title fadeIn" style="
+                        font-size: 3rem;
+                        font-weight: 800;
+                        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                        -webkit-background-clip: text;
+                        background-clip: text;
+                        color: transparent;
+                        padding: 20px 30px;
+                        margin: 20px 0;
+                        position: relative;
+                        text-transform: uppercase;
+                        letter-spacing: 2px;
+                        display: inline-block;
+                        font-family: 'Segoe UI', Arial, sans-serif;
+                    ">
+                        <span style="
+                            position: relative;
+                            z-index: 1;
+                            text-shadow:
+                                2px 2px 0px rgba(0,0,0,0.1),
+                                -1px -1px 0px rgba(255,255,255,0.1);
+                        ">{{ abnormal.abnormal_data.AName }}</span>
+                        <div style="
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 110%;
+                            height: 110%;
+                            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+                            filter: blur(5px);
+                            z-index: 0;
+                        "></div>
+                    </h1>
+                    
+                    <!-- Связанные скиллы -->
+                    {% include 'abnormal_core/detail/abnormal_page_linked_skills.html' %}
+
+                    <!-- Связанные предметы -->
+                    {% include 'abnormal_core/detail/abnormal_page_linked_items.html' %}
+                    
+                    <!-- Описание аномалии -->
+                    {% include 'abnormal_core/detail/abnormal_page_adesc.html' %}
+
+                    <!-- Секция Модули -->
+                    {% include 'abnormal_core/detail/abnormal_page_module.html' %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    {% include 'abnormal_core/abnormal_page_scripts.html' %}
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "favicon.html" %}
+    <title>[{{ skill.skill_type }}] {{ skill.name }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <link rel="stylesheet" href="/static/bg/css/detail_css.css">
+</head>
+<body>
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i>
+            Назад
+        </button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <main>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <!-- Первый блок -->
+
+                    <!-- Информация -->
+                    {% include 'skill_core/detail/skill_page_detail_information.html' %}
+
+                    <!-- Эффект умения -->
+                    {% include 'skill_core/detail/skill_page_detail_effect.html' %}
+                </div>
+
+                <!-- Второй блок -->
+                <div class="col-12 col-md-6">
+                    <h1 class="monster-title fadeIn">
+                        <span class="monster-title-text">{{ skill.name }}</span>
+                        <div class="monster-title-glow"></div>
+                    </h1>
+                    <p class="fadeIn"><img src="{{ skill.item_use_class }}" alt="Class icon"></p>
+                    
+                    <!-- На предметах -->
+                    {% include 'skill_core/detail/skill_page_detail_skill_on_in_item.html' %}
+
+                    <!-- Используется с -->
+                    {% include 'skill_core/detail/skill_page_detail_skill_use_with.html' %}
+
+                    <!-- Абнормал -->
+                    {% include 'skill_core/detail/skill_page_detail_abnormal.html' %}
+
+                    <!-- Модуль -->
+                    {% include 'skill_core/detail/skill_page_detail_module.html' %}
+
+                    <!-- DT_Attribute -->
+                    {% include 'skill_core/detail/DT_Attribute.html' %}
+
+                    <!-- DT_SkillSlain -->
+                    {% include 'skill_core/detail/DT_SkillSlain.html' %}
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    {% include 'skill_core/skill_page_scripts.html' %}
+</body>
+</html>

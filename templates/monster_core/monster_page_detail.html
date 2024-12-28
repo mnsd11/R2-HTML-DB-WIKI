@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "favicon.html" %}
+    <title>[{{ item.MID }}] {{ item.MName }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/bg/css/detail_css.css">
+</head>
+<body>
+    <!-- Контейнер для sticky-кнопки -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i>
+            Назад
+        </button>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <main>
+        <div class="container text-center">
+            {% if monstermodelno_result %}
+                <p class="fadeIn">🛠️{{ monstermodelno_result }}</p>
+                <div class="monster-viewer-container">
+                    {% include 'GLB.html' %}
+                </div>
+            {% else %}
+                <p class="fadeIn">🏴</p>
+            {% endif %}
+
+            {% if not monstermodelno_result and file_path_gif %}
+                <p class="fadeIn">
+                    <img src="{{ url_for('static', filename='gif/' + file_path_gif) }}" style="transform: scale(0.75);">
+                </p>
+            {% elif not monstermodelno_result %}
+                <p class="fadeIn">🏳️</p>
+            {% endif %}
+
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <!-- Первый блок -->
+
+                    <!-- Информация -->
+                    {% include 'monster_core/detail/monster_page_detail_information.html' %}
+
+                    <!-- Локация обитания -->
+                    {% include 'monster_core/detail/monster_page_detail_location.html' %}
+
+
+                    <!-- AbnormalResist -->
+                    {% include 'monster_core/detail/monster_page_detail_abnormal_resist.html' %}
+
+
+                </div>
+                
+                <!-- Второй блок -->
+                <div class="col-12 col-md-6">
+                    <!-- Заголовок -->
+                    <h1 class="monster-title fadeIn">
+                        <span class="monster-title-text">{{ item.MName }}</span>
+                        <div class="monster-title-glow"></div>
+                    </h1>
+
+                    <!-- Статистика -->
+                    {% include 'monster_core/detail/monster_page_detail_stats.html' %}
+                    
+                    
+                    <!-- DT_MonsterProtect -->
+                    {% include 'monster_core/detail/DT_MonsterProtect.html' %}
+
+                    <!-- DT_MonsterSlain -->
+                    {% include 'monster_core/detail/DT_MonsterSlain.html' %}
+
+                    <!-- DT_MonsterAttributeAdd -->
+                    {% include 'monster_core/detail/DT_MonsterAttributeAdd.html' %}
+
+                    <!-- DT_MonsterAttributeResist -->
+                    {% include 'monster_core/detail/DT_MonsterAttributeResist.html' %}
+
+                    <!-- Список выпадающих предметов -->
+                    {% include 'monster_core/detail/monster_page_detail_item_drop.html' %}
+
+                    <!-- Список продаваемых предметов -->
+                    {% include 'monster_core/detail/monster_page_detail_item_sell.html' %}
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+
+    {% include 'monster_core/monster_page_scripts.html' %}
+
+</body>
+</html>

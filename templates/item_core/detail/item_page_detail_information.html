@@ -1,0 +1,220 @@
+<!-- Информация -->
+<div class="skill-section fadeIn">
+    {% if file_path %}
+        <p class="fadeIn mb-4">
+            <img src="{{ file_path }}"
+                 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+        </p>
+    {% else %}
+        <p class="fadeIn mb-4">No image available</p>
+    {% endif %}
+    
+    <h2 class="section-title">Информация</h2>
+    <div class="skill-content">
+        <div class="stat-grid">
+            <!-- Основные характеристики -->
+            <div class="stat-row">
+                <span class="stat-label">ID предмета</span>
+                <span class="stat-value">{{ item.IID }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Уровень предмета</span>
+                <span class="stat-value">{{ item.ILevel }}</span>
+            </div>
+			<div class="stat-row">
+				<span class="stat-label">Тип предмета</span>
+				<span class="stat-value">
+					{% if item.IType == 0 %}Ничего
+					{% elif item.IType == 1 %}Оружие Ближнего Боя
+					{% elif item.IType == 2 %}Щит, Браслет
+					{% elif item.IType == 3 %}Доспех
+					{% elif item.IType == 4 %}Кольцо
+					{% elif item.IType == 5 %}Ожерелье
+					{% elif item.IType == 6 %}Ботинки
+					{% elif item.IType == 7 %}Перчатки
+					{% elif item.IType == 8 %}Шлем
+					{% elif item.IType == 9 %}Ремень
+					{% elif item.IType == 10 %}Зелья
+					{% elif item.IType == 11 %}SpecificProcItem/Shop Item
+					{% elif item.IType == 12 %}Книга
+					{% elif item.IType == 13 %}Жезл, Фейерверк, Петарда, Свиток Облика, Предметы со скилом на баф
+					{% elif item.IType == 14 %}Предмет со Skill
+					{% elif item.IType == 15 %}Сундук, Аналогия сундука
+					{% elif item.IType == 16 %}Пустышка, Печати, Квестовый
+					{% elif item.IType == 17 %}Плащ
+					{% elif item.IType == 18 %}Оружие Дальнего Боя
+					{% elif item.IType == 19 %}Патроны, стрелы, камни
+					{% elif item.IType == 20 %}Алебарда/Копье
+					{% elif item.IType == 21 %}Зелья/Package
+					{% elif item.IType == 22 %}Сфера Мастера
+					{% elif item.IType == 23 %}Сфера Души
+					{% elif item.IType == 24 %}Сфера Защиты
+					{% elif item.IType == 25 %}Сфера Разрушения
+					{% elif item.IType == 26 %}Сфера Жизни
+					{% elif item.IType == 27 %}Сфера 1 Слот (Удачи/Ремесленника)
+					{% elif item.IType == 28 %}Сфера 2 Слот (Перевоплощения)
+					{% elif item.IType == 29 %}Сфера 3 Слот (Мудрости, Охоты, Разума)
+					{% elif item.IType == 30 %}Монеты из мешочка
+					{% elif item.IType == 31 %}Трофей
+					{% elif item.IType == 32 %}Мешочек монет
+					{% elif item.IType == 33 %}Улучшение Питомца, Питомец Слияния
+					{% elif item.IType == 34 %}Зелье Иллюзий/Порошок Фантазий
+					{% elif item.IType == 35 %}Камень Улучшения Питомца
+					{% elif item.IType == 36 %}Зелье Доверия Питомца
+					{% elif item.IType == 37 %}Коллекционная Карта
+					{% elif item.IType == 38 %}Камень Души
+					{% elif item.IType == 39 %}Временный Сундук (TimeBox)
+					{% elif item.IType == 40 %}Посох (Не работает)
+					{% elif item.IType == 41 %}Кусочки Разноцветных Карт
+					{% else %}Неизвестно
+					{% endif %}
+				</span>
+			</div>			
+            <div class="stat-row">
+                <span class="stat-label">Вес</span>
+                <span class="stat-value">{{ item.IWeight }}</span>
+            </div>
+
+            <!-- Характеристики использования -->
+            <div class="stat-row">
+                <span class="stat-label">Минимальный уровень</span>
+                <span class="stat-value">{{ item.IUseLevel }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Количество ячеек для рун</span>
+                <span class="stat-value">{{ item.IMaxBeadHoleCount }}</span>
+            </div>
+            {% if item.ITermOfValidity and item.ITermOfValidity != 10000 %}
+            <div class="stat-row">
+                <span class="stat-label">Время использования</span>
+                <span class="stat-value">{{ item.ITermOfValidity }} дней</span>
+            </div>
+            {% endif %}
+            {% if item.ITermOfValidityMi %}
+            <div class="stat-row">
+                <span class="stat-label">Время использования (минуты)</span>
+                <span class="stat-value">{{ item.ITermOfValidityMi }} мин</span>
+            </div>
+            {% endif %}
+
+            <!-- Боевые характеристики -->
+            {% if item.IRange %}
+            <div class="stat-row">
+                <span class="stat-label">Дальность атаки</span>
+                <span class="stat-value">{{ item.IRange }}</span>
+            </div>
+            {% endif %}
+            {% if item.IAddShortAttackRange %}
+            <div class="stat-row">
+                <span class="stat-label">Доп. дальность ближнего боя</span>
+                <span class="stat-value">{{ item.IAddShortAttackRange }}</span>
+            </div>
+            {% endif %}
+            {% if item.IAddLongAttackRange %}
+            <div class="stat-row">
+                <span class="stat-label">Доп. дальность дальнего боя</span>
+                <span class="stat-value">{{ item.IAddLongAttackRange }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Особые свойства -->
+            {% if item.IMaxStack %}
+            <div class="stat-row">
+                <span class="stat-label">Макс. в стопке</span>
+                <span class="stat-value">{{ item.IMaxStack }}</span>
+            </div>
+            {% endif %}
+            {% if item.IUseNum %}
+            <div class="stat-row">
+                <span class="stat-label">Количество использований</span>
+                <span class="stat-value">{{ item.IUseNum }}</span>
+            </div>
+            {% endif %}
+            {% if item.IUseDelay %}
+            <div class="stat-row">
+                <span class="stat-label">Задержка использования</span>
+                <span class="stat-value">{{ item.IUseDelay }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Параметры предмета -->
+			{% if item.IStatus %}
+			<div class="stat-row">
+				<span class="stat-label">Статус предмета</span>
+				<span class="stat-value 
+					  {% if item.IStatus == 0 %}normal
+					  {% elif item.IStatus == 1 %}blessed
+					  {% elif item.IStatus == 2 %}cursed
+					  {% elif item.IStatus == 3 %}random-color
+					  {% endif %}">
+					{% if item.IStatus == 0 %}[0] Обычный
+					{% elif item.IStatus == 1 %}[1] Благословенный
+					{% elif item.IStatus == 2 %}[2] Проклятый
+					{% elif item.IStatus == 3 %}[3] Любой
+					{% endif %}
+				</span>
+			</div>
+			{% endif %}
+			
+			
+            {% if item.IIsSealable %}
+            <div class="stat-row">
+                <span class="stat-label">Можно запечатать</span>
+                <span class="stat-value">{{ 'Да' if item.IIsSealable else 'Нет' }}</span>
+            </div>
+            {% endif %}
+            {% if item.IIsReinforceDestroy %}
+            <div class="stat-row">
+                <span class="stat-label">Уничтожается при неудачном улучшении</span>
+                <span class="stat-value">{{ 'Да' if item.IIsReinforceDestroy else 'Нет' }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Специальные эффекты -->
+            {% if item.IAddDDWhenCritical %}
+            <div class="stat-row">
+                <span class="stat-label">Доп. крит. урон</span>
+                <span class="stat-value">{{ item.IAddDDWhenCritical }}</span>
+            </div>
+            {% endif %}
+            {% if item.ISubDDWhenCritical %}
+            <div class="stat-row">
+                <span class="stat-label">Снижение получаемого крит. урона</span>
+                <span class="stat-value">{{ item.ISubDDWhenCritical }}</span>
+            </div>
+            {% endif %}
+            {% if item.IEnemySubCriticalHit %}
+            <div class="stat-row">
+                <span class="stat-label">Снижение шанса получения крита</span>
+                <span class="stat-value">{{ item.IEnemySubCriticalHit }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Игровые флаги -->
+            {% if item.IIsEvent %}
+            <div class="stat-row">
+                <span class="stat-label">Ивентовый предмет</span>
+                <span class="stat-value">{{ 'Да' if item.IIsEvent else 'Нет' }}</span>
+            </div>
+            {% endif %}
+            {% if item.IIsCharge %}
+            <div class="stat-row">
+                <span class="stat-label">Премиум предмет</span>
+                <span class="stat-value">{{ 'Да' if item.IIsCharge else 'Нет' }}</span>
+            </div>
+            {% endif %}
+            {% if item.IIsPartyDrop %}
+            <div class="stat-row">
+                <span class="stat-label">Выпадает всей группе</span>
+                <span class="stat-value">{{ 'Да' if item.IIsPartyDrop else 'Нет' }}</span>
+            </div>
+            {% endif %}
+            {% if item.mIsUseableUTGWSvr %}
+            <div class="stat-row">
+                <span class="stat-label">Можно использовать на БГ</span>
+                <span class="stat-value">{{ 'Да' if mIsUseableUTGWSvr else 'Нет' }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

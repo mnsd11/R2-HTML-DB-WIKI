@@ -1,0 +1,21 @@
+<!-- Локация обитания -->
+{% if monlocationinfo.Location %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Локация обитания</h2>
+	<div class="skill-content">
+		<div class="skill-stats">
+			<div class="stat-row">
+				<span class="stat-label">Название локации</span>
+				<span class="stat-value">{{ monlocationinfo.Location }}</span>
+			</div>
+			{% if monlocationinfo.LocationLevel %}
+			<div class="stat-row">
+				<span class="stat-label">Тип</span>
+				<span class="stat-value">{{ monlocationinfo.LocationLevel }}</span>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endif %}

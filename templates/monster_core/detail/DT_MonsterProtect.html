@@ -1,0 +1,160 @@
+<!-- DT_ItemProtect -->
+{% if monster_protect_data %}
+<style>
+    .protect-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .protect-card {
+        background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .protect-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+    }
+
+    .protect-type {
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px dashed #ccc;
+    }
+
+    .protect-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 8px;
+        background: rgba(255,255,255,0.5);
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+
+    .stat-value {
+        
+        font-weight: bold;
+    }
+
+    .stat-value.positive {
+        color: #2ecc71;
+    }
+
+    .stat-value.negative {
+        color: #e74c3c;
+    }
+
+    /* Dark theme */
+    .dark-theme .protect-card {
+        background: linear-gradient(145deg, #333, #2a2a2a);
+        border-color: #444;
+    }
+
+    .dark-theme .protect-type {
+        color: #fff;
+        border-bottom-color: #444;
+    }
+
+    .dark-theme .stat-item {
+        background: rgba(0,0,0,0.2);
+        color: #ddd;
+    }
+</style>
+
+<div class="skill-section fadeIn">
+    <p class="section-star">★</p>
+    <h2 class="section-title">[Protect] Защита от урона</h2>
+    <div class="skill-content">
+        <!-- Базовая информация -->
+        <div class="stat-grid">
+            <div class="stat-row">
+                <span class="stat-label">ID защиты</span>
+                <span class="stat-value">PID: {{ monster_protect_data.SID }} / SlainID: {{ monster_protect_data.ProtectSID }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Тип защиты</span>
+                <span class="stat-value">{{ monster_protect_data.SName }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Уровень</span>
+                <span class="stat-value">{{ monster_protect_data.SLevel }}</span>
+            </div>
+        </div>
+
+        <!-- Детальная информация о защите -->
+        <div class="protect-grid">
+            <!-- Физическая защита -->
+            <div class="protect-card">
+                <div class="protect-type">[SD] Физическая защита</div>
+                <div class="protect-stats">
+                    <div class="stat-item">
+                        <span>Атака</span>
+                        <span class="stat-value {% if monster_protect_data.SDPV > 0 %}positive{% endif %}">
+                            {{ monster_protect_data.SDPV }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Защита</span>
+                        <span class="stat-value {% if monster_protect_data.SDDV > 0 %}positive{% endif %}">
+                            {{ monster_protect_data.SDDV }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Магическая защита -->
+            <div class="protect-card">
+                <div class="protect-type">[SM] Магическая защита</div>
+                <div class="protect-stats">
+                    <div class="stat-item">
+                        <span>Атака</span>
+                        <span class="stat-value {% if monster_protect_data.SMPV > 0 %}positive{% endif %}">
+                            {{ monster_protect_data.SMPV }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Защита</span>
+                        <span class="stat-value {% if monster_protect_data.SMDV > 0 %}positive{% endif %}">
+                            {{ monster_protect_data.SMDV }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Сопротивление (Range) -->
+            <div class="protect-card">
+                <div class="protect-type">[SR] Сопротивление</div>
+                <div class="protect-stats">
+                    <div class="stat-item">
+                        <span>Атака</span>
+                        <span class="stat-value {% if monster_protect_data.SRPV > 0 %}positive{% endif %}">
+                            {{ monster_protect_data.SRPV }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Защита</span>
+                        <span class="stat-value {% if monster_protect_data.SRDV > 0 %}positive{% endif %}">
+                            {{ monster_protect_data.SRDV }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

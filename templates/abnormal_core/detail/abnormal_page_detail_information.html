@@ -1,0 +1,32 @@
+<!-- Информация -->
+<div class="skill-section fadeIn">
+
+	<p class="fadeIn">
+		<img src="{{ abnormal.abnormal_type_pic }}"
+			onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+	</p>
+
+	<h2 class="section-title">Информация</h2>
+	<div class="skill-content">
+		<div class="stat-grid fadeIn">
+			<div class="stat-row">
+				<span class="stat-label">Тип аномалии</span>
+				<span class="stat-value">{{ abnormal.abnormal_data.AType }}</span>
+			</div>
+
+			{% if abnormal.abnormal_data.ALevel != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Уровень</span>
+					<span class="stat-value">{{ abnormal.abnormal_data.ALevel }}</span>
+				</div>
+			{% endif %}
+
+			{% if abnormal.abnormal_data.AEffect %}
+				<div class="stat-row">
+					<span class="stat-label">Эффект</span>
+					<span class="stat-value">{{ abnormal.abnormal_data.AEffect }}</span>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>

@@ -1,0 +1,32 @@
+<!-- Скилл -->
+{% if itemdskill_data and itemskill_pic %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Скилл</h2>
+	<div class="skill-content">
+		<div class="item-row">
+			<img class="item-icon"
+				 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'"
+				 src="{{ itemskill_pic }}">
+			<a href="{{ url_for('skills.skill_detail', skill_id=itemdskill_data[10]) }}"
+			   class="item-name">{{ itemdskill_data[6] }}</a>
+		</div>
+	</div>
+</div>
+{% elif linked_skills %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Связанные скиллы</h2>
+	<div class="skill-content">
+		{% for skill in linked_skills %}
+		<div class="item-row">
+			<img class="item-icon"
+				 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'"
+				 src="{{ skill.icon }}">
+			<a href="{{ url_for('skills.skill_detail', skill_id=skill.id) }}"
+			   class="item-name">{{ skill.name }}</a>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endif %}

@@ -1,0 +1,20 @@
+<!-- Можно получить из -->
+{% if mondropinfo %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Можно получить из</h2>
+	<div class="skill-content">
+		{% for drop in mondropinfo %}
+		<div class="item-row">
+			<img class="item-icon"
+				 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'"
+				 src="{{ drop['Pic'] }}">
+			<a href="{{ url_for('monsters.monster_detail', monster_id=drop['MID']) }}"
+			   class="item-name">{{ drop["MName"] }}</a>
+			<span class="stat-value">{{ drop["DNumber"] }} шт.</span>
+			<span class="stat-value">{{ drop["DPercentItem"] }} %</span>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endif %}

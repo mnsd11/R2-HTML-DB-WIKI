@@ -1,0 +1,958 @@
+/* Root variables */
+:root {
+    --primary-gradient: #000000;
+    --primary-color: #000000;
+    --accent-color: #2196F3;
+    --bg-module-light: rgba(30, 60, 114, 0.05);
+    --success-color: #0bb917;
+    --danger-color: #dc3545;
+    --info-color: #007bff;
+    --warning-color: #ffd966;
+
+    --bg-light: #ffffff;
+    --bg-dark: #1a1a1a;
+    --text-light: #333333;
+    --text-dark: #000000;
+    --text-muted: #666;
+    --border-color: rgba(30, 60, 114, 0.1);
+
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+    --transition-base: all 0.3s ease;
+}
+
+/* Base styles */
+body {
+    padding: 20px;
+    font-family: "Didact Gothic", sans-serif;
+    background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    perspective: 1000px;
+    overflow-x: hidden;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Fixed position containers */
+.back-button-container,
+.theme-toggle-container {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 20px;
+    z-index: 9999;
+    width: fit-content;
+}
+
+.back-button-container {
+    top: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: -60px;
+}
+
+.theme-toggle-container {
+    bottom: 20px;
+    margin-top: auto;
+}
+
+/* Buttons */
+.theme-toggle,
+.back-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+}
+
+.theme-toggle i {
+    font-size: 18px;
+    line-height: 1;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.back-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background-color: #098714;
+    transform: translateX(-5px);
+}
+
+/* Images and containers */
+img {
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
+
+.container {
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.monster-viewer-container {
+    width: 100%;
+    height: 600px;
+    margin: 10px 0;
+    position: relative;
+}
+
+.monster-viewer-container model-viewer {
+    width: 100%;
+    height: 100%;
+}
+
+/* Progress bars */
+.progress-bar {
+    position: relative;
+    overflow: hidden;
+    color: black;
+    font-weight: bold;
+}
+
+.exp-bar { background-color: var(--success-color); }
+.health-bar { background-color: var(--danger-color); }
+.mana-bar { background-color: var(--info-color); }
+.chaotic-bar { background-color: var(--warning-color); }
+
+.progress-bar:hover {
+    color: white;
+    background: linear-gradient(
+        to right,
+        #d35151, #e07b45, #e6b05c, #a8c573,
+        #7fb5b5, #6d8bd5, #8b7abd, #c06c96,
+        #d3867d, #b88c5d, #7c9f98, #7d88a5,
+        #a17c93, #b67a7a
+    );
+    background-size: 200% auto;
+    animation: rainbow 2s linear infinite;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.2) 50%,
+        rgba(255,255,255,0) 100%);
+    animation: shimmer 2s infinite;
+}
+
+/* Monster title */
+.monster-title {
+    position: relative;
+    overflow: visible;
+}
+
+.monster-title::before,
+.monster-title::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), transparent);
+}
+
+.monster-title::before {
+    left: -40px;
+    transform: translateY(-50%);
+}
+
+.monster-title::after {
+    right: -40px;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Animations */
+.fadeIn {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+    font-family: "Didact Gothic", sans-serif;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes rainbow {
+    0% { background-position: 100% center; }
+    100% { background-position: -100% center; }
+}
+
+@keyframes shimmer {
+    100% { left: 100%; }
+}
+
+/* Sequential fadeIn delays */
+.fadeIn:nth-child(1) { animation-delay: 0.1s; }
+.fadeIn:nth-child(2) { animation-delay: 0.2s; }
+.fadeIn:nth-child(3) { animation-delay: 0.3s; }
+.fadeIn:nth-child(4) { animation-delay: 0.4s; }
+.fadeIn:nth-child(5) { animation-delay: 0.5s; }
+
+/* Module and Skills Components */
+.skill-section,
+.module-section {
+    margin-bottom: 2rem;
+}
+
+.section-star {
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center; /* Выравнивание текста по центру */
+    margin: 0 auto; /* Центрирование самого блока */
+    display: flex; /* Для возможности центрирования содержимого */
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+}
+
+.abnormal-content,
+.module-content,
+.skill-content {
+    border-radius: 10px;
+    padding: 1.5rem;
+}
+
+.abnormal-desc,
+.module-desc,
+.skill-desc {
+    font-size: 1.0rem;
+    line-height: 1.5;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.module-header {
+    margin-bottom: 1.5rem;
+}
+
+.module-type {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.module-params {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.params-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.item-row {
+    display: grid;
+    grid-template-columns: 32px minmax(200px, 1fr) auto auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.75rem;
+    margin: 0;
+}
+
+.item-row .item-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.item-row .item-name {
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+.item-row .stat-value {
+    min-width: 80px;
+    text-align: right;
+    padding-right: 0.5rem;
+}
+
+.item-row:hover {
+    background: rgba(30, 60, 114, 0.05);
+}
+
+.dark-theme .item-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Для блока характеристик / OFF FOR NOW! changed for stat-grid  */
+.skill-stats .stat-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    padding: 0.75rem;
+}
+
+.skill-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.item-icon,
+.class-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.main-skill-icon {
+    max-width: 64px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.item-name {
+    flex: 1;
+    text-align: left;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.item-name:hover {
+    text-decoration: underline;
+}
+
+.item-level {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.skill-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+/* Для блока инфо монстров */
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.stat-grid .stat-row {
+    display: contents;
+}
+
+.stat-grid .stat-label,
+.stat-grid .stat-value {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(30, 60, 114, 0.1);
+}
+
+.stat-grid .stat-label {
+    text-align: left;
+    color: #666;
+}
+
+.stat-grid .stat-value {
+    text-align: right;
+    font-weight: 500;
+}
+
+.dark-theme .stat-grid .stat-label {
+    color: #aaa;
+}
+
+.dark-theme .stat-grid .stat-row {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+/* Utility classes */
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.text-center { text-align: center; }
+
+/* Dark theme */
+.dark-theme {
+    --bg-light: rgba(255, 255, 255, 0.05);
+    --bg-module-light: rgba(255, 255, 255, 0.05);
+    --text-dark: #e0e0e0;
+    --text-muted: #aaa;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --primary-color: #ffffff;
+}
+
+.dark-theme .abnormal-desc,
+.dark-theme .module-desc,
+.dark-theme .skill-desc {
+    color: var(--text-dark);
+}
+
+.dark-theme .item-name,
+.dark-theme .stat-value,
+.dark-theme .module-type,
+.dark-theme .params-title {
+    color: var(--text-dark);
+}
+
+.dark-theme .stat-label,
+.dark-theme .item-level {
+    color: var(--text-muted);
+}
+
+.dark-theme .abnormal-content,
+.dark-theme .module-content,
+.dark-theme .skill-content {
+
+}
+
+.dark-theme .section-title {
+    background: linear-gradient(135deg, #4a90e2 0%, #87ceeb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center; /* Выравнивание текста по центру */
+    margin: 0 auto; /* Центрирование самого блока */
+    display: flex; /* Для возможности центрирования содержимого */
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+}
+
+body.dark-theme {
+    background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
+    color: var(--text-dark);
+}
+
+.dark-theme .theme-toggle {
+    background: #2c3e50;
+    color: white;
+}
+
+.dark-theme .theme-toggle:hover {
+    background: #34495e;
+}
+
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme p {
+    color: rgba(255, 255, 255, 0.9) !important; 
+}
+
+
+.dark-theme .monster-title {
+    background: linear-gradient(135deg, #4a90e2 0%, #87ceeb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+}
+
+.dark-theme .back-button {
+    background-color: #2c3e50;
+}
+
+.dark-theme .back-button:hover {
+    background-color: #34495e;
+}
+
+.dark-theme a {
+    color: #FFF5E6 !important;
+    text-decoration: none !important;
+}
+
+.dark-theme a:hover {
+    color: #FFE4B5 !important;
+    text-decoration: underline !important;
+}
+
+.dark-theme .monster-viewer-container {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.dark-theme p[style*="display: flex"] {
+    padding: 7px;
+    border-radius: 4px;
+    margin: 1px 0;
+}
+
+.dark-theme p[style*="display: flex"]:hover {
+    background: rgba(52, 73, 94, 0.7);
+}
+
+.dark-theme .progress {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .progress-bar::after {
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0) 100%);
+}
+
+
+
+
+
+
+
+/* Главное название монстра или предмета  */
+.monster-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding: 20px 30px;
+    margin: 20px 0;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: visible;
+}
+
+.monster-title-text {
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1), -1px -1px 0px rgba(255, 255, 255, 0.1);
+}
+
+.monster-title-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 110%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(5px);
+    z-index: 0;
+}
+
+.monster-title::before,
+.monster-title::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, #1e3c72, transparent);
+}
+
+.monster-title::before {
+    left: -40px;
+    transform: translateY(-50%);
+}
+
+.monster-title::after {
+    right: -40px;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+
+
+
+
+
+
+.col-12.col-md-6 {
+    max-width: 500px; /* или другое подходящее значение */
+    margin: 0 auto;
+}
+
+
+
+
+
+
+
+/* Spoiler styles /
+/* Base styles */
+.skill-section {
+    margin-bottom: 2rem;
+}
+
+.skill-header,
+.abnormal-primary-info,
+.abnormal-details-info {
+    border-radius: 10px;
+    background: rgba(50, 50, 50, 0.1);
+}
+
+/* Header styles */
+.skill-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.skill-header:hover {
+    background: rgba(30, 60, 114, 0.1);
+}
+
+.dark-theme .skill-header:hover,
+.dark-theme .abnormal-primary-info,
+.dark-theme .abnormal-details-info {
+    background: rgba(50, 50, 50, 0.1);
+}
+
+/* Title and toggle styles */
+.skill-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.skill-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-toggle::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top: 8px solid var(--text-dark);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skill-section.collapsed .skill-toggle::before {
+    transform: rotate(-90deg);
+}
+
+/* Content styles */
+.skill-content-wrapper {
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-y: scroll; /* Add vertical scrollbar */
+    scrollbar-width: none;
+    border-radius: 8px;
+    background: var(--bg-module-light);
+    margin-top: 8px;
+}
+
+.skill-content-wrapper::-webkit-scrollbar {
+    display: none; /* Скрыть скроллбар в Chrome, Safari и Edge */
+}
+
+.skill-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.skill-section.collapsed {
+    .skill-content-wrapper {
+        height: 0 !important;
+        overflow: hidden;
+    }
+    
+    .skill-content {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Abnormal info styles */
+.abnormal-primary-info {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.abnormal-details-info {
+    padding: 1.5rem;
+}
+
+.abnormal-desc {
+    margin-bottom: 1rem;
+}
+
+/* Remove extra margins */
+.abnormal-primary-info .item-row,
+.abnormal-details-info .stat-grid {
+    margin: 0;
+    padding: 0;
+}
+
+/* Icon styles */
+.abnormal-primary-info .item-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 1rem;
+}
+
+
+
+
+
+
+
+/* Обновленные стили для AbnormalResist */
+.abnormal-resist-row {
+    background: var(--bg-module-light);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+}
+
+.abnormal-resist-info {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+.skill-sprite-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.abnormal-resist-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.abnormal-resist-name {
+    margin-bottom: 0.25rem;
+}
+
+.abnormal-resist-name .skill-name {
+    font-weight: 500;
+    color: var(--text-dark);
+    text-decoration: none;
+}
+
+.abnormal-resist-type {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.abnormal-resist-desc {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.skill-pack-info {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pack-resist-name {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.pack-resist-desc {
+    display: block;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+/* Темная тема */
+.dark-theme .abnormal-resist-row {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .skill-name {
+    color: #fff;
+}
+
+.dark-theme .abnormal-resist-type,
+.dark-theme .abnormal-resist-desc,
+.dark-theme .pack-resist-desc {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Анимация при наведении */
+.abnormal-resist-row:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+
+
+.normal {
+    color: white;
+}
+.dark-theme .normal {
+    color: white;
+}
+
+
+.blessed {
+    color: yellow;
+}
+.dark-theme .blessed {
+    color: yellow;
+}
+
+.cursed {
+    color: red;
+}
+.dark-theme .cursed {
+    color: red;
+}
+
+/* Случайный цвет для "Любой" */
+.random-color {
+    animation: color-cycle 5s infinite, stop-on-random 6s forwards;
+}
+.dark-theme .random-color {
+    animation: color-cycle 5s infinite, stop-on-random 6s forwards;
+}
+/* Анимация для плавного перелива от желтого в красный и в белый */
+@keyframes color-cycle {
+    0% {
+        color: yellow;
+    }
+    33% {
+        color: red;
+    }
+    66% {
+        color: white;
+    }
+    100% {
+        color: yellow;
+    }
+}
+
+/* Анимация для случайного цвета */
+@keyframes stop-on-random {
+    0% {
+        color: yellow;
+    }
+    83% {
+        color: yellow;
+    }
+    100% {
+        color: rgb(
+            calc(255 * random()),
+            calc(255 * random()),
+            calc(255 * random())
+        );
+    }
+}
+
+
+
+
+
+
+.stat-value .original-time {
+    color: #666;  /* Серый цвет */
+    font-size: 0.9em;  /* Немного меньший размер */
+    margin-left: 8px;  /* Отступ слева */
+}
+
+
+
+
+
+
+/* by Victor Pavlov */
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,115 @@
+<div class="skill-section fadeIn">
+    <h2 class="section-title">Информация</h2>
+    {% if file_path %}
+    <p class="fadeIn mb-4">
+        <img src="{{ file_path }}"
+             onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+    </p>
+    {% else %}
+    <p class="fadeIn mb-4">No image available</p>
+    {% endif %}
+
+    <div class="skill-content">
+        <div class="stat-grid">
+            <div class="stat-row">
+                <span class="stat-label">Уровень</span>
+                <span class="stat-value">{{ item.MLevel }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Класс</span>
+                <span class="stat-value">{{ item.MClass }}, {{ classinfo.MName }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Раса</span>
+                <span class="stat-value">{{ raceinfo.mDesc }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Отображается HP</span>
+                <span class="stat-value">{% if item.mIsShowHp == 1 %}Да{% else %}Нет{% endif %}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Агрессивность</span>
+                <span class="stat-value"{% if item.mIsResistTransF %}style="color: red;"{% endif %}>
+                    {% if item.mIsResistTransF %}Да{% else %}Нет{% endif %}
+                </span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Агр. на перевоплощение</span>
+                <span class="stat-value"{% if item.mDetectTransP %}style="color: red;"{% endif %}>
+                    {% if item.mDetectTransP %}Да{% else %}Нет{% endif %}
+                </span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Агр. на невидимость</span>
+                <span class="stat-value"{% if item.mDetectTransF %}style="color: red;"{% endif %}>
+                    {% if item.mDetectTransF %}Да{% else %}Нет{% endif %}
+                </span>
+            </div>
+			{% if respawn_info_normal or respawn_info_event %}
+			<!-- Для обычного респауна (mIsEvent = 0) -->
+			{% if respawn_info_normal %}
+				<!-- Обычное время респауна -->
+				{% if respawn_info_normal.normal.mTick != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Время возрождения</span>
+					<span class="stat-value">
+						{{ respawn_info_normal.normal.formatted_time }}
+						{% if respawn_info_normal.normal.hours > 0 %}
+							<span class="original-time">({{ respawn_info_normal.normal.mTickMin }}мин./{{ respawn_info_normal.normal.mTick }} сек.)</span>
+						{% elif respawn_info_normal.normal.mTickMin > 0 %}
+							<span class="original-time">({{ respawn_info_normal.normal.mTick }} сек.)</span>
+						{% endif %}
+					</span>
+				</div>
+				{% endif %}
+		
+				<!-- Аналогично обновляем остальные блоки -->
+				{% if respawn_info_normal.event.mTick != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Время возрождения события</span>
+					<span class="stat-value">
+						{{ respawn_info_normal.event.formatted_time }}
+						{% if respawn_info_normal.event.hours > 0 %}
+							<span class="original-time">({{ respawn_info_normal.event.mTickMin }}мин./{{ respawn_info_normal.event.mTick }} сек.)</span>
+						{% elif respawn_info_normal.event.mTickMin > 0 %}
+							<span class="original-time">({{ respawn_info_normal.event.mTick }} сек.)</span>
+						{% endif %}
+					</span>
+				</div>
+				{% endif %}
+			{% endif %}
+		
+			<!-- Для событийного респауна (mIsEvent = 1) -->
+			{% if respawn_info_event %}
+				{% if respawn_info_event.normal.mTick != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Время возрождения (событие)</span>
+					<span class="stat-value">
+						{{ respawn_info_event.normal.formatted_time }}
+						{% if respawn_info_event.normal.hours > 0 %}
+							<span class="original-time">({{ respawn_info_event.normal.mTickMin }}мин./{{ respawn_info_event.normal.mTick }} сек.)</span>
+						{% elif respawn_info_event.normal.mTickMin > 0 %}
+							<span class="original-time">({{ respawn_info_event.normal.mTick }} сек.)</span>
+						{% endif %}
+					</span>
+				</div>
+				{% endif %}
+		
+				{% if respawn_info_event.event.mTick != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Время возрождения события (событие)</span>
+					<span class="stat-value">
+						{{ respawn_info_event.event.formatted_time }}
+						{% if respawn_info_event.event.hours > 0 %}
+							<span class="original-time">({{ respawn_info_event.event.mTickMin }}мин./{{ respawn_info_event.event.mTick }} сек.)</span>
+						{% elif respawn_info_event.event.mTickMin > 0 %}
+							<span class="original-time">({{ respawn_info_event.event.mTick }} сек.)</span>
+						{% endif %}
+					</span>
+				</div>
+				{% endif %}
+			{% endif %}
+		{% endif %}
+        </div>
+    </div>
+</div>

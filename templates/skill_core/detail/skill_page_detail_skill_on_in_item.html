@@ -1,0 +1,36 @@
+<!-- На предметах -->
+{% if skill.item_id and skills|length > 1 %}
+<div class="skill-section fadeIn">
+	<h2 class="section-title">На предметах</h2>
+	<div class="skill-content">
+		{% for skill in skills|unique(attribute='item_id') %}
+			{% if skill.item_id %}
+				<div class="item-row">
+					<img class="item-icon" src="{{ skill.item_pic }}"
+						 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+					<a href="{{ url_for('items.item_detail', item_id=skill.item_id) }}"
+					   class="item-name">{{ skill.item_name }}</a>
+					{% if skill.item_use_level %}
+						<span class="item-level">Уровень: {{ skill.item_use_level }}</span>
+					{% endif %}
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
+{% elif skill.item_id %}
+<div class="skill-section fadeIn">
+	<h2 class="section-title">На предмете</h2>
+	<div class="skill-content">
+		<div class="item-row">
+			<img class="item-icon" src="{{ skill.item_pic }}"
+				 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+			<a href="{{ url_for('items.item_detail', item_id=skill.item_id) }}"
+			   class="item-name">{{ skill.item_name }}</a>
+			{% if skill.item_use_level %}
+				<span class="item-level">Уровень: {{ skill.item_use_level }}</span>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endif %}

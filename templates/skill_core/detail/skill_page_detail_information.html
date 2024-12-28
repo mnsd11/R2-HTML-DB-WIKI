@@ -1,0 +1,67 @@
+<!-- Информация -->
+<div class="skill-section fadeIn">
+	<p class="fadeIn">
+		<img src="{{ skill_icon }}"
+			 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+	</p>
+	<h2 class="section-title">Информация</h2>
+	<div class="skill-content">
+		
+		<div class="stat-grid fadeIn">
+			<div class="stat-row">
+				<span class="stat-label">Тип скилла</span>
+				<span class="stat-value">{{ skill.type_desc }}</span>
+			</div>
+
+			{% if skill.mp_per_use != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">MP</span>
+					<span class="stat-value">{{ skill.mp_per_use }}</span>
+				</div>
+			{% endif %}
+
+			<!-- Остальные характеристики -->
+			{% if skill.hp_per_use != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">HP</span>
+					<span class="stat-value">{{ skill.hp_per_use }}</span>
+				</div>
+			{% endif %}
+
+			{% if skill.hit_plus != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Точность</span>
+					<span class="stat-value">+{{ skill.hit_plus }}</span>
+				</div>
+			{% endif %}
+
+			{% if skill.casting_delay != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Время каста</span>
+					<span class="stat-value">{{ skill.casting_delay }} мс</span>
+				</div>
+			{% endif %}
+
+			{% if skill.cool_time != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Перезарядка</span>
+					<span class="stat-value">{{ skill.cool_time }} мс</span>
+				</div>
+			{% endif %}
+
+			{% if skill.apply_radius != 0 %}
+				<div class="stat-row">
+					<span class="stat-label">Радиус действия</span>
+					<span class="stat-value">{{ skill.apply_radius }}</span>
+				</div>
+			{% endif %}
+
+			{% if race_info %}
+				<div class="stat-row">
+					<span class="stat-label">Раса</span>
+					<span class="stat-value">{{ race_info }}</span>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>

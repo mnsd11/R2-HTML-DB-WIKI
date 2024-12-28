@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "favicon.html" %}
+    <title>[{{ item.IID }}] {{ item.IName }} </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+
+
+    <!-- Подключение Dark Theme -->
+    <link rel="stylesheet" href="/static/bg/css/detail_css.css">
+
+</head>
+<body>
+
+    <!-- Контейнер для sticky-кнопки -->
+    <div class="back-button-container">
+        <button class="back-button" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i>
+            Назад
+        </button>
+
+        <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <main>
+        <div class="container text-center">
+
+			{% if monstermodelno_result %}
+                <p class="fadeIn">🛠️{{ monstermodelno_result }}</p>
+                <div class="monster-viewer-container">
+                    {% include 'GLB.html' %}
+                </div>
+            {% else %}
+                <p class="fadeIn">🏴</p>
+            {% endif %}
+
+
+
+			<div class="row">
+                <div class="col-12 col-md-6">
+                    <!-- Первый блок -->
+
+                    <!-- Информация -->
+                    {% include 'item_core/detail/item_page_detail_information.html' %}
+
+                    <!-- TblBeadHoleProb --> <!-- Свиток создания ячеек -->
+                    {% include 'item_core/detail/TblBeadHoleProb.html' %}
+
+                    <!-- DT_Bead Руны --> <!-- Руны -->
+                    {% include 'item_core/detail/DT_Bead.html' %}
+
+                    <!-- DT_ItemBeadModule -->
+                    {% include 'item_core/detail/DT_ItemBeadModule.html' %}
+
+                    <!-- Крафт предмета -->
+                    {% include 'item_core/detail/item_page_detail_item_craft.html' %}
+
+                    <!-- Нужен для крафта -->
+                    {% include 'item_core/detail/item_page_detail_need_craft.html' %}
+
+                    <!-- TblSpecificProcItem -->
+                    {% include 'item_core/detail/TblSpecificProcItem.html' %}
+
+                    <!-- Скилл -->
+                    {% include 'item_core/detail/item_page_detail_skill.html' %}
+
+                    <!-- Абнормал -->
+                    {% include 'item_core/detail/item_page_detail_abnormal.html' %}
+
+				</div>
+
+                <!-- Второй блок -->
+				<div class="col-12 col-md-6">
+					<h1 class="monster-title fadeIn" style="
+                        font-size: 3rem;
+                        font-weight: 800;
+                        background: linear-gradient(135deg,rgb(22, 22, 22) 0%, #2a5298 100%);
+                        -webkit-background-clip: text;
+                        background-clip: text;
+                        color: transparent;
+                        padding: 20px 30px;
+                        margin: 20px 0;
+                        position: relative;
+                        text-transform: uppercase;
+                        letter-spacing: 2px;
+                        display: inline-block;
+                        font-family: 'Segoe UI', Arial, sans-serif;
+                    ">
+                        <span style="
+                            position: relative;
+                            z-index: 1;
+                            text-shadow:
+                                2px 2px 0px rgba(0,0,0,0.1),
+                                -1px -1px 0px rgba(255,255,255,0.1);
+                        ">{{ item.IName }}</span>
+                        <div style="
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            width: 110%;
+                            height: 110%;
+                            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+                            filter: blur(5px);
+                            z-index: 0;
+                        "></div>
+                    </h1>
+
+                    <p class="fadeIn"><img src="{{ item.IUseClass }}"></p>
+                    <div class="skill-section fadeIn">
+                        <p class="section-star">★</p>
+                        <div class="skill-content">
+                            <p class="fadeIn">{{ item.IDesc }}</p>
+                        </div>
+                    </div>
+                    <!-- Можно получить из -->
+                    {% include 'item_core/detail/item_page_detail_can_get_item_from.html' %}
+
+                    <!-- AbnormalResist -->
+                    {% include 'item_core/detail/item_page_detail_abnormal_resist.html' %}
+
+                    <!-- Перевоплощает в -->
+                    {% include 'item_core/detail/item_page_detail_transform_in.html' %}
+
+                    <!-- DT_ItemProtect -->
+                    {% include 'item_core/detail/DT_ItemProtect.html' %}
+                    
+                    <!-- DT_ItemPanalty -->
+                    {% include 'item_core/detail/DT_ItemPanalty.html' %}
+
+                    <!-- DT_ItemSlain -->
+                    {% include 'item_core/detail/DT_ItemSlain.html' %}
+
+                    <!-- DT_ItemAttributeAdd -->
+                    {% include 'item_core/detail/DT_ItemAttributeAdd.html' %}
+
+                    <!-- DT_ItemAttributeResist -->
+                    {% include 'item_core/detail/DT_ItemAttributeResist.html' %}
+
+            </div>
+        </div>
+    </main>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+    {% include 'item_core/item_page_scripts.html' %}
+
+
+</body>
+</html>

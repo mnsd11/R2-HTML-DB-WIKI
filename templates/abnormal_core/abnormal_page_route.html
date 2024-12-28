@@ -1,0 +1,41 @@
+{% include "favicon.html" %}
+{% extends "abnormal_core/abnormal_page_main.html" %}
+
+{% block title %}Abnormals{% endblock %}
+
+{% block header %}Abnormals{% endblock %}
+
+{% block table_headers %}
+    <th>Image</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Type</th>
+{% endblock %}
+
+{% block table_content %}
+    {% for abnormal in abnormals %}
+        <tr>
+            <td class="abnormal-image-container">
+                {% set file_path = item_resources[abnormal.AID] %}  {# Используем AID как ключ #}
+                {% if file_path %}
+                    <div class="hover-text-wrapper" data-sort-id="{{ abnormal.AID }}">
+                        <img src="{{ file_path }}"
+                             width="32"
+                             height="32"
+                             loading="lazy"
+                             class="abnormal-image"
+                             alt="{{ abnormal.AName }}"  {# AName как alt #}
+                             onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png';">
+
+                        <div class="hover-text">[{{ abnormal.AID }}] {{ abnormal.AName }}</div>
+                    </div>
+                {% else %}
+                    <p>No image available</p>
+                {% endif %}
+            </td>
+            <td><a href="/abnormal/{{ abnormal.AID }}">{{ abnormal.AName }}</a></td>
+            <td>{{ abnormal.ADesc }}</td>
+            <td>{{ abnormal.AType }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

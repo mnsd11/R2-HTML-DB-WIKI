@@ -1,0 +1,47 @@
+{% if monster_abnormalResist_data and monster_abnormalResist_data|selectattr('AType', 'defined')|selectattr('AType', 'ne', None)|list %}
+<div class="skill-section fadeIn">
+    <p class="section-star">★</p>
+    <h2 class="section-title">AbnormalResist</h2>
+    <div class="skill-content">
+        {% set unique_sids = [] %}
+        {% for resist in monster_abnormalResist_data %}
+            {% if resist.SID and resist.SID not in unique_sids %}
+                {% set _ = unique_sids.append(resist.SID) %}
+                <div class="abnormal-resist-row">
+                    <div class="abnormal-resist-info">
+                        {% if resist.skill_icon_path %}
+                        <img class="skill-sprite-icon"
+                            src="{{ resist.skill_icon_path }}"
+                            alt="{{ resist.SName if resist.SName }}"
+                            onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+                        {% endif %}
+                        <div class="abnormal-resist-content">
+                            {% if resist.SName %}
+                                <div class="abnormal-resist-name">
+                                    <a href="{{ url_for('skills.skill_detail', skill_id=resist.SID) }}" class="skill-name">{{ resist.SName }}</a>
+                                </div>
+                            {% endif %}
+                            {% if resist.AType or resist.ATypeDesc %}
+                                <div class="abnormal-resist-type">
+                                    AType: {{ resist.ATypeDesc if resist.ATypeDesc }} {% if resist.AType %}[{{ resist.AType }}]{% endif %}
+                                </div>
+                            {% endif %}
+                            {% if resist.ADesc %}
+                                <div class="abnormal-resist-desc">{{ resist.ADesc }}</div>
+                            {% endif %}
+                            {% if resist.mName %}
+                                <div class="skill-pack-info">
+                                    <span class="pack-name">{{ resist.mName }}</span>
+                                    {% if resist.mDesc %}
+                                        <span class="pack-desc">{{ resist.mDesc }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

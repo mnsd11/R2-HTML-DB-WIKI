@@ -1,0 +1,136 @@
+<!-- DT_Bead Руны -->
+{% if rune_bead_data %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Информация о руне</h2>
+	<div class="skill-content">
+		<div class="stat-grid">
+			<!-- Базовая информация о руне -->
+			<div class="stat-row">
+				<span class="stat-label">Номер эффекта</span>
+				<span class="stat-value">{{ rune_bead_data.mBeadNo }}</span>
+			</div>
+			{% if rune_bead_data.mBead_Name %}
+			<div class="stat-row">
+				<span class="stat-label">Название эффекта</span>
+				<span class="stat-value">{{ rune_bead_data.mBead_Name }}</span>
+			</div>
+			{% endif %}
+			<div class="stat-row">
+				<span class="stat-label">Тип эффекта</span>
+				<span class="stat-value">{{ rune_bead_data.mBeadTypeDesc }}</span>
+			</div>
+			
+			<!-- Информация о применении -->
+			<div class="stat-row">
+				<span class="stat-label">Группа проверки</span>
+				<span class="stat-value">{{ rune_bead_data.mChkGroup }}</span>
+			</div>
+			<div class="stat-row">
+				<span class="stat-label">Процент эффекта</span>
+				<span class="stat-value">{{ rune_bead_data.mPercent }}%</span>
+			</div>
+			<div class="stat-row">
+				<span class="stat-label">Цель применения</span>
+				<span class="stat-value">{{ rune_bead_data.mApplyTarget }}</span>
+			</div>
+			
+			<!-- Параметры эффекта -->
+			{% if rune_bead_data.mParamA != 0 %}
+			<div class="stat-row">
+				<span class="stat-label">Параметр A</span>
+				<span class="stat-value">{{ rune_bead_data.mParamA }} {% if rune_bead_data.mParamADesc %}({{ rune_bead_data.mParamADesc }}){% endif %}</span>
+			</div>
+			{% endif %}
+			{% if rune_bead_data.mParamB != 0 %}
+			<div class="stat-row">
+				<span class="stat-label">Параметр B</span>
+				<span class="stat-value">{{ rune_bead_data.mParamB }} {% if rune_bead_data.mParamBDesc %}({{ rune_bead_data.mParamBDesc }}){% endif %}</span>
+			</div>
+			{% endif %}
+			{% if rune_bead_data.mParamC != 0 %}
+			<div class="stat-row">
+				<span class="stat-label">Параметр C</span>
+				<span class="stat-value">{{ rune_bead_data.mParamC }} {% if rune_bead_data.mParamCDesc %}({{ rune_bead_data.mParamCDesc }}){% endif %}</span>
+			</div>
+			{% endif %}
+			{% if rune_bead_data.mParamD != 0 %}
+			<div class="stat-row">
+				<span class="stat-label">Параметр D</span>
+				<span class="stat-value">{{ rune_bead_data.mParamD }} {% if rune_bead_data.mParamDDesc %}({{ rune_bead_data.mParamDDesc }}){% endif %}</span>
+			</div>
+			{% endif %}
+			{% if rune_bead_data.mParamE != 0 %}
+			<div class="stat-row">
+				<span class="stat-label">Параметр E</span>
+				<span class="stat-value">{{ rune_bead_data.mParamE }} {% if rune_bead_data.mParamEDesc %}({{ rune_bead_data.mParamEDesc }}){% endif %}</span>
+			</div>
+			{% endif %}
+			
+			<!-- Информация о слотах -->
+			<div class="stat-row">
+				<span class="stat-label">Слот экипировки</span>
+				<span class="stat-value">{{ rune_bead_data.mTargetIPos }}</span>
+			</div>
+			<div class="stat-row">
+				<span class="stat-label">Вероятность</span>
+				<span class="stat-value">{{ rune_bead_data.mProb }}%</span>
+			</div>
+			<div class="stat-row">
+				<span class="stat-label">Группа руны</span>
+				<span class="stat-value">{{ rune_bead_data.mGroup }}</span>
+			</div>
+			
+			<!-- Информация об отверстиях -->
+			{% if rune_bead_data.mMaxHoleCount %}
+			<div class="stat-row">
+				<span class="stat-label">Макс. кол-во отверстий</span>
+				<span class="stat-value">{{ rune_bead_data.mMaxHoleCount }}</span>
+			</div>
+			{% endif %}
+			{% if rune_bead_data.mHoleCount %}
+			<div class="stat-row">
+				<span class="stat-label">Текущее кол-во отверстий</span>
+				<span class="stat-value">{{ rune_bead_data.mHoleCount }}</span>
+			</div>
+			{% endif %}
+			{% if rune_bead_data.mHoleProb %}
+			<div class="stat-row">
+				<span class="stat-label">Вероятность отверстия</span>
+				<span class="stat-value">{{ rune_bead_data.mHoleProb }}%</span>
+			</div>
+			{% endif %}
+		</div>
+
+		<!-- Активируемый навык -->
+		{% if rune_bead_data.mBeadType == 2 and activation_bead_data %}
+		<div class="activation-skill-section">
+			<h3 class="section-subtitle">Активируемый навык</h3>
+			<div class="abnormal-resist-row">
+				<div class="abnormal-resist-info">
+					{% if activation_bead_pic %}
+					<img class="skill-sprite-icon"
+						src="{{ activation_bead_pic }}"
+						alt="{{ activation_bead_data.SName or 'Skill icon' }}"
+						onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+					{% endif %}
+					<div class="abnormal-resist-content">
+						<div class="abnormal-resist-name">
+							<a href="{{ url_for('skills.skill_detail', skill_id=activation_bead_data.SID) }}" class="skill-name">
+								{{ activation_bead_data.SName or 'Неизвестно' }}
+							</a>
+						</div>
+						{% if activation_bead_data.AID %}
+						<div class="abnormal-resist-type">AID: {{ activation_bead_data.AID }}</div>
+						{% endif %}
+						{% if activation_bead_data.IName %}
+						<div class="abnormal-resist-desc">Предмет: {{ activation_bead_data.IName }}</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endif %}

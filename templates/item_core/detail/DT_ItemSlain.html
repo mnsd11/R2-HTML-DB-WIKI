@@ -1,0 +1,141 @@
+<!-- DT_ItemSlain -->
+{% if item_slain_data %}
+<style>
+    .slain-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .slain-card {
+        background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .slain-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+    }
+
+    .bonus-type {
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px dashed #ccc;
+    }
+
+    .bonus-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .bonus-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 8px;
+        background: rgba(255,255,255,0.5);
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+
+    .bonus-value {
+        
+        font-weight: bold;
+    }
+
+    .bonus-value.positive {
+        color: #2ecc71;
+    }
+
+    .bonus-value.negative {
+        color: #e74c3c;
+    }
+
+    /* Dark theme */
+    .dark-theme .slain-card {
+        background: linear-gradient(145deg, #333, #2a2a2a);
+        border-color: #444;
+    }
+
+    .dark-theme .bonus-type {
+        color: #fff;
+        border-bottom-color: #444;
+    }
+
+    .dark-theme .bonus-item {
+        background: rgba(0,0,0,0.2);
+        color: #ddd;
+    }
+</style>
+
+<div class="skill-section fadeIn">
+    <p class="section-star">★</p>
+    <h2 class="section-title">[Slain] Бонус урона против монстров</h2>
+    <div class="skill-content">
+        <!-- Базовая информация -->
+        <div class="stat-grid">
+            <div class="stat-row">
+                <span class="stat-label">ID способности</span>
+                <span class="stat-value">{{ item_slain_data.SID }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Тип монстров</span>
+                <span class="stat-value">[{{ item_slain_data.SType }}] {{ item_slain_data.SName }}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Уровень способности</span>
+                <span class="stat-value">{{ item_slain_data.SLevel }}</span>
+            </div>
+        </div>
+
+        <!-- Детальная информация о бонусах -->
+        <div class="slain-grid">
+            <!-- Ближний бой -->
+            <div class="slain-card">
+                <div class="bonus-type">Ближний бой</div>
+                <div class="bonus-stats">
+                    <div class="bonus-item">
+                        <span>Точность</span>
+                        <span class="bonus-value {% if item_slain_data.SHitPlus > 0 %}positive{% endif %}">
+                            +{{ item_slain_data.SHitPlus }}
+                        </span>
+                    </div>
+                    <div class="bonus-item">
+                        <span>Урон</span>
+                        <span class="bonus-value {% if item_slain_data.SDDPlus > 0 %}positive{% endif %}">
+                            +{{ item_slain_data.SDDPlus }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дальний бой -->
+            <div class="slain-card">
+                <div class="bonus-type">Дальний бой</div>
+                <div class="bonus-stats">
+                    <div class="bonus-item">
+                        <span>Точность</span>
+                        <span class="bonus-value {% if item_slain_data.SRHitPlus > 0 %}positive{% endif %}">
+                            +{{ item_slain_data.SRHitPlus }}
+                        </span>
+                    </div>
+                    <div class="bonus-item">
+                        <span>Урон</span>
+                        <span class="bonus-value {% if item_slain_data.SRDDPlus > 0 %}positive{% endif %}">
+                            +{{ item_slain_data.SRDDPlus }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

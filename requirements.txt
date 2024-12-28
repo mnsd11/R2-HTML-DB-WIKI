@@ -1,0 +1,6 @@
+flask
+flask-talisman
+python-dotenv
+pyodbc
+pandas
+requests

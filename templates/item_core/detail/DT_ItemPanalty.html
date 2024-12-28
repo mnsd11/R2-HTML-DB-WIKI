@@ -1,0 +1,313 @@
+<!-- DT_ItemPenalty -->
+{% if item_panalty_data %}
+{% set ns = namespace(previous=None) %}
+{% for penalty in item_panalty_data %}
+    {% if not ns.previous or 
+          ns.previous.IDHIT != penalty.IDHIT or
+          ns.previous.IDDD != penalty.IDDD or
+          ns.previous.IRHIT != penalty.IRHIT or
+          ns.previous.IRDD != penalty.IRDD or
+          ns.previous.IMHIT != penalty.IMHIT or
+          ns.previous.IMDD != penalty.IMDD or
+          ns.previous.IHPPlus != penalty.IHPPlus or
+          ns.previous.IMPPlus != penalty.IMPPlus or
+          ns.previous.ISTR != penalty.ISTR or
+          ns.previous.IDEX != penalty.IDEX or
+          ns.previous.IINT != penalty.IINT or
+          ns.previous.IHPRegen != penalty.IHPRegen or
+          ns.previous.IMPRegen != penalty.IMPRegen or
+          ns.previous.IAttackRate != penalty.IAttackRate or
+          ns.previous.IMoveRate != penalty.IMoveRate or
+          ns.previous.ICritical != penalty.ICritical or
+          ns.previous.IRange != penalty.IRange or
+          ns.previous.IDPV != penalty.IDPV or
+          ns.previous.IMPV != penalty.IMPV or
+          ns.previous.IRPV != penalty.IRPV or
+          ns.previous.IDDV != penalty.IDDV or
+          ns.previous.IMDV != penalty.IMDV or
+          ns.previous.IRDV != penalty.IRDV %}
+<style>
+    .penalty-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .penalty-card {
+        background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .penalty-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+    }
+
+    .stat-category {
+        font-weight: bold;
+        color: #444;
+        margin-bottom: 8px;
+        padding-bottom: 4px;
+        border-bottom: 1px dashed #ccc;
+    }
+
+    .stat-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 8px;
+        background: rgba(255,255,255,0.5);
+        border-radius: 4px;
+        font-size: 0.9em;
+    }
+
+
+    .stat-value.penalty {
+        color: #e74c3c;
+    }
+
+    .stat-value.bonus {
+        color: #2ecc71;
+    }
+
+    /* Dark theme */
+    .dark-theme .penalty-card {
+        background: linear-gradient(145deg, #333, #2a2a2a);
+        border-color: #444;
+    }
+
+    .dark-theme .stat-category {
+        color: #fff;
+        border-bottom-color: #444;
+    }
+
+    .dark-theme .stat-item {
+        background: rgba(0,0,0,0.2);
+        color: #ddd;
+    }
+</style>
+
+<div class="skill-section fadeIn">
+    <p class="section-star">★</p>
+    <h2 class="section-title">Штрафы и бонусы предмета</h2>
+    <div class="skill-content">
+        <!-- Базовая информация -->
+        <div class="stat-grid">
+            <div class="stat-row">
+                <span class="stat-label">Для класса</span>
+                <span class="stat-value">
+                    <span class="fadeIn"><img src="{{ penalty.PanaltyClassPic }}"></span>
+                    {% if penalty.IUseClass|int == 0 %}Нет класса
+                    {% elif penalty.IUseClass|int == 1 %}Рыцарь
+                    {% elif penalty.IUseClass|int == 2 %}Рейнджер
+                    {% elif penalty.IUseClass|int == 4 %}Маг
+                    {% elif penalty.IUseClass|int == 5 %}Рыцарь, Маг
+                    {% elif penalty.IUseClass|int == 7 %}Рыцарь, Рейнджер, Маг
+                    {% elif penalty.IUseClass|int == 8 %}Ассасин
+                    {% elif penalty.IUseClass|int == 15 %}Рыцарь, Рейндер, Маг, Ассасин
+                    {% elif penalty.IUseClass|int == 16 %}Призыватель
+                    {% elif penalty.IUseClass|int == 255 %}Все классы
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Детальная информация о штрафах -->
+        <div class="penalty-grid">
+            <!-- Боевые характеристики -->
+            <div class="penalty-card">
+                <div class="stat-category">Ближний бой</div>
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <span>Точность</span>
+                        <span class="stat-value {% if penalty.IDHIT|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IDHIT }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Урон</span>
+                        <span class="stat-value {% if penalty.IDDD|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IDDD }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Поглощение</span>
+                        <span class="stat-value {% if penalty.IDPV|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IDPV }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Уклонение</span>
+                        <span class="stat-value {% if penalty.IDDV|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IDDV }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дальний бой -->
+            <div class="penalty-card">
+                <div class="stat-category">Дальний бой</div>
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <span>Точность</span>
+                        <span class="stat-value {% if penalty.IRHIT|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IRHIT }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Урон</span>
+                        <span class="stat-value {% if penalty.IRDD|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IRDD }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Поглощение</span>
+                        <span class="stat-value {% if penalty.IRPV|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IRPV }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Уклонение</span>
+                        <span class="stat-value {% if penalty.IRDV|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IRDV }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Магия -->
+            <div class="penalty-card">
+                <div class="stat-category">Магия</div>
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <span>Точность</span>
+                        <span class="stat-value {% if penalty.IMHIT|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IMHIT }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Урон</span>
+                        <span class="stat-value {% if penalty.IMDD|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IMDD }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Поглощение</span>
+                        <span class="stat-value {% if penalty.IMPV|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IMPV }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Уклонение</span>
+                        <span class="stat-value {% if penalty.IMDV|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IMDV }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Характеристики -->
+            <div class="penalty-card">
+                <div class="stat-category">Характеристики</div>
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <span>Сила</span>
+                        <span class="stat-value {% if penalty.ISTR|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.ISTR }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Ловкость</span>
+                        <span class="stat-value {% if penalty.IDEX|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IDEX }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Интеллект</span>
+                        <span class="stat-value {% if penalty.IINT|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IINT }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Дополнительные параметры -->
+            <div class="penalty-card">
+                <div class="stat-category">Дополнительно</div>
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <span>HP</span>
+                        <span class="stat-value {% if penalty.IHPPlus|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IHPPlus }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>MP</span>
+                        <span class="stat-value {% if penalty.IMPPlus|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IMPPlus }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Регенерация HP</span>
+                        <span class="stat-value {% if penalty.IHPRegen|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IHPRegen }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Регенерация MP</span>
+                        <span class="stat-value {% if penalty.IMPRegen|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IMPRegen }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Скорость -->
+            <div class="penalty-card">
+                <div class="stat-category">Скорость</div>
+                <div class="stat-list">
+                    <div class="stat-item">
+                        <span>Атаки</span>
+                        <span class="stat-value {% if penalty.IAttackRate|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IAttackRate }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Передвижения</span>
+                        <span class="stat-value {% if penalty.IMoveRate|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IMoveRate }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Крит. удар</span>
+                        <span class="stat-value {% if penalty.ICritical|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.ICritical }}
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Дальность</span>
+                        <span class="stat-value {% if penalty.IRange|int < 0 %}penalty{% else %}bonus{% endif %}">
+                            {{ penalty.IRange }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endif %}
+    {% set ns.previous = penalty %}
+{% endfor %}
+{% endif %}

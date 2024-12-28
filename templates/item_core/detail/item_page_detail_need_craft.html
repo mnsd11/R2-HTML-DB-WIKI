@@ -1,0 +1,20 @@
+<!-- Нужен для крафта -->
+{% if craft_next %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Нужен для крафта</h2>
+	<div class="skill-content">
+		{% for craft in craft_next %}
+		<div class="item-row">
+			<img class="item-icon"
+				 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'"
+				 src="{{ craft.ImagePath }}">
+			<a href="{{ url_for('items.item_detail', item_id=craft.RItemID0) }}"
+			   class="item-name">{{ craft.IName }}</a>
+			<span class="stat-value">{{ craft.RSuccess }} %</span>
+			<span class="stat-value">{{ craft.RIsCreateCnt }} шт.</span>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endif %}

@@ -1,0 +1,41 @@
+<!-- AbnormalResist -->
+{% if item_abnormalResist_data %}
+		{% set unique_sids = [] %}
+		{% for resist in item_abnormalResist_data %}
+		{% if (resist.SID or 0) != 0 and (resist.SID or 0) not in unique_sids %}
+		<div class="skill-section fadeIn">
+			<p class="section-star">★</p>
+			<h2 class="section-title">AbnormalResist</h2>
+			<div class="skill-content">
+				{% set _ = unique_sids.append(resist.SID) %}
+				<div class="abnormal-resist-row">
+					<div class="abnormal-resist-info">
+						<img class="skill-sprite-icon"
+							src="{{ resist.skill_icon_path }}"
+							alt="{{ resist.SName or 'Skill icon' }}"
+							onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'">
+						<div class="abnormal-resist-content">
+							<div class="abnormal-resist-name">
+								<a href="{{ url_for('skills.skill_detail', skill_id=resist.SID) }}" class="skill-name">{{ resist.SName or 'Неизвестно' }}</a>
+							</div>
+							<div class="abnormal-resist-type">AType: {{ resist.ATypeDesc or 'Тип не указан' }} [{{ resist.AType or 'Тип не указан' }}]</div>
+							{% if resist.ADesc %}
+								<div class="abnormal-resist-desc">{{ resist.ADesc }}</div>
+							{% endif %}
+							
+							{% if resist.SkillPackName %}
+								<div class="skill-pack-info">
+									<span class="pack-resist-name">{{ resist.SkillPackName }}</span>
+									{% if resist.SkillPackDesc %}
+										<span class="pack-resist-desc">{{ resist.SkillPackDesc }}</span>
+									{% endif %}
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
+{% endif %}

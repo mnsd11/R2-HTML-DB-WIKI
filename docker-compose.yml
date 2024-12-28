@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "SqlServer2025!"
+      MSSQL_PID: "Express"
+    volumes:
+      - db_data:/var/opt/mssql
+      - ./docker_database:/var/opt/mssql/backup:ro
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: /opt/mssql/bin/sqlservr --version || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    networks:
+      - db_net
+    restart: unless-stopped
+
+  db_restore:
+    image: mcr.microsoft.com/mssql-tools:latest
+    container_name: db_restore
+    volumes:
+      - ./docker_database:/var/opt/mssql/backup:ro
+      - ./docker_database/restore.sql:/restore.sql:ro
+    command: >
+      bash -c '
+      echo "Waiting for SQL Server to start..." &&
+      /opt/mssql-tools/bin/sqlcmd -S db -U sa -P "SqlServer2025!" -i /restore.sql'
+    depends_on:
+      - db
+    networks:
+      - db_net
+
+  app:
+    build: .
+    container_name: r2wiki_flask
+    ports:
+      - "5000:5000"
+    environment:
+      DB_DRIVER: "ODBC Driver 17 for SQL Server"
+      DB_SERVER: "db"
+      DB_NAME: "FNLParm"
+      DB_USER: "sa"
+      DB_PASSWORD: "SqlServer2025!"
+      GITHUB_URL: "https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/"
+      PYTHONPATH: "/app"
+    command: >
+      bash -c '
+      echo "Waiting for db_restore to finish..." &&
+      sleep 10 &&
+      python -m flask run --host=0.0.0.0'
+    depends_on:
+      - db_restore
+    networks:
+      - db_net
+    restart: unless-stopped
+
+networks:
+  db_net:
+    name: db_net
+
+volumes:
+  db_data:

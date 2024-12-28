@@ -1,0 +1,20 @@
+<!-- Список продаваемых предметов -->
+{% if merchant_items %}
+<div class="skill-section fadeIn">
+	<p class="section-star">★</p>
+	<h2 class="section-title">Список продаваемых предметов</h2>
+	<div class="skill-content">
+		{% for item in merchant_items %}
+		<div class="item-row">
+			<img class="item-icon"
+				 onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png'"
+				 src="{{ item.MerchantItemPicture }}">
+			<a href="{{ url_for('items.item_detail', item_id=item.MerchantItemID) }}"
+			   class="item-name">{{ item.MerchantItemName }}</a>
+			<span class="stat-value">{{ item.MerchantItemPrice }}</span>
+			<span class="stat-value">{{ item.MerchantPaymentType }}</span>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endif %}
