@@ -606,26 +606,6 @@ body.dark-theme {
     z-index: 0;
 }
 
-.monster-title::before,
-.monster-title::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 30px;
-    height: 2px;
-    background: linear-gradient(90deg, #1e3c72, transparent);
-}
-
-.monster-title::before {
-    left: -40px;
-    transform: translateY(-50%);
-}
-
-.monster-title::after {
-    right: -40px;
-    transform: translateY(-50%) rotate(180deg);
-}
-
 
 
 
@@ -937,6 +917,184 @@ body.dark-theme {
     font-size: 0.9em;  /* Немного меньший размер */
     margin-left: 8px;  /* Отступ слева */
 }
+
+
+
+
+
+
+
+
+
+/* * skill_page_detail -- DT_Attribute Block Styles */
+.dice-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dice-damage {
+    
+    background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.dice-damage:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+}
+
+.dice-icon {
+    background: #666;
+    color: white;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 14px;
+    transform: rotate(-10deg);
+    transition: transform 0.3s ease;
+}
+
+.dice-icon:hover {
+    transform: rotate(10deg);
+}
+
+.damage-type {
+    font-size: 0.85em;
+    color: #666;
+    margin-left: 8px;
+    padding: 2px 6px;
+    background: #f0f0f0;
+    border-radius: 12px;
+    border: 1px dashed #ccc;
+}
+
+/* Dark theme */
+.dark-theme .dice-damage {
+    background: linear-gradient(145deg, #333, #2a2a2a);
+    color: #fff;
+    border-color: #444;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.dark-theme .damage-type {
+    background: #2a2a2a;
+    color: #aaa;
+    border-color: #444;
+}
+
+.dark-theme .dice-icon {
+    background: #444;
+    color: #fff;
+}
+
+/* Пульсация для высокого урона */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,0,0,0.2); }
+    70% { box-shadow: 0 0 0 6px rgba(255,0,0,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+}
+
+
+/* * skill_page_detail -- DT_SkillSlain Block Styles */
+.slain-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.slain-card {
+    background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.slain-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+}
+
+.bonus-type {
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.bonus-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.bonus-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.bonus-value {
+    font-weight: bold;
+}
+
+.bonus-value.positive {
+    color: #2ecc71;
+}
+
+.bonus-value.negative {
+    color: #e74c3c;
+}
+
+/* Dark theme */
+.dark-theme .slain-card {
+    background: linear-gradient(145deg, #333, #2a2a2a);
+    border-color: #444;
+}
+
+.dark-theme .bonus-type {
+    color: #fff;
+    border-bottom-color: #444;
+}
+
+.dark-theme .bonus-item {
+    background: rgba(0,0,0,0.2);
+    color: #ddd;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

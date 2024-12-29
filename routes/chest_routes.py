@@ -32,7 +32,7 @@ def chest_list():
     ]
     
     return render_template(
-        'chest_core/chests.html',
+        'chest_core/chest_page_route.html',
         ChestMid=chest_mids,
         items=formatted_items,
         item_resources=file_paths

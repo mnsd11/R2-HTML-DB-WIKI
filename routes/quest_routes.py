@@ -9,7 +9,7 @@ def quest_list():
     quests_data = get_quests_data()
     
     return render_template(
-        'quest_core/quest.html',
+        'quest_core/quest_page_route.html',
         quests=quests_data
     )
 

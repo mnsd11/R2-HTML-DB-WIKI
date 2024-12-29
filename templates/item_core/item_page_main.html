@@ -12,8 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-
-    {% include 'item_core/item_page_styles.html' %}
+    <!-- Стили -->
+    <link rel="stylesheet" href="/static/bg/css/main_css.css">
     
 </head>
 <body>
@@ -23,29 +23,6 @@
 
     <h1>{% block header %}{% endblock %}</h1>
     {% include 'main_page_menu.html' %}
-
-    <!-- Search Container 
-    <div class="search-container">
-        <form id="search-form">
-            <input type="text"
-                   class="search-input"
-                   id="search-input"
-                   placeholder="Поиск..."
-                   autocomplete="off">
-            <div class="search-results" id="search-results"></div>
-        </form>
-    </div>
-
-    <!-- Export Button 
-    <div class="container">
-        <center>
-            <button id="export-csv" class="export-btn">
-                <i class="fas fa-download"></i> Экспорт в CSV
-            </button>
-        </center>
-    </div> 
-    -->
-
 
 
     <!-- Фильтры -->
@@ -66,10 +43,6 @@
         </table>
     </div>
 
-
-
-
-
     <!-- Required JS -->
     {% block scripts %}
         <!-- jQuery -->
@@ -82,12 +55,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+        
+        <!-- Скрипты -->
+        <script src="/static/bg/js/main_js.js"></script>
+        
     {% endblock %}
 
-    {% include 'item_core/item_page_scripts.html' %}
 </body>
-
-
 </html>
 
 
