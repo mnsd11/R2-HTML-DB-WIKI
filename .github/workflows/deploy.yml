@@ -18,13 +18,13 @@ jobs:
         mkdir -p ~/.ssh
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -t rsa $SERVER_IP >> ~/.ssh/known_hosts
+        ssh-keyscan -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-        ssh -o StrictHostKeyChecking=no root@$SERVER_IP << 'EOF'
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
 
         # Parameters
-        APP_DIR_ROOT=/root/projects/wiki
-        APP_DIR=/root/projects/wiki/src
+        APP_DIR_ROOT=/${{ secrets.SERVER_USER }}/projects/wiki
+        APP_DIR=/${{ secrets.SERVER_USER }}/projects/wiki/src
 
         echo "Pull the repository..."
         cd $APP_DIR
