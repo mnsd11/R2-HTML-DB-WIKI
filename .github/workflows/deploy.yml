@@ -33,6 +33,7 @@ jobs:
         cd $APP_DIR
         git reset --hard
         git clean -fd
+        git checkout deploy
         git pull --rebase
 
         # Copy .env file
