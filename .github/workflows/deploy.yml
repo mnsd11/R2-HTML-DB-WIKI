@@ -1,0 +1,44 @@
+name: Deploy Flask App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to server
+      run: |
+        sshpass -p ${{ secrets.SERVER_PASSWORD }} ssh -p ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+        set -e  # Stop script on error
+
+        # Parameters
+        APP_DIR_ROOT=/root/projects/wiki
+        APP_DIR=/root/projects/wiki/src
+
+        echo "Pull the repository..."
+        cd $APP_DIR
+        git reset --hard
+        git clean -fd
+        git pull --rebase
+
+        # Copy .env file
+        cp $APP_DIR_ROOT/.env $APP_DIR/.env
+        cp $APP_DIR_ROOT/docker-compose.yml $APP_DIR/docker-compose.yml
+
+        echo "Restarting the containers..."
+
+        docker-compose down || true
+        docker-compose up -d || {
+          echo "Error: Failed to start the containers."
+          exit 1
+        }
+
+        echo "Deployment successful!"
+        EOF
