@@ -197,113 +197,120 @@ def with_filters(allowed_types):
 
 @bp.route('/item/<int:item_id>')
 def item_detail(item_id: int):
-    # Проверка основных данных
-    item = get_item_by_id(item_id)
-    if not item:
-        return "Item not found", 404
-
-    item_resource = get_item_resource(item_id)
-    if not item_resource:
-        return "Item resource not found", 404
-
-    # Обработка класса использования
     try:
-        use_class = int(item.IUseClass.split('/')[-1].replace('.png', ''))
-    except (ValueError, AttributeError):
-        return "Invalid item use class", 400
+        print(f"Item ID: {item_id}")
+        # Проверка основных данных
+        item = get_item_by_id(item_id)
+        if not item:
+            return "Item not found", 404
 
-    # Получение связанных данных
-    mondropinfo = get_monster_drop_info(item_id)
-    merchant_sellers = get_merchant_sellers(item_id)
-    craft_items = check_base_items_for_craft(item_id)
-    craft_next_item = check_next_craft_item(item_id)
-    specificproc_check = get_specific_proc_item(item_id)
+        item_resource = get_item_resource(item_id)
+        if not item_resource:
+            return "Item resource not found", 404
 
-    # Обработка данных навыков
-    skill_data = get_item_skill(item_id)
-    if skill_data and isinstance(skill_data, tuple) and len(skill_data) == 6:
-        itemdskill_data, itemskill_pic, linked_skills, linked_skillsaid, transform_list, monster_pic_url = skill_data
-        abnormal_type_data, abnormal_type_pic = get_abnormal_in_skill(linked_skillsaid)
-    else:
-        itemdskill_data = itemskill_pic = abnormal_type_data = abnormal_type_pic = None
-        linked_skills = linked_skillsaid = transform_list = monster_pic_url = None
+        # Обработка класса использования
+        try:
+            use_class = int(item.IUseClass.split('/')[-1].replace('.png', ''))
+        except (ValueError, AttributeError):
+            return "Invalid item use class", 400
 
-    # Обработка модели предмета
-    item_model_no = None
-    prefix = 'i'
-    itemresource_result = get_item_model_resource(item_id)
-    if itemresource_result:
-        base = f"{int(itemresource_result.RPosX):03}{int(itemresource_result.RPosY):03}"
-        if item.IType == 3:  # Доспехи
-            prefix = 'p'
-            replace_dict = {
-                1: [0, 1], 2: [2, 3], 4: [4, 5], 5: [0, 1, 4, 5],
-                7: [4, 5, 0, 1, 2, 3], 8: [6, 7], 15: [0, 1, 2, 3, 4, 5, 6, 7],
-                16: [8, 9], 18: [8, 9, 2, 3], 19: [8, 9, 2, 3, 0, 1],
-                20: [8, 9, 4, 5], 22: [8, 9, 4, 5, 2, 3],
-                23: [0, 1, 2, 3, 4, 5, 8, 9], 0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-                255: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-            }
-            if use_class in replace_dict:
-                for index in replace_dict[use_class]:
-                    item_model_no = f"0{index}0{base[3:]}"
+        # Получение связанных данных
+        mondropinfo = get_monster_drop_info(item_id)
+        merchant_sellers = get_merchant_sellers(item_id)
+        craft_items = check_base_items_for_craft(item_id)
+        craft_next_item = check_next_craft_item(item_id)
+        specificproc_check = get_specific_proc_item(item_id)
+
+        # Обработка данных навыков
+        skill_data = get_item_skill(item_id)
+        if skill_data and isinstance(skill_data, tuple) and len(skill_data) == 6:
+            itemdskill_data, itemskill_pic, linked_skills, linked_skillsaid, transform_list, monster_pic_url = skill_data
+            abnormal_type_data, abnormal_type_pic = get_abnormal_in_skill(linked_skillsaid)
         else:
-            item_model_no = base
-    elif item.IType not in [1, 18, 20, 2, 19]:  # Не оружие/щит/стрелы
+            itemdskill_data = itemskill_pic = abnormal_type_data = abnormal_type_pic = None
+            linked_skills = linked_skillsaid = transform_list = monster_pic_url = None
+
+        # Обработка модели предмета
+        item_model_no = None
         prefix = 'i'
+        itemresource_result = get_item_model_resource(item_id)
+        if itemresource_result:
+            base = f"{int(itemresource_result.RPosX):03}{int(itemresource_result.RPosY):03}"
+            if item.IType == 3:  # Доспехи
+                prefix = 'p'
+                replace_dict = {
+                    1: [0, 1], 2: [2, 3], 4: [4, 5], 5: [0, 1, 4, 5],
+                    7: [4, 5, 0, 1, 2, 3], 8: [6, 7], 15: [0, 1, 2, 3, 4, 5, 6, 7],
+                    16: [8, 9], 18: [8, 9, 2, 3], 19: [8, 9, 2, 3, 0, 1],
+                    20: [8, 9, 4, 5], 22: [8, 9, 4, 5, 2, 3],
+                    23: [0, 1, 2, 3, 4, 5, 8, 9], 0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    255: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                }
+                if use_class in replace_dict:
+                    for index in replace_dict[use_class]:
+                        item_model_no = f"0{index}0{base[3:]}"
+            else:
+                item_model_no = base
+        elif item.IType not in [1, 18, 20, 2, 19]:  # Не оружие/щит/стрелы
+            prefix = 'i'
 
-    # Проверка DT_ItemAbnormalResist
-    item_abnormalResist_data = get_itemabnormalResist_data(item_id)
+        # Проверка DT_ItemAbnormalResist
+        item_abnormalResist_data = get_itemabnormalResist_data(item_id)
 
-    # Проверка DT_Bead и активации навыков
-    rune_bead_data = activation_bead_data = activation_bead_pic = None
-    if item.IName.startswith('Руна'):
-        rune_bead_data = get_rune_bead_data(item_id)
-        if rune_bead_data and rune_bead_data.mBeadType == 2:
-            activation_bead_data, activation_bead_pic = get_sid_by_spid(rune_bead_data.mParamA)
+        # Проверка DT_Bead и активации навыков
+        rune_bead_data = activation_bead_data = activation_bead_pic = None
+        if item.IName.startswith('Руна'):
+            rune_bead_data = get_rune_bead_data(item_id)
+            if rune_bead_data and rune_bead_data.mBeadType == 2:
+                activation_bead_data, activation_bead_pic = get_sid_by_spid(rune_bead_data.mParamA)
 
-    # Получение дополнительных данных предмета
-    item_bead_module_data = get_item_bead_module_data(item_id)
-    item_bead_holeprob_data = get_item_bead_holeprob_data(item_id)
-    item_attribute_add_data = get_item_attribute_add_data(item_id)
-    item_attribute_resist_data = get_item_attribute_resist_data(item_id)
-    item_protect_data = get_item_protect_data(item_id)
-    item_slain_data = get_item_slain_data(item_id)
-    item_panalty_data = get_item_panalty_data(item_id)
+        # Получение дополнительных данных предмета
+        item_bead_module_data = get_item_bead_module_data(item_id)
+        item_bead_holeprob_data = get_item_bead_holeprob_data(item_id)
+        item_attribute_add_data = get_item_attribute_add_data(item_id)
+        item_attribute_resist_data = get_item_attribute_resist_data(item_id)
+        item_protect_data = get_item_protect_data(item_id)
+        item_slain_data = get_item_slain_data(item_id)
+        item_panalty_data = get_item_panalty_data(item_id)
 
-    # Рендеринг шаблона
-    return render_template(
-        'item_core/item_page_detail.html',
-        item=item,
-        file_path=item_resource.file_path,
-        use_class=use_class,
-        prefix=prefix,
-        monstermodelno_result=item_model_no,
-        mondropinfo=mondropinfo,
-        merchant_sellers=merchant_sellers,
-        craft_result=craft_items,
-        craft_next=craft_next_item,
-        specificproc_data=specificproc_check,
-        itemdskill_data=itemdskill_data,
-        itemskill_pic=itemskill_pic,
-        linked_skills=linked_skills,
-        linked_skillsaid=linked_skillsaid,
-        abnormal_type_data=abnormal_type_data,
-        abnormal_type_pic=abnormal_type_pic,
-        transform_list=transform_list,
-        monster_pic_url=monster_pic_url,
-        item_abnormalResist_data=item_abnormalResist_data,
-        rune_bead_data=rune_bead_data,
-        activation_bead_data=activation_bead_data,
-        activation_bead_pic=activation_bead_pic,
-        item_bead_module_data=item_bead_module_data,
-        item_bead_holeprob_data=item_bead_holeprob_data,
-        item_attribute_add_data=item_attribute_add_data,
-        item_attribute_resist_data=item_attribute_resist_data,
-        item_protect_data=item_protect_data,
-        item_slain_data=item_slain_data,
-        item_panalty_data=item_panalty_data
-    )
+        # Рендеринг шаблона
+        return render_template(
+            'item_core/item_page_detail.html',
+            item=item,
+            file_path=item_resource.file_path,
+            use_class=use_class,
+            prefix=prefix,
+            monstermodelno_result=item_model_no,
+            mondropinfo=mondropinfo,
+            merchant_sellers=merchant_sellers,
+            craft_result=craft_items,
+            craft_next=craft_next_item,
+            specificproc_data=specificproc_check,
+            itemdskill_data=itemdskill_data,
+            itemskill_pic=itemskill_pic,
+            linked_skills=linked_skills,
+            linked_skillsaid=linked_skillsaid,
+            abnormal_type_data=abnormal_type_data,
+            abnormal_type_pic=abnormal_type_pic,
+            transform_list=transform_list,
+            monster_pic_url=monster_pic_url,
+            item_abnormalResist_data=item_abnormalResist_data,
+            rune_bead_data=rune_bead_data,
+            activation_bead_data=activation_bead_data,
+            activation_bead_pic=activation_bead_pic,
+            item_bead_module_data=item_bead_module_data,
+            item_bead_holeprob_data=item_bead_holeprob_data,
+            item_attribute_add_data=item_attribute_add_data,
+            item_attribute_resist_data=item_attribute_resist_data,
+            item_protect_data=item_protect_data,
+            item_slain_data=item_slain_data,
+            item_panalty_data=item_panalty_data
+        )
+    except Exception as e:
+        print(f"Error in item detail route: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return "Internal server error", 500
 
 
 def get_route_config(item_type):
