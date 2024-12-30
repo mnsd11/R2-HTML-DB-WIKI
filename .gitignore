@@ -10,3 +10,4 @@ TODO.txt
 SITE_v16.rar
 docker_database/FNLParm.bak
 .env
+.venv/
