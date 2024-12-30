@@ -44,6 +44,7 @@ jobs:
         docker stop r2wiki_flask
         docker rm r2wiki_flask
 
+        docker-compose build
         docker-compose up -d || {
           echo "Error: Failed to start the containers."
           exit 1
