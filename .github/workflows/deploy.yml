@@ -40,21 +40,9 @@ jobs:
         cp $APP_DIR_ROOT/docker-compose.yml $APP_DIR/docker-compose.yml
 
         echo "Restarting the containers..."
-        docker-compose down || {
-          echo "Error: Failed to stop the containers."
-          exit 1
-        }
-
-        docker stop r2wiki_flask || {
-          echo "Error: Failed to stop the app container."
-          exit 1
-        }
-
-        docker rm r2wiki_flask || {
-          echo "Error: Failed to remove the app container."
-          exit 1
-        }
-
+        docker stop r2wiki_flask
+        docker rm r2wiki_flask
+        
         docker-compose up -d || {
           echo "Error: Failed to start the containers."
           exit 1
