@@ -1,7 +1,7 @@
 // Constants and Configuration
 const CONSTANTS = {
     DEBOUNCE_DELAY: 300,
-    DEFAULT_PER_PAGE: 25,
+    DEFAULT_PER_PAGE: 28,
     LOADING_FADE_DELAY: 500,
     ERROR_DISPLAY_TIME: 5000,
     PAGINATION_RADIUS: 2,
@@ -12,7 +12,23 @@ const CONSTANTS = {
         FADE_ENTER: 'table-fade-enter',
         FADE_ENTER_ACTIVE: 'table-fade-enter-active'
     },
-    PER_PAGE_OPTIONS: [10, 25, 50, 75, 100, 150, 200]
+    PER_PAGE_OPTIONS: [10, 25, 50, 75, 100, 150, 200],
+    ATROPOS_OPTIONS: {
+        activeOffset: 20,
+        shadowScale: 1.05,
+        rotateXMax: 10,
+        rotateYMax: 10,
+        duration: 400,
+        shadow: true,
+        shadowOffset: 30,
+        highlight: true,
+        onEnter(atropos) {
+            atropos.el.classList.add('atropos-active');
+        },
+        onLeave(atropos) {
+            atropos.el.classList.remove('atropos-active');
+        }
+    }
 };
 
 const TYPE_MAPPINGS = {
@@ -67,6 +83,24 @@ const TYPE_DESCRIPTIONS = {
     29: 'Сфера 3 Слот',
     42: 'Серьги'
 };
+
+const CLASS_DESCRIPTIONS = {
+    0: 'Нет класса',
+    1: 'Рыцарь',
+    2: 'Рейнджер',
+    4: 'Маг',
+    5: 'Рыцарь, Маг',
+    7: 'Рыцарь, Рейнджер, Маг',
+    8: 'Ассасин',
+    15: 'Рыцарь, Рейнджер, Маг, Ассасин',
+    16: 'Призыватель',
+    18: 'Рейнджер, Призыватель',
+    19: 'Рыцарь, Рейнджер, Призыватель',
+    20: 'Маг, Призыватель',
+    22: 'Рейнджер, Маг, Призыватель',
+    23: 'Рыцарь, Рейнджер, Маг, Призыватель'
+};
+
 
 const ADVANCED_FILTERS = [{
         id: 'IDHIT',
@@ -292,22 +326,28 @@ class ItemDataService {
 
 // Filter Logic
 class ItemFilterManager {
+    
     static collectFilters() {
         const filters = {};
-        document.querySelectorAll('.form-control, .custom-control-input')
-            .forEach(input => {
-                if (input.id === 'perPageSelect' || input.id === 'itemSearch') return;
+        document.querySelectorAll('.form-control, .custom-control-input').forEach(input => {
+            if (input.id === 'perPageSelect' || input.id === 'itemSearch') return;
 
-                const value = input.type === 'checkbox' ? input.checked : input.value;
-                if ((input.type === 'checkbox' && value) ||
-                    (input.type !== 'checkbox' && value)) {
-                    filters[input.id] = input.type === 'checkbox' ? '1' : value;
-                }
-            });
+            const value = input.type === 'checkbox' ? input.checked : input.value;
+            
+            if (value !== '') {
+                filters[input.id] = value;
+            }
+        });
+
+        //console.log('Collected filters:', filters);
         return filters;
     }
 
     static filterData(items, filters) {
+        // Проверяем структуру первого предмета
+        // if (items.length > 0) {
+        //     console.log('First item structure:', items[0]);
+        // }
         // Сначала применяем поиск
         const searchTerm = document.getElementById('itemSearch')?.value.trim().toLowerCase();
         let filteredData = items;
@@ -326,17 +366,35 @@ class ItemFilterManager {
 
     static _applyAllFilters(item, filters) {
         return Object.entries(filters).every(([key, value]) => {
-            // Базовые фильтры
+            // Фильтр стакаемости
+            if (key === 'stackableFilter') {
+                if (!value) return true;
+                return value === '1' ? item.IMaxStack > 0 : item.IMaxStack <= 0;
+            }
+
+            // Остальные фильтры...
             if (key === 'typeFilter') {
                 return item.IType === Number(value);
             }
 
-            // Фильтры диапазонов
+            if (key === 'typeClassFilter') {
+                const filterClass = Number(value);
+                if (!value || filterClass === 0 || filterClass === 255) return true;
+                const classNumber = item.IUseClass ? 
+                    Number(item.IUseClass.split('/').pop().replace('.png', '')) : 
+                    0;
+                return classNumber === filterClass;
+            }
+
+            if (key === 'questNoFilter') {
+                if (!value) return true;
+                return item.IQuestNo === Number(value);
+            }
+
             if (key.endsWith('Min') || key.endsWith('Max')) {
                 return this._applyRangeFilter(item, key, value);
             }
 
-            // Булевы фильтры
             if (this._isBooleanFilter(key)) {
                 return this._applyBooleanFilter(item, key);
             }
@@ -395,7 +453,51 @@ class ItemUIManager {
     constructor(stateManager) {
         this.stateManager = stateManager;
         this.setupStateSubscriptions();
-        this.setupAnimations();
+        this.initializeAtropos();
+        this.setupThemeChangeListener();
+    }
+
+
+    
+    initializeAtropos() {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/atropos@2.0.2/atropos.js';
+        script.onload = () => {
+            //console.log('Atropos loaded successfully');
+            this.atroposLoaded = true;
+        };
+        document.head.appendChild(script);
+
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/atropos@2.0.2/atropos.css';
+        document.head.appendChild(link);
+    }
+
+    reinitializeCards() {
+        // Сначала уничтожаем все существующие экземпляры
+        document.querySelectorAll('.atropos').forEach(el => {
+            if (el.atroposInstance) {
+                el.atroposInstance.destroy();
+            }
+        });
+    
+        // Затем реинициализируем карточки
+        requestAnimationFrame(() => {
+            this._initializeAtroposCards();
+        });
+    }
+
+    setupThemeChangeListener() {
+        const themeToggle = document.querySelector('.theme-toggle'); // или ваш селектор для переключателя темы
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                // Даем небольшую задержку, чтобы тема успела переключиться
+                setTimeout(() => {
+                    this.reinitializeCards();
+                }, 50);
+            });
+        }
     }
 
     setupStateSubscriptions() {
@@ -459,11 +561,13 @@ class ItemUIManager {
     }
 
     initializeFilters() {
-        this.initializeTypeFilter();
+        this.initializeTypeFilter(); // Инициализация типа предметов
+        this.initializeClassFilter(); // Инициализация класс предметов
         this.initializeAdvancedFilters();
         this.initializePerPageSelect();
     }
 
+    // Инициализация типа предметов
     initializeTypeFilter() {
         const typeFilter = document.getElementById('typeFilter');
         if (!typeFilter) return;
@@ -472,7 +576,7 @@ class ItemUIManager {
 
         typeFilter.innerHTML = this._createTypeFilterOptions(allowedTypes);
     }
-
+    
     _getAllowedTypes() {
         return TYPE_MAPPINGS[window.location.pathname] ||
             Object.keys(TYPE_DESCRIPTIONS);
@@ -491,6 +595,33 @@ class ItemUIManager {
 
         return options.join('');
     }
+
+
+    // Инициализация класс предметов
+    initializeClassFilter() {
+        const classFilter = document.getElementById('typeClassFilter');
+        if (!classFilter) return;
+
+        classFilter.innerHTML = this._createClassFilterOptions();
+    }
+
+    _createClassFilterOptions() {
+        const options = ['<option value="255">Все классы</option>'];
+        
+        Object.entries(CLASS_DESCRIPTIONS).forEach(([value, label]) => {
+            options.push(`
+                <option value="${value}">
+                    ${label}
+                </option>
+            `);
+        });
+
+        return options.join('');
+    }
+
+
+
+
 
     initializeAdvancedFilters() {
         const container = document.querySelector('.advanced-filters-grid');
@@ -581,6 +712,18 @@ class ItemUIManager {
         });
     }
 
+    _setupCardInteractions() {
+        document.querySelectorAll('.item-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.classList.add('is-hovered');
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.classList.remove('is-hovered');
+            });
+        });
+    }
+
     _resetAllFilters() {
         document.querySelectorAll('.form-control, .custom-control-input')
             .forEach(input => {
@@ -611,11 +754,182 @@ class ItemUIManager {
     }
 
     renderItems(items, resources) {
-        const tableBody = document.querySelector('table tbody');
-        if (!tableBody) return;
+        const tableWrapper = document.querySelector('.table-wrapper');
+        if (!tableWrapper) return;
+    
+        this._animateTableUpdate(tableWrapper, () => {
+            const oldTable = tableWrapper.querySelector('table');
+            if (oldTable) {
+                oldTable.remove();
+            }
+    
+            const gridHtml = items.map((item, index) => {
+                // Безопасное извлечение значения класса из пути к изображению
+                const classValue = item.IUseClass ? 
+                    item.IUseClass.split('/').pop()?.replace('.png', '') || '0' : '0';
+    
+                return `
+                    <div class="atropos" data-index="${index}">
+                        <div class="atropos-scale">
+                            <div class="atropos-rotate">
+                                <div class="atropos-inner" data-class="${classValue}">
+                                    <div class="item-card-id" data-atropos-offset="5">
+                                        #${item.IID}
+                                    </div>
+    
+                                    <div class="item-card-image" data-atropos-offset="8" data-class="${classValue}">
+                                        <img src="${resources[item.IID] || CONSTANTS.FALLBACK_IMAGE}"
+                                            alt="${item.IName}"
+                                            loading="lazy"
+                                            onerror="this.src='${CONSTANTS.FALLBACK_IMAGE}';">
+                                    </div>
+                                    <div class="item-card-title" data-atropos-offset="8">
+                                        <span><img src="${item.IUseClass}" alt="Image description"></span>
+                                    </div>
+    
+                                    <div class="item-card-title" data-atropos-offset="6">
+                                        <a href="/item/${item.IID}" class="item-link">${item.IName}</a>
+                                    </div>
+    
+                                    <div class="stat-badges" data-atropos-offset="4">
+                                        ${this._generateStatBadges(item)}
+                                    </div>
+    
+                                    <div class="item-card-description" data-atropos-offset="2">
+                                        ${item.IDesc || 'Нет описания'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+    
+            tableWrapper.innerHTML = `<div class="items-grid">${gridHtml}</div>`;
+            
+            requestAnimationFrame(() => {
+                this._initializeAtroposCards();
+            });
+        });
+    }
 
-        this._animateTableUpdate(tableBody, () => {
-            tableBody.innerHTML = this._generateItemsHTML(items, resources);
+
+
+
+
+
+
+
+
+
+
+
+    _initializeAtroposCards() {
+        if (!window.Atropos) {
+            console.warn('Waiting for Atropos...');
+            setTimeout(() => this._initializeAtroposCards(), 100);
+            return;
+        }
+    
+        document.querySelectorAll('.atropos').forEach((el, index) => {
+            if (el.atroposInstance) {
+                el.atroposInstance.destroy();
+            }
+    
+            // Установка индекса для анимации
+            el.style.setProperty('--index', index);
+    
+            // Улучшенная обработка эффекта свечения
+            const handleMouseMove = (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                el.style.setProperty('--x', `${x}%`);
+                el.style.setProperty('--y', `${y}%`);
+            };
+    
+            el.addEventListener('mousemove', handleMouseMove);
+    
+            // Улучшенная обработка кликабельности
+            const title = el.querySelector('.item-card-title');
+            const link = title?.querySelector('a');
+            
+            if (title && link) {
+                // Расширяем область клика
+                title.style.cursor = 'pointer';
+                
+                // Обработка наведения
+                title.addEventListener('mouseenter', (e) => {
+                    e.stopPropagation();
+                    link.style.color = '#3182ce';
+                    const beforeElement = window.getComputedStyle(link, '::before');
+                    if (beforeElement) {
+                        link.classList.add('hover-active');
+                    }
+                });
+    
+                title.addEventListener('mouseleave', (e) => {
+                    e.stopPropagation();
+                    link.style.color = '';
+                    link.classList.remove('hover-active');
+                });
+    
+                // Обработка клика
+                title.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    link.click();
+                });
+            }
+    
+            const atroposInstance = Atropos({
+                el: el,
+                activeOffset: 20,
+                shadowScale: 1.05,
+                rotateXMax: 8,
+                rotateYMax: 8,
+                duration: 800,
+                shadow: true,
+                shadowOffset: 30,
+                highlight: true,
+                onEnter() {
+                    el.classList.add('atropos-active');
+                },
+                onLeave() {
+                    el.classList.remove('atropos-active');
+                    // Сброс стилей при уходе мыши
+                    el.style.removeProperty('--x');
+                    el.style.removeProperty('--y');
+                },
+                onRotate(e) {
+                    // Плавное движение для названия
+                    const title = el.querySelector('.item-card-title');
+                    if (title) {
+                        const slowFactor = 0.3;
+                        const x = e.rotateX * slowFactor;
+                        const y = e.rotateY * slowFactor;
+                        title.style.transform = `translate3d(${y/2}px, ${-x/2}px, 40px)`;
+                    }
+    
+                    // Плавное движение для описания
+                    const description = el.querySelector('.item-card-description');
+                    if (description) {
+                        const ultraSlowFactor = 0.1;
+                        const dx = e.rotateX * ultraSlowFactor;
+                        const dy = e.rotateY * ultraSlowFactor;
+                        description.style.transform = `translate3d(${dy/2}px, ${-dx/2}px, 20px)`;
+                    }
+                }
+            });
+    
+            el.atroposInstance = atroposInstance;
+        });
+    }
+
+    destroy() {
+        document.querySelectorAll('.atropos').forEach(el => {
+            if (el.atroposInstance) {
+                el.atroposInstance.destroy();
+            }
         });
     }
 
@@ -636,24 +950,72 @@ class ItemUIManager {
         });
     }
 
-    _generateItemsHTML(items, resources) {
-        const tableHeaders = this._generateTableHeaders();
-        const itemsRows = items.map(item =>
-            this._generateItemRow(item, resources)
-        ).join('');
 
-        return tableHeaders + itemsRows;
+
+    
+    _generateStatBadges(item) {
+        const badges = [];
+        
+        // // Класс предмета
+        // if (item.IUseClass) {
+        //     badges.push(`
+        //         <div class="stat-badge" data-atropos-offset="3">
+        //             <i class="fas fa-star"></i>
+        //             <span><img src="${item.IUseClass}" alt="Image description"></span>
+        //         </div>
+        //     `);
+        // }
+
+        // Уровень предмета
+        if (item.ILevel) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fas fa-star"></i>
+                    <span>Ур. ${item.ILevel}</span>
+                </div>
+            `);
+        }
+        
+        // Вес предмета
+        if (item.IWeight) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fas fa-weight-hanging"></i>
+                    <span>${item.IWeight}</span>
+                </div>
+            `);
+        }
+        
+        // Характеристики атаки/защиты
+        if (item.IDHIT) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fas fa-fist-raised"></i>
+                    <span>ATK ${item.IDHIT}</span>
+                </div>
+            `);
+        }
+        
+        if (item.IDDD) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>DEF ${item.IDDD}</span>
+                </div>
+            `);
+        }
+        
+        return badges.join('');
     }
+
 
     _generateTableHeaders() {
         return `
-                {% block table_headers %}
                     <th>🖼️</th>
                     <th>Название</th>
                     <th>Описание</th>
                     <th>Вес</th>
                     <th>Класс</th>
-                {% endblock %}
             `;
     }
 

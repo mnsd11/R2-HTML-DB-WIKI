@@ -253,33 +253,64 @@ body.dark-theme {
     }
 
 /* Кнопка переключения темы */
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;  /* Фиксированная ширина */
-        height: 40px; /* Фиксированная высота */
-        border-radius: 50%;
-        background: #f1f1f1;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;           /* Для центрирования иконки */
-        align-items: center;     /* Центрирование по вертикали */
-        justify-content: center; /* Центрирование по горизонтали */
-        padding: 0;             /* Убираем padding */
-    }
+.theme-toggle {
+    position: fixed; 
+    bottom: 5px;
+    right: 20px;
+    width: 50px; 
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f1f1f1, #e0e0e0);
+    border: 0;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease, transform 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 9999;
+}
 
 .theme-toggle i {
-        font-size: 18px;    /* Размер иконки */
-        line-height: 1;     /* Убираем дополнительное пространство */
-    }
+    font-size: 22px;
+    line-height: 1;
+    color: #333;
+    transition: color 0.3s ease;
+}
 
-.dark-theme .theme-toggle {
-        background: #2c3e50;
-        color: white;
+.theme-toggle:hover {
+    background: linear-gradient(135deg, rgb(0, 174, 255), #0077cc);
+    color: #fff;
+    transform: rotate(360deg) scale(1.1);
+}
+
+.theme-toggle:active {
+    background: linear-gradient(135deg, #0077cc, rgb(0, 174, 255));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95); 
+}
+
+body.dark-theme .theme-toggle {
+    background: linear-gradient(135deg, #333, #555);
+    color: #f1f1f1;
+}
+
+body.dark-theme .theme-toggle:hover {
+    background: linear-gradient(135deg, #555, #777);
+}
+.theme-toggle.bouncing {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
     }
+    50% {
+        transform: translateY(-5px);
+    }
+}
 
 /* Добавляем белый цвет для всего текста в темной теме */
     .dark-theme h1,
@@ -537,10 +568,6 @@ body {
             transform: scale(1.2);
         }
 
-.theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(360deg);
-        }
 
 @media (max-width: 768px) {
             .navbar-nav {

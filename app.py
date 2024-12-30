@@ -54,11 +54,11 @@ def setup_logging(app):
 app = Flask(__name__)
 
 # Configure Talisman security headers
-Talisman(app, force_https=False, content_security_policy={
-    'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com https://cdn.datatables.net https://use.fontawesome.com https://ka-f.fontawesome.com",
-    'script-src': "'self' 'unsafe-inline' https://code.jquery.com https://cdnjs.cloudflare.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com",
-    'img-src': "'self' data: https://raw.githubusercontent.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://use.fontawesome.com https://ka-f.fontawesome.com"
-})
+# Talisman(app, force_https=False, content_security_policy={
+#     'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com https://cdn.datatables.net https://use.fontawesome.com https://ka-f.fontawesome.com",
+#     'script-src': "'self' 'unsafe-inline' https://code.jquery.com https://cdnjs.cloudflare.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com",
+#     'img-src': "'self' data: https://raw.githubusercontent.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://use.fontawesome.com https://ka-f.fontawesome.com"
+# })
 
 # Load configuration and setup logging
 load_config(app)
@@ -117,4 +117,4 @@ def home():
     return render_template('main_page.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=app.config['PORT'], debug=False)
+    app.run(host='0.0.0.0', port=app.config['PORT'], debug=True)

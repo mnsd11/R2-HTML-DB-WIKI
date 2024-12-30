@@ -262,7 +262,7 @@ class FilterManager {
         });
 
         // Debug log
-        console.log('Collected filters:', filters);
+        //console.log('Collected filters:', filters);
         return filters;
     }
 
@@ -482,7 +482,7 @@ class UIManager {
         if (!tableBody) return;
         const cachedData = this.stateManager.getState('cachedData');
 
-        const monstersHTML_table_headers = '{% block table_headers %}\n\t<th>🖼️</th>\n\t<th>Название</th>\n\t<th>Уровень</th>\n\t<th>Класс</th>\n\t<th>MExp</th>\n\t<th>MHP</th>\n\t<th>MRaceType</th>\n{% endblock %}';
+        const monstersHTML_table_headers = '<th>🖼️</th>\n\t<th>Название</th>\n\t<th>Уровень</th>\n\t<th>Класс</th>\n\t<th>MExp</th>\n\t<th>MHP</th>\n\t<th>MRaceType</th>';
 
         const monstersHTML = monsters
             .map(monster => this._createMonsterRow(monster, cachedData.resources))
@@ -671,6 +671,33 @@ class MonsterFilterApp {
         return data.slice(start, start + perPage);
     }
 }
+
+
+// Filter Manager with search support
+FilterManager.filterData = function(data, filters) {
+    const isMonsterPage = $('.monster-image').length > 0;
+    const searchId = isMonsterPage ? '#monsterSearch' : '#itemSearch';
+    const searchTerm = document.querySelector(searchId)?.value.trim().toLowerCase();
+
+    // Apply search filter before other filters
+    let filteredData = data;
+    if (searchTerm) {
+        filteredData = data.filter(item => {
+            const id = isMonsterPage ? item.MID : item.IID;
+            const name = isMonsterPage ? item.MName : item.IName;
+            const matchesId = id.toString().toLowerCase().includes(searchTerm);
+            const matchesName = name.toLowerCase().includes(searchTerm);
+            return matchesId || matchesName;
+        });
+    }
+
+    // Apply remaining filters
+    return filteredData.filter(item => 
+        FilterManager._applyAllFilters(item, filters));
+};
+
+
+
 
 // Initialize application
 let app;

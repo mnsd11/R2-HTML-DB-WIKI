@@ -43,7 +43,7 @@ def get_item_info(item_id):
     """Получение информации о предмете"""
     try:
         item_name = get_item_name(item_id)
-        item_pic = get_item_pic_url(get_item_resource(item_id))
+        item_pic = get_item_pic_url(item_id)
         
         return jsonify({
             'itemName': item_name,

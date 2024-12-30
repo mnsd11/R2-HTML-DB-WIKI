@@ -1,18 +1,31 @@
-// Theme Management
-(function() {
-    if (localStorage.getItem('theme') === 'dark') {
-        document.documentElement.classList.add('dark-theme');
-        document.body.classList.add('dark-theme');
-    }
-})();
+// Theme toggle functionality
+const toggleButton = document.getElementById('theme-toggle');
 
-document.getElementById('theme-toggle').addEventListener('click', () => {
+// Adding sound effect on click
+const soundEffect = new Audio('https://www.soundjay.com/buttons/sounds/button-30.mp3');
+
+toggleButton.addEventListener('click', () => {
     document.documentElement.classList.toggle('dark-theme');
     document.body.classList.toggle('dark-theme');
-    localStorage.setItem('theme',
+    localStorage.setItem(
+        'theme',
         document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light'
     );
+
+    // Play sound effect
+    soundEffect.play();
+
+    // Toggle bounce effect for fun
+    toggleButton.classList.toggle('bouncing');
+    setTimeout(() => toggleButton.classList.remove('bouncing'), 1000);
 });
+
+// Restore theme on page load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark-theme');
+    document.body.classList.add('dark-theme');
+}
 
 // Image Zoom Functionality
 function initializeImageZoom() {

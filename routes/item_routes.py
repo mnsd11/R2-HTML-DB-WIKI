@@ -173,7 +173,7 @@ def with_filters(allowed_types):
                     
                     # Convert to dict for response
                     items_dict = [item_to_dict(item) for item in paginated_items]
-                    
+                    #print(items_dict)
                     return jsonify({
                         'items': items_dict,
                         'resources': file_paths,

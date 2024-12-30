@@ -7,7 +7,14 @@
     --text-light: #333333;
     --bg-dark: #1a1a1a;
     --text-dark: #ffffff;
-    --transition-speed: 0.3s
+    --transition-speed: 0.3s;
+    --knight-color: rgba(0, 140, 255, 0.4);
+    --ranger-color: rgba(0, 255, 0, 0.4);
+    --mage-color: rgba(255, 255, 0, 0.4);
+    --assassin-color: rgba(255, 255, 255, 0.4);
+    --summoner-color: rgba(255, 0, 0, 0.4);
+    --border-opacity: 0.6;
+    --glow-opacity: 0.4;
 }
 
 script {
@@ -674,37 +681,64 @@ body.dark-theme {
     text-decoration: none!important
 }
 
+/* Кнопка переключения темы */
 .theme-toggle {
-    position: absolute;
-    top: 20px;
+    position: fixed;
+    bottom: 5px;
     right: 20px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    background: #f1f1f1;
+    background: linear-gradient(135deg, #f1f1f1, #e0e0e0);
     border: 0;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,.2);
-    transition: all .3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease, transform 0.2s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0
+    padding: 0;
+    z-index: 9999;
 }
 
 .theme-toggle i {
-    font-size: 18px;
-    line-height: 1
+    font-size: 22px;
+    line-height: 1;
+    color: #333;
+    transition: color 0.3s ease;
 }
 
 .theme-toggle:hover {
-    color: var(--accent-color);
-    transform: rotate(360deg)
+    background: linear-gradient(135deg, rgb(0, 174, 255), #0077cc);
+    color: #fff;
+    transform: rotate(360deg) scale(1.1); 
 }
 
-.dark-theme .theme-toggle {
-    background: #2c3e50;
-    color: #fff
+.theme-toggle:active {
+    background: linear-gradient(135deg, #0077cc, rgb(0, 174, 255));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95); 
+}
+
+body.dark-theme .theme-toggle {
+    background: linear-gradient(135deg, #333, #555); 
+    color: #f1f1f1;
+}
+
+body.dark-theme .theme-toggle:hover {
+    background: linear-gradient(135deg, #555, #777);
+}
+.theme-toggle.bouncing {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 @keyframes fadeIn {
@@ -1130,7 +1164,6 @@ body.dark-theme {
 .author-box {
 	text-align: center;
 	position: absolute;
-	bottom: 0;
 	width: 100%;
 }
 
@@ -1238,4 +1271,884 @@ body.dark-theme {
 .dark-theme .author-credit a:hover {
 	color: inherit !important;
 	text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+
+
+
+
+
+
+
+
+/* Отображение предметов */
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1.5rem;
+}
+
+.atropos {
+    width: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: iconFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    pointer-events: none;
+    perspective: 800px;
+}
+
+
+
+.atropos:nth-child(n) {
+    animation-delay: calc(var(--index) * 0.1s);
+}
+
+.atropos-inner {
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(250, 250, 250, 0.95));
+    padding: 2rem;
+    border: 1px solid rgba(230, 230, 230, 0.5);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+    transition: all 0.3s ease;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.atropos-inner:hover {
+    animation: rgbGlow 8s linear infinite;
+}
+
+/* Уменьшаем максимальный угол поворота в Atropos */
+.atropos-rotate {
+    transform: rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg)) !important;
+    /* Ограничиваем максимальный поворот */
+    --rotateX: clamp(-5deg, var(--raw-rotateX), 5deg);
+    --rotateY: clamp(-5deg, var(--raw-rotateY), 5deg);
+}
+
+/* Оптимизируем производительность */
+.atropos-scale {
+    transform: scale(1) !important;
+    will-change: transform;
+}
+
+@keyframes rgbGlow {
+    0% { box-shadow: 0 0 20px rgba(0, 140, 255, 0.3); }
+    33% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+    66% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
+    100% { box-shadow: 0 0 20px rgba(0, 140, 255, 0.3); }
+}
+
+
+/* Улучшаем качество текста при трансформациях */
+.item-card-title,
+.item-card-description,
+.stat-badge {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* Изображение предмета */
+.item-card-image {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
+    transition: transform 0.3s ease;
+    animation: iconFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Плавная анимация появления с мягкими эффектами */
+@keyframes iconFadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(100px);
+        transform: scale(0.6) translateY(20px);
+    }
+    60% {
+        opacity: 0.6;
+        filter: blur(30px);
+        transform: scale(0.9) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        filter: none;
+        transform: scale(1) translateY(0);
+    }
+}
+
+
+/* Задержка для каждой иконки */
+.atropos:nth-child(n) .item-card-image {
+    animation-delay: calc(var(--index) * 0.1s + 0.2s);
+}
+
+/* Классовые подсветки */
+/* Одиночные классы */
+.item-card-image[data-class="0"] { /* Нет класса */
+    box-shadow: 0 4px 20px rgba(128, 128, 128, 0.4);
+}
+
+.item-card-image[data-class="1"] { /* Рыцарь */
+    box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4);
+}
+
+.item-card-image[data-class="2"] { /* Рейнджер */
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4);
+}
+
+.item-card-image[data-class="4"] { /* Маг */
+    box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4);
+}
+
+.item-card-image[data-class="8"] { /* Ассасин */
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4),
+                0 4px 40px rgba(0, 0, 0, 0.6);
+}
+
+.item-card-image[data-class="16"] { /* Призыватель */
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4);
+}
+
+/* Двойные комбинации */
+.item-card-image[data-class="5"] { /* Рыцарь + Маг */
+    animation: knightMageShadow 3s linear infinite;
+}
+
+.item-card-image[data-class="18"] { /* Рейнджер + Призыватель */
+    animation: rangerSummonerShadow 3s linear infinite;
+}
+
+.item-card-image[data-class="20"] { /* Маг + Призыватель */
+    animation: mageSummonerShadow 3s linear infinite;
+}
+
+/* Тройные комбинации */
+.item-card-image[data-class="7"] { /* Рыцарь + Рейнджер + Маг */
+    animation: tripleKnightRangerMageShadow 4s linear infinite;
+}
+
+.item-card-image[data-class="19"] { /* Рыцарь + Рейнджер + Призыватель */
+    animation: tripleKnightRangerSummonerShadow 4s linear infinite;
+}
+
+.item-card-image[data-class="22"] { /* Рейнджер + Маг + Призыватель */
+    animation: tripleRangerMageSummonerShadow 4s linear infinite;
+}
+
+/* Четверные комбинации */
+.item-card-image[data-class="15"] { /* Рыцарь + Рейнджер + Маг + Ассасин */
+    animation: quadKnightRangerMageAssassinShadow 5s linear infinite;
+}
+
+.item-card-image[data-class="23"] { /* Рыцарь + Рейнджер + Маг + Призыватель */
+    animation: quadKnightRangerMageSummonerShadow 5s linear infinite;
+}
+
+/* Все классы */
+.item-card-image[data-class="255"] { /* Все классы */
+    animation: allClassesShadow 6s linear infinite;
+}
+
+/* Анимации для комбинаций */
+@keyframes knightMageShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); } /* Рыцарь */
+    50% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); } /* Маг */
+}
+
+@keyframes rangerSummonerShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); } /* Рейнджер */
+    50% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); } /* Призыватель */
+}
+
+@keyframes mageSummonerShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); } /* Маг */
+    50% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); } /* Призыватель */
+}
+
+@keyframes tripleKnightRangerMageShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); } /* Рыцарь */
+    33% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); } /* Рейнджер */
+    66% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); } /* Маг */
+}
+
+@keyframes tripleKnightRangerSummonerShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); } /* Рыцарь */
+    33% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); } /* Рейнджер */
+    66% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); } /* Призыватель */
+}
+
+@keyframes tripleRangerMageSummonerShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); } /* Рейнджер */
+    33% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); } /* Маг */
+    66% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); } /* Призыватель */
+}
+
+@keyframes quadKnightRangerMageAssassinShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); } /* Рыцарь */
+    25% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); } /* Рейнджер */
+    50% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); } /* Маг */
+    75% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6); } /* Ассасин */
+}
+
+@keyframes quadKnightRangerMageSummonerShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); } /* Рыцарь */
+    25% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); } /* Рейнджер */
+    50% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); } /* Маг */
+    75% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); } /* Призыватель */
+}
+
+@keyframes allClassesShadow {
+    0%, 100% { box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); } /* Рыцарь */
+    20% { box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); } /* Рейнджер */
+    40% { box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); } /* Маг */
+    60% { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6); } /* Ассасин */
+    80% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); } /* Призыватель */
+}
+
+.item-card-image img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.item-card-image:hover img {
+    transform: scale(2);
+}
+
+.item-card-id {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.15), rgba(74, 158, 255, 0.1));
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #2c5282;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(74, 158, 255, 0.2);
+}
+
+/* Название предмета */
+.item-card-title {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+    z-index: 10;
+}
+
+/* Характеристики */
+.stat-badges {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+}
+
+/* Общие стили для stat-badge */
+.stat-badge {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #4a5568;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Светлая тема */
+.light-theme .stat-badge {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.light-theme .stat-badge:hover {
+    transform: translateY(-2px);
+    background: rgba(74, 158, 255, 0.1);
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Темная тема */
+.dark-theme .stat-badge {
+    background: rgba(30, 31, 35, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: none;
+}
+
+.dark-theme .stat-badge:hover {
+    transform: translateY(-2px);
+    background: rgba(74, 158, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Описание предмета */
+.item-card-description {
+    margin-top: 1.5rem;
+    padding-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4a5568;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    
+}
+
+.item-card-description.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.atropos-active .item-card-description {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Темная тема */
+.dark-theme .atropos-inner {
+    background: linear-gradient(145deg, rgba(40, 41, 45, 0.97), rgba(30, 31, 35, 0.95));
+    border-color: rgba(144, 202, 249, 0.2);
+}
+
+.dark-theme .item-card-id {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.05));
+    color: #bbdefb;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .item-card-title a {
+    color: #90caf9;
+}
+
+.dark-theme .stat-badge {
+    background: rgba(255, 255, 255, 0.05);
+    color: #90caf9;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .item-card-description {
+    color: #b0bec5;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+/* Glassmorphism 2.0 с variable blur */
+.dark-theme .atropos-inner {
+    background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.03)
+    );
+    backdrop-filter: blur(var(--blur-strength, 10px));
+    -webkit-backdrop-filter: blur(var(--blur-strength, 10px));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.1),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.light-theme .atropos-inner {
+    background: linear-gradient(145deg, 
+        rgba(0, 0, 0, 0.05), 
+        rgba(0, 0, 0, 0.02)
+    );
+    backdrop-filter: blur(var(--blur-strength, 10px));
+    -webkit-backdrop-filter: blur(var(--blur-strength, 10px));
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(31, 38, 135, 0.05),
+        0 4px 8px rgba(0, 0, 0, 0.02);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+.atropos-inner:hover {
+    --blur-strength: 15px;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Claymorphism для бейджей */
+.stat-badge {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 
+        -8px -8px 16px rgba(255, 255, 255, 0.5),
+        8px 8px 16px rgba(0, 0, 0, 0.03),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.5),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-badge:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 
+        -12px -12px 20px rgba(255, 255, 255, 0.5),
+        12px 12px 20px rgba(0, 0, 0, 0.03),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.5),
+        inset -3px -3px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* Современный градиент с шумом */
+.atropos-inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.1;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    border-radius: inherit;
+}
+
+/* Магнитный эффект для иконок */
+.item-card-image {
+    cursor: none;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (hover: hover) {
+    .item-card-image::after {
+        content: '';
+        position: absolute;
+        inset: -50px;
+        background: radial-gradient(
+            circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(255, 255, 255, 0.1),
+            transparent 50%
+        );
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+
+    .item-card-image:hover::after {
+        opacity: 1;
+    }
+}
+
+/* описания */
+.item-card-description {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(74, 158, 255, 0.3) transparent;
+}
+
+.item-card-description::-webkit-scrollbar {
+    width: 6px;
+}
+
+.item-card-description::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.item-card-description::-webkit-scrollbar-thumb {
+    background: rgba(74, 158, 255, 0.3);
+    border-radius: 3px;
+    transition: background 0.3s;
+}
+
+.item-card-description::-webkit-scrollbar-thumb:hover {
+    background: rgba(74, 158, 255, 0.5);
+}
+
+/* Динамический текст */
+.item-card-title a {
+    background-image: linear-gradient(
+        90deg,
+        var(--text-color) 0%,
+        var(--text-color) 50%,
+        var(--accent-color) 50%,
+        var(--accent-color) 100%
+    );
+    background-size: 200% 100%;
+    background-position: 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    color:rgb(30, 30, 30);
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    pointer-events: all;
+}
+
+.item-card-title a:hover {
+    background-position: 0%;
+    background: rgba(74, 158, 255, 0.05); /* Снижена прозрачность */
+    color: #2c5282;
+}
+
+
+/* Темная тема */
+
+.dark-theme .item-card-title a:hover {
+    background-position: 0%;
+    background: rgba(74, 158, 255, 0.1); /* Снижена прозрачность */
+    color: #2c5282;
+}
+
+
+
+/* Анимированные границы */
+@property --angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes rotate {
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* Эффекты свечения для классов */
+.atropos-inner {
+    position: relative;
+    overflow: visible !important;
+}
+
+.atropos-inner::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    animation: rotate 6s linear infinite;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.atropos-inner:hover::after {
+    opacity: 1;
+}
+
+/* Индивидуальные стили для каждого класса */
+/* Нет класса */
+.atropos-inner[data-class="0"] {
+    box-shadow: 0 8px 32px rgba(128, 128, 128, 0.1);
+}
+.atropos-inner[data-class="0"]:hover {
+    box-shadow: 0 8px 32px rgba(128, 128, 128, 0.3);
+}
+.atropos-inner[data-class="0"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(128, 128, 128, 0),
+        rgba(128, 128, 128, 0.2) 25%,
+        rgba(128, 128, 128, 0.4) 50%,
+        rgba(128, 128, 128, 0.2) 75%,
+        rgba(128, 128, 128, 0)
+    );
+}
+
+/* Рыцарь */
+.atropos-inner[data-class="1"] {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.1);
+}
+.atropos-inner[data-class="1"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.3);
+}
+.atropos-inner[data-class="1"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 140, 255, 0),
+        rgba(0, 140, 255, 0.2) 25%,
+        rgba(0, 140, 255, 0.4) 50%,
+        rgba(0, 140, 255, 0.2) 75%,
+        rgba(0, 140, 255, 0)
+    );
+}
+
+/* Рейнджер */
+.atropos-inner[data-class="2"] {
+    box-shadow: 0 8px 32px rgba(0, 255, 0, 0.1);
+}
+.atropos-inner[data-class="2"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 255, 0, 0.3);
+}
+.atropos-inner[data-class="2"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 255, 0, 0),
+        rgba(0, 255, 0, 0.2) 25%,
+        rgba(0, 255, 0, 0.4) 50%,
+        rgba(0, 255, 0, 0.2) 75%,
+        rgba(0, 255, 0, 0)
+    );
+}
+
+/* Маг */
+.atropos-inner[data-class="4"] {
+    box-shadow: 0 8px 32px rgba(255, 255, 0, 0.1);
+}
+.atropos-inner[data-class="4"]:hover {
+    box-shadow: 0 8px 32px rgba(255, 255, 0, 0.3);
+}
+.atropos-inner[data-class="4"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(255, 255, 0, 0),
+        rgba(255, 255, 0, 0.2) 25%,
+        rgba(255, 255, 0, 0.4) 50%,
+        rgba(255, 255, 0, 0.2) 75%,
+        rgba(255, 255, 0, 0)
+    );
+}
+
+/* Ассасин */
+.atropos-inner[data-class="8"] {
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+}
+.atropos-inner[data-class="8"]:hover {
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
+}
+.atropos-inner[data-class="8"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.2) 25%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0.2) 75%,
+        rgba(255, 255, 255, 0)
+    );
+}
+
+/* Призыватель */
+.atropos-inner[data-class="16"] {
+    box-shadow: 0 8px 32px rgba(255, 0, 0, 0.1);
+}
+.atropos-inner[data-class="16"]:hover {
+    box-shadow: 0 8px 32px rgba(255, 0, 0, 0.3);
+}
+.atropos-inner[data-class="16"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(255, 0, 0, 0),
+        rgba(255, 0, 0, 0.2) 25%,
+        rgba(255, 0, 0, 0.4) 50%,
+        rgba(255, 0, 0, 0.2) 75%,
+        rgba(255, 0, 0, 0)
+    );
+}
+
+/* Комбинированные классы */
+/* Например, Рыцарь + Маг (5) */
+.atropos-inner[data-class="5"] {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.1);
+}
+.atropos-inner[data-class="5"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.3);
+}
+.atropos-inner[data-class="5"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 140, 255, 0),
+        rgba(255, 255, 0, 0.2) 25%,
+        rgba(0, 140, 255, 0.4) 50%,
+        rgba(255, 255, 0, 0.2) 75%,
+        rgba(0, 140, 255, 0)
+    );
+}
+
+/* Рыцарь, Рейнджер, Маг (7) */
+.atropos-inner[data-class="7"] {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.1);
+}
+.atropos-inner[data-class="7"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.3);
+}
+.atropos-inner[data-class="7"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 140, 255, 0),
+        rgba(0, 255, 0, 0.2) 33%,
+        rgba(255, 255, 0, 0.4) 66%,
+        rgba(0, 140, 255, 0.2) 100%
+    );
+}
+
+/* Рыцарь, Рейнджер, Маг, Ассасин (15) */
+.atropos-inner[data-class="15"] {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.1);
+}
+.atropos-inner[data-class="15"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.3);
+}
+.atropos-inner[data-class="15"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 140, 255, 0),
+        rgba(0, 255, 0, 0.2) 25%,
+        rgba(255, 255, 0, 0.3) 50%,
+        rgba(255, 255, 255, 0.4) 75%,
+        rgba(0, 140, 255, 0)
+    );
+}
+
+/* Рейнджер, Призыватель (18) */
+.atropos-inner[data-class="18"] {
+    box-shadow: 0 8px 32px rgba(0, 255, 0, 0.1);
+}
+.atropos-inner[data-class="18"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 255, 0, 0.3);
+}
+.atropos-inner[data-class="18"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 255, 0, 0),
+        rgba(255, 0, 0, 0.2) 50%,
+        rgba(0, 255, 0, 0.4) 100%
+    );
+}
+
+/* Рыцарь, Рейнджер, Призыватель (19) */
+.atropos-inner[data-class="19"] {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.1);
+}
+.atropos-inner[data-class="19"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.3);
+}
+.atropos-inner[data-class="19"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 140, 255, 0),
+        rgba(0, 255, 0, 0.2) 33%,
+        rgba(255, 0, 0, 0.4) 66%,
+        rgba(0, 140, 255, 0)
+    );
+}
+
+/* Маг, Призыватель (20) */
+.atropos-inner[data-class="20"] {
+    box-shadow: 0 8px 32px rgba(255, 255, 0, 0.1);
+}
+.atropos-inner[data-class="20"]:hover {
+    box-shadow: 0 8px 32px rgba(255, 255, 0, 0.3);
+}
+.atropos-inner[data-class="20"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(255, 255, 0, 0),
+        rgba(255, 0, 0, 0.2) 50%,
+        rgba(255, 255, 0, 0.4) 100%
+    );
+}
+
+/* Рейнджер, Маг, Призыватель (22) */
+.atropos-inner[data-class="22"] {
+    box-shadow: 0 8px 32px rgba(0, 255, 0, 0.1);
+}
+.atropos-inner[data-class="22"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 255, 0, 0.3);
+}
+.atropos-inner[data-class="22"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 255, 0, 0),
+        rgba(255, 255, 0, 0.2) 33%,
+        rgba(255, 0, 0, 0.4) 66%,
+        rgba(0, 255, 0, 0)
+    );
+}
+
+/* Рыцарь, Рейнджер, Маг, Призыватель (23) */
+.atropos-inner[data-class="23"] {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.1);
+}
+.atropos-inner[data-class="23"]:hover {
+    box-shadow: 0 8px 32px rgba(0, 140, 255, 0.3);
+}
+.atropos-inner[data-class="23"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 140, 255, 0),
+        rgba(0, 255, 0, 0.2) 25%,
+        rgba(255, 255, 0, 0.3) 50%,
+        rgba(255, 0, 0, 0.4) 75%,
+        rgba(0, 140, 255, 0)
+    );
+}
+
+/* Все классы (255) */
+.atropos-inner[data-class="255"] {
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+}
+.atropos-inner[data-class="255"]:hover {
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
+}
+.atropos-inner[data-class="255"]::after {
+    background: conic-gradient(
+        from var(--angle),
+        rgba(0, 140, 255, 0),
+        rgba(0, 255, 0, 0.2) 20%,
+        rgba(255, 255, 0, 0.3) 40%,
+        rgba(255, 255, 255, 0.4) 60%,
+        rgba(255, 0, 0, 0.3) 80%,
+        rgba(0, 140, 255, 0)
+    );
+}
+
+
+
+
+
+/* Светлая тема */
+.light-theme .atropos-inner {
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 250, 0.9));
+    border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Темная тема */
+.dark-theme .atropos-inner {
+    background: linear-gradient(145deg, rgba(40, 41, 45, 0.9), rgba(30, 31, 35, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* Обеспечиваем видимость контента во время переключения */
+.atropos-inner * {
+    transition: color 0.3s ease,
+                background-color 0.3s ease;
+}
+
+/* Исправляем z-index для карточек во время переключения */
+.atropos {
+    z-index: 1;
+    position: relative;
+}
+
+/* Улучшаем видимость контента в темной теме */
+.dark-theme .item-card-title a,
+.dark-theme .item-card-description,
+.dark-theme .stat-badge {
+    color: rgba(255, 255, 255, 0.9);
 }

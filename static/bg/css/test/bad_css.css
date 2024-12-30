@@ -1,589 +1,1193 @@
+/* Root variables */
+:root {
+    --primary-gradient: #000000;
+    --primary-color: #000000;
+    --accent-color: #2196F3;
+    --bg-module-light: rgba(30, 60, 114, 0.05);
+    --success-color: #0bb917;
+    --danger-color: #dc3545;
+    --info-color: #007bff;
+    --warning-color: #ffd966;
 
+    --bg-light: #ffffff;
+    --bg-dark: #1a1a1a;
+    --text-light: #333333;
+    --text-dark: #000000;
+    --text-muted: #666;
+    --border-color: rgba(30, 60, 114, 0.1);
 
-    script {
-        display: none;
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+    --transition-base: all 0.3s ease;
+}
+
+/* Base styles */
+body {
+    padding: 20px;
+    font-family: "Didact Gothic", sans-serif;
+    background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    perspective: 1000px;
+    overflow-x: hidden;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Fixed position containers */
+.back-button-container,
+.theme-toggle-container {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 20px;
+    z-index: 9999;
+    width: fit-content;
+}
+
+.back-button-container {
+    top: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: -60px;
+}
+
+.theme-toggle-container {
+    bottom: 20px;
+    margin-top: auto;
+}
+
+/* Buttons */
+.theme-toggle,
+.back-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 40px;
+    max-height: 40px;
+}
+
+/* Кнопка переключения темы */
+.theme-toggle i {
+    font-size: 22px;
+    line-height: 1;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: linear-gradient(135deg, rgb(0, 174, 255), #0077cc);
+    color: #fff;
+    transform: rotate(360deg) scale(1.1);
+}
+
+.theme-toggle:active {
+    background: linear-gradient(135deg, #0077cc, rgb(0, 174, 255));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+}
+
+body.dark-theme .theme-toggle {
+    background: linear-gradient(135deg, #333, #555);
+    color: #f1f1f1;
+}
+
+body.dark-theme .theme-toggle:hover {
+    background: linear-gradient(135deg, #555, #777);
+}
+.theme-toggle.bouncing {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
     }
-
-    /* Dark Theme */
-    :root {
-
-
-
-
-    /* Light Theme */
-    body {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        min-height: 100vh;
-        margin: 0;
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center;
-        background-size: cover;
+    50% {
+        transform: translateY(-5px);
     }
+}
 
-    /* Header styles */
-    h1 {
-        margin-bottom: 20px;
-        text-align: center;
-        color: #333;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        animation: fadeIn 1s ease-in-out;
-    }
+.back-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
 
-    /* Table styles */
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
+.back-button:hover {
+    background-color:rgba(0, 158, 250, 0.77);
+    transform: translateX(-5px);
+}
 
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        animation: fadeIn 1s;
-        table-layout: fixed;
-    }
+.back-button:active {
+    background-color:rgb(0, 158, 250);
+    transform: translateX(-5px);
+}
 
-    .table th,
-    .table td {
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        font-size: 14px;
-        text-align: center;
-        vertical-align: middle;
-    }
+/* Images and containers */
+img {
+    transition: transform 0.3s ease;
+}
 
-    .table th {
-        background-color: #343a40;
-        color: #fff;
-        font-weight: bold;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
+img:hover {
+    transform: scale(1.1);
+}
 
-    .table-hover tbody tr:hover {
-        background-color: rgba(0,0,0,0.075);
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
+.container {
+    padding: 20px;
+    margin: 0 auto;
+}
 
-    /* Menu styles */
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95) !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-        border-radius: 16px;
-        margin: 1rem;
-    }
+.monster-viewer-container {
+    width: 100%;
+    height: 600px;
+    margin: 10px 0;
+    position: relative;
+}
 
-    .dropdown-menu {
-        display: none;
-        background-color: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-top: 0;
-        padding: 8px 0;
-        border: none;
-        border-radius: 0 0 8px 8px;
-    }
+.monster-viewer-container model-viewer {
+    width: 100%;
+    height: 100%;
+}
 
-    .nav-item.dropdown {
-        position: relative;
-    }
+/* Progress bars */
+.progress-bar {
+    position: relative;
+    overflow: hidden;
+    color: black;
+    font-weight: bold;
+}
 
-    .nav-item.dropdown::after {
-        content: '';
-        position: absolute;
-        height: 20px;
-        width: 100%;
-        bottom: -20px;
-        left: 0;
-        z-index: 1000;
-    }
+.exp-bar { background-color: var(--success-color); }
+.health-bar { background-color: var(--danger-color); }
+.mana-bar { background-color: var(--info-color); }
+.chaotic-bar { background-color: var(--warning-color); }
 
-    .dropdown-item {
-        padding: 8px 16px;
-        transition: all 0.3s;
-    }
+.progress-bar:hover {
+    color: white;
+    background: linear-gradient(
+        to right,
+        #d35151, #e07b45, #e6b05c, #a8c573,
+        #7fb5b5, #6d8bd5, #8b7abd, #c06c96,
+        #d3867d, #b88c5d, #7c9f98, #7d88a5,
+        #a17c93, #b67a7a
+    );
+    background-size: 200% auto;
+    animation: rainbow 2s linear infinite;
+}
 
-    .dropdown-item:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.2) 50%,
+        rgba(255,255,255,0) 100%);
+    animation: shimmer 2s infinite;
+}
 
-    .dropdown-item img {
-        height: 24px;
-        width: 24px;
-        margin-right: 8px;
-        opacity: 0;
-        transition: opacity 0.3s, transform 0.3s;
-        transform: translateX(-10px);
-    }
+/* Monster title */
+.monster-title {
+    position: relative;
+    overflow: visible;
+}
 
-    .dropdown-item:hover img {
+.monster-title::before,
+.monster-title::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), transparent);
+}
+
+.monster-title::before {
+    left: -40px;
+    transform: translateY(-50%);
+}
+
+.monster-title::after {
+    right: -40px;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Animations */
+.fadeIn {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+    font-family: "Didact Gothic", sans-serif;
+}
+
+@keyframes fadeIn {
+    to {
         opacity: 1;
-        transform: translateX(0);
+        transform: translateY(0);
     }
+}
 
-    /* Search styles */
-    .search-container {
-        max-width: 600px;
-        margin: 0 auto 20px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+@keyframes rainbow {
+    0% { background-position: 100% center; }
+    100% { background-position: -100% center; }
+}
 
-    .search-input {
-        width: 100%;
-        padding: 12px 20px;
-        border: 2px solid #ddd;
-        border-radius: 25px;
-        transition: all 0.3s;
-        font-size: 16px;
-        background: white;
-    }
+@keyframes shimmer {
+    100% { left: 100%; }
+}
 
-    .search-input:focus {
-        border-color: #2196F3;
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-        outline: none;
-    }
+/* Sequential fadeIn delays */
+.fadeIn:nth-child(1) { animation-delay: 0.1s; }
+.fadeIn:nth-child(2) { animation-delay: 0.2s; }
+.fadeIn:nth-child(3) { animation-delay: 0.3s; }
+.fadeIn:nth-child(4) { animation-delay: 0.4s; }
+.fadeIn:nth-child(5) { animation-delay: 0.5s; }
 
-    /* Image zoom */
-    .item-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
+/* Module and Skills Components */
+.skill-section,
+.module-section {
+    margin-bottom: 2rem;
+}
 
-    .item-image:hover {
-        transform: scale(2);
-        z-index: 100;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
+.section-star {
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
 
-    /* Animations */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center; /* Выравнивание текста по центру */
+    margin: 0 auto; /* Центрирование самого блока */
+    display: flex; /* Для возможности центрирования содержимого */
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+}
 
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+.abnormal-content,
+.module-content,
+.skill-content {
+    border-radius: 10px;
+    padding: 1.5rem;
+}
 
-    /* Export button */
-    .export-btn {
-        padding: 10px 20px; /* Увеличено для лучшего визуального эффекта */
-        background: linear-gradient(145deg, #1976D2, #1565C0); /* Градиентный фон */
-        color: white;
-        border: none;
-        border-radius: 8px; /* Закругленные углы */
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
-        margin-bottom: 10px;
+.abnormal-desc,
+.module-desc,
+.skill-desc {
+    font-size: 1.0rem;
+    line-height: 1.5;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+}
+
+.module-header {
+    margin-bottom: 1.5rem;
+}
+
+.module-type {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.stat-row:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-weight: 500;
+    text-align: left;
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.module-params {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.params-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.item-row {
+    display: grid;
+    grid-template-columns: 32px minmax(200px, 1fr) auto auto;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0.75rem;
+    margin: 0;
+}
+
+.item-row .item-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.item-row .item-name {
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+.item-row .stat-value {
+    min-width: 80px;
+    text-align: right;
+    padding-right: 0.5rem;
+}
+
+.item-row:hover {
+    background: rgba(30, 60, 114, 0.05);
+}
+
+.dark-theme .item-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Для блока характеристик / OFF FOR NOW! changed for stat-grid  */
+.skill-stats .stat-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    padding: 0.75rem;
+}
+
+.skill-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.item-icon,
+.class-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.main-skill-icon {
+    max-width: 64px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.item-name {
+    flex: 1;
+    text-align: left;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.item-name:hover {
+    text-decoration: underline;
+}
+
+.item-level {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.skill-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+/* Для блока инфо монстров */
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.stat-grid .stat-row {
+    display: contents;
+}
+
+.stat-grid .stat-label,
+.stat-grid .stat-value {
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(30, 60, 114, 0.1);
+}
+
+.stat-grid .stat-label {
+    text-align: left;
+    color: #666;
+}
+
+.stat-grid .stat-value {
+    text-align: right;
+    font-weight: 500;
+}
+
+.dark-theme .stat-grid .stat-label {
+    color: #aaa;
+}
+
+.dark-theme .stat-grid .stat-row {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+
+
+/* Utility classes */
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+.text-center { text-align: center; }
+
+/* Dark theme */
+.dark-theme {
+    --bg-light: rgba(255, 255, 255, 0.05);
+    --bg-module-light: rgba(255, 255, 255, 0.05);
+    --text-dark: #e0e0e0;
+    --text-muted: #aaa;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --primary-color: #ffffff;
+}
+
+.dark-theme .abnormal-desc,
+.dark-theme .module-desc,
+.dark-theme .skill-desc {
+    color: var(--text-dark);
+}
+
+.dark-theme .item-name,
+.dark-theme .stat-value,
+.dark-theme .module-type,
+.dark-theme .params-title {
+    color: var(--text-dark);
+}
+
+.dark-theme .stat-label,
+.dark-theme .item-level {
+    color: var(--text-muted);
+}
+
+.dark-theme .abnormal-content,
+.dark-theme .module-content,
+.dark-theme .skill-content {
+
+}
+
+.dark-theme .section-title {
+    background: linear-gradient(135deg, #4a90e2 0%, #87ceeb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-align: center; /* Выравнивание текста по центру */
+    margin: 0 auto; /* Центрирование самого блока */
+    display: flex; /* Для возможности центрирования содержимого */
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+}
+
+body.dark-theme {
+    background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
+    color: var(--text-dark);
+}
+.dark-theme h1,
+.dark-theme h2,
+.dark-theme p {
+    color: rgba(255, 255, 255, 0.9) !important; 
+}
+
+
+.dark-theme .monster-title {
+    background: linear-gradient(135deg, #4a90e2 0%, #87ceeb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: none;
+}
+
+.dark-theme .back-button {
+    background-color: #2c3e50;
+}
+
+.dark-theme .back-button:hover {
+    background-color: #34495e;
+}
+
+.dark-theme .back-button:active {
+    background-color:rgba(52, 73, 94, 0.53);
+}
+
+.dark-theme a {
+    color: #FFF5E6 !important;
+    text-decoration: none !important;
+}
+
+.dark-theme a:hover {
+    color: #FFE4B5 !important;
+    text-decoration: underline !important;
+}
+
+.dark-theme .monster-viewer-container {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.dark-theme p[style*="display: flex"] {
+    padding: 7px;
+    border-radius: 4px;
+    margin: 1px 0;
+}
+
+.dark-theme p[style*="display: flex"]:hover {
+    background: rgba(52, 73, 94, 0.7);
+}
+
+.dark-theme .progress {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .progress-bar::after {
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0) 100%);
+}
+/* ---------  */
+
+
+
+
+
+
+/* Главное название монстра или предмета  */
+.monster-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding: 20px 30px;
+    margin: 20px 0;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-block;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    overflow: visible;
+}
+
+.monster-title-text {
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1), -1px -1px 0px rgba(255, 255, 255, 0.1);
+}
+
+.monster-title-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 110%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+    filter: blur(5px);
+    z-index: 0;
+}
+/* ---------  */
+
+
+
+
+/* ---------  */
+
+.col-12.col-md-6 {
+    max-width: 500px; /* или другое подходящее значение */
+    margin: 0 auto;
+}
+/* ---------  */
+
+
+
+
+
+
+/* Spoiler styles /
+/* Base styles */
+.skill-section {
+    margin-bottom: 2rem;
+}
+
+.skill-header,
+.abnormal-primary-info,
+.abnormal-details-info {
+    border-radius: 10px;
+    background: rgba(50, 50, 50, 0.1);
+}
+/* ---------  */
+
+/* Header styles */
+.skill-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.skill-header:hover {
+    background: rgba(30, 60, 114, 0.1);
+}
+
+.dark-theme .skill-header:hover,
+.dark-theme .abnormal-primary-info,
+.dark-theme .abnormal-details-info {
+    background: rgba(50, 50, 50, 0.1);
+}
+/* ---------  */
+
+/* Title and toggle styles */
+.skill-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.skill-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skill-toggle::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top: 8px solid var(--text-dark);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skill-section.collapsed .skill-toggle::before {
+    transform: rotate(-90deg);
+}
+/* ---------  */
+
+/* Content styles */
+.skill-content-wrapper {
+    transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-y: scroll; /* Add vertical scrollbar */
+    scrollbar-width: none;
+    border-radius: 8px;
+    background: var(--bg-module-light);
+    margin-top: 8px;
+}
+
+.skill-content-wrapper::-webkit-scrollbar {
+    display: none; /* Скрыть скроллбар в Chrome, Safari и Edge */
+}
+
+.skill-content {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.skill-section.collapsed {
+    .skill-content-wrapper {
+        height: 0 !important;
+        overflow: hidden;
     }
     
-    .export-btn:hover {
-        background: linear-gradient(145deg, #2196F3, #1976D2); /* Более светлый градиент при наведении */
-        transform: translateY(-5px); /* Легкое поднятие */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Увеличенная тень */
-    }
-    
-    .export-btn:active {
-        background: linear-gradient(145deg, #1565C0, #0D47A1); /* Тёмный градиент при нажатии */
-        transform: translateY(0); /* Убираем эффект поднятия */
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Легкая тень при нажатии */
-    }
-    
-
-    /* Responsive styles */
-    @media (max-width: 768px) {
-        .dropdown-menu {
-            position: static;
-            float: none;
-            width: 100%;
-            margin-top: 0;
-            background-color: #f8f9fa;
-            border: none;
-            box-shadow: none;
-        }
-
-        .nav-item.dropdown::after {
-            display: none;
-        }
-    }
-
-
-
-
-    /* Dark Theme */
-    :root {
-        --bg-light: #ffffff;
-        --text-light: #333333;
-        --bg-dark: #1a1a1a;
-        --text-dark: #ffffff;
-    }
-
-    body.dark-theme {
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
-        color: var(--text-dark);
-    }
-
-    .dark-theme .table-wrapper {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .table th {
-        background-color: #2c3e50;
-    }
-
-    .dark-theme .table td {
-        border-color: #2c3e50;
-        color: white;
-    }
-
-    .dark-theme .search-container {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .search-input {
-        background: #2c3e50;
-        color: white;
-        border-color: #34495e;
-    }
-
-    /* Кнопка переключения темы */
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;  /* Фиксированная ширина */
-        height: 40px; /* Фиксированная высота */
-        border-radius: 50%;
-        background: #f1f1f1;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;           /* Для центрирования иконки */
-        align-items: center;     /* Центрирование по вертикали */
-        justify-content: center; /* Центрирование по горизонтали */
-        padding: 0;             /* Убираем padding */
-    }
-
-    .theme-toggle i {
-        font-size: 18px;    /* Размер иконки */
-        line-height: 1;     /* Убираем дополнительное пространство */
-    }
-
-    .dark-theme .theme-toggle {
-        background: #2c3e50;
-        color: white;
-    }
-
-    /* Добавляем белый цвет для всего текста в темной теме */
-    .dark-theme h1,
-    .dark-theme p,
-    .dark-theme label,
-    .dark-theme .table,
-    .dark-theme .dropdown-item,
-    .dark-theme .navbar-light .navbar-nav .nav-link {
-        color: white !important;
-    }
-
-    /* Изменяем цвет фона для меню в темной теме */
-    .dark-theme .navbar {
-        background-color: rgba(40, 40, 40, 0.95) !important;
-    }
-
-    .dark-theme .dropdown-menu {
-        background-color: rgba(40, 40, 40, 0.95);
-    }
-
-    /* Добавляем стили для navbar и пагинации в темной теме */
-    .dark-theme .navbar-light .navbar-brand,
-    .dark-theme .navbar-light .navbar-nav .nav-link,
-    .dark-theme .navbar-light .navbar-text {
-        color: white !important;
-    }
-
-    /* Стили для пагинации в темной теме */
-    .dark-theme .page-link {
-        background-color: #2c3e50 !important;
-        border-color: #34495e !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.active .page-link {
-        background-color: #3498db !important;
-        border-color: #3498db !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.disabled .page-link {
-        background-color: #1a1a1a !important;
-        border-color: #34495e !important;
-        color: #6c757d !important;
-    }
-
-    .dark-theme a {
-        color: #FFF5E6 !important; /* Кремово-белый цвет */
-    }
-
-    .dark-theme a:hover {
-        color: #FFE4B5 !important; /* Чуть темнее оттенок при наведении */
-        text-decoration: underline !important;
-    }
-
-    /* Hover эффект для пагинации */
-    .dark-theme .page-link:hover {
-        background-color: #34495e !important;
-        border-color: #2c3e50 !important;
-        color: white !important;
-    }
-
-    /* Стили для активной страницы */
-    .dark-theme .page-item.active .page-link:hover {
-        background-color: #2980b9 !important;
-        border-color: #2980b9 !important;
-    }
-
-
-
-
-    /* Skill image and hover text */
-
-    .hover-text-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .abnormal-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .item-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-        .monster-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .hover-text {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 4px;
-        font-size: 14px;
-        width: max-content;
-        max-width: 200px;
-        z-index: 1001;
+    .skill-content {
         opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        margin-top: 10px;
-        text-align: left;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        transform: translateY(-10px);
     }
+}
+/* ---------  */
 
-    .hover-text-wrapper:hover .abnormal-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .item-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .monster-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
 
-    .hover-text-wrapper:hover .hover-text {
-        opacity: 1;
-        visibility: visible;
-    }
+/* Abnormal info styles */
+.abnormal-primary-info {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+}
 
-    /* Dark theme support for hover text */
-    .dark-theme .hover-text {
-        background: rgba(44, 62, 80, 0.95);
+.abnormal-details-info {
+    padding: 1.5rem;
+}
+
+.abnormal-desc {
+    margin-bottom: 1rem;
+}
+
+/* Remove extra margins */
+.abnormal-primary-info .item-row,
+.abnormal-details-info .stat-grid {
+    margin: 0;
+    padding: 0;
+}
+
+/* Icon styles */
+.abnormal-primary-info .item-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 1rem;
+}
+/* ---------  */
+
+
+
+
+/* Обновленные стили для AbnormalResist */
+.abnormal-resist-row {
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.abnormal-resist-row:hover {
+    background: var(--bg-module-dark);
+    transform: translateY(-2px);
+}
+
+.abnormal-resist-info {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+.skill-sprite-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.abnormal-resist-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.abnormal-resist-name {
+    margin-bottom: 0.25rem;
+}
+
+.abnormal-resist-name .skill-name {
+    font-weight: 500;
+    color: var(--text-dark);
+    text-decoration: none;
+}
+
+.abnormal-resist-type {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.abnormal-resist-desc {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.skill-pack-info {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pack-resist-name {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.pack-resist-desc {
+    display: block;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+/* Темная тема */
+.dark-theme .abnormal-resist-row {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .skill-name {
+    color: #fff;
+}
+
+.dark-theme .abnormal-resist-type,
+.dark-theme .abnormal-resist-desc,
+.dark-theme .pack-resist-desc {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Анимация при наведении */
+.abnormal-resist-row:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+/* ---------  */
+
+
+
+
+
+/* Цвета для IType предметов */
+.normal {
+    color: white;
+}
+.dark-theme .normal {
+    color: white;
+}
+
+.blessed {
+    color: yellow;
+}
+.dark-theme .blessed {
+    color: yellow;
+}
+
+.cursed {
+    color: red;
+}
+.dark-theme .cursed {
+    color: red;
+}
+/* ---------  */
+
+
+/* Случайный цвет для "Любой" IType = 3 */
+.random-color {
+    animation: color-cycle 5s infinite, stop-on-random 6s forwards;
+}
+.dark-theme .random-color {
+    animation: color-cycle 5s infinite, stop-on-random 6s forwards;
+}
+/* Анимация для плавного перелива от желтого в красный и в белый */
+@keyframes color-cycle {
+    0% {
+        color: yellow;
+    }
+    33% {
+        color: red;
+    }
+    66% {
         color: white;
     }
+    100% {
+        color: yellow;
+    }
+}
+
+/* Анимация для случайного цвета */
+@keyframes stop-on-random {
+    0% {
+        color: yellow;
+    }
+    83% {
+        color: yellow;
+    }
+    100% {
+        color: rgb(
+            calc(255 * random()),
+            calc(255 * random()),
+            calc(255 * random())
+        );
+    }
+}
+/* ---------  */
 
 
+
+
+/* ---------  */
+.stat-value .original-time {
+    color: #666;  /* Серый цвет */
+    font-size: 0.9em;  /* Немного меньший размер */
+    margin-left: 8px;  /* Отступ слева */
+}
+/* ---------  */
+
+
+
+
+
+
+
+
+/* * skill_page_detail -- DT_Attribute Block Styles */
+.dice-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dice-damage {
     
-        :root {
-            --primary-color: #F7F7F7;
-            --secondary-color: #EEEEEE;
-            --accent-color: #343434;
-            --text-color: #2a2a2a;
-            --transition-speed: 0.3s;
-        }
+    background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.dice-damage:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+}
+
+.dice-icon {
+    background: #666;
+    color: white;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 14px;
+    transform: rotate(-10deg);
+    transition: transform 0.3s ease;
+}
+
+.dice-icon:hover {
+    transform: rotate(10deg);
+}
+
+.damage-type {
+    font-size: 0.85em;
+    color: #666;
+    margin-left: 8px;
+    padding: 2px 6px;
+    background: #f0f0f0;
+    border-radius: 12px;
+    border: 1px dashed #ccc;
+}
+
+/* Dark theme */
+.dark-theme .dice-damage {
+    background: linear-gradient(145deg, #333, #2a2a2a);
+    color: #fff;
+    border-color: #444;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.dark-theme .damage-type {
+    background: #2a2a2a;
+    color: #aaa;
+    border-color: #444;
+}
+
+.dark-theme .dice-icon {
+    background: #444;
+    color: #fff;
+}
+
+/* Пульсация для высокого урона */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255,0,0,0.2); }
+    70% { box-shadow: 0 0 0 6px rgba(255,0,0,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+}
+/* ---------  */
+
+
+/* * skill_page_detail -- DT_SkillSlain Block Styles */
+.slain-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.slain-card {
+    background: linear-gradient(145deg, #f5f5f5, #e6e6e6);
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.slain-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+}
+
+.bonus-type {
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed #ccc;
+}
+
+.bonus-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.bonus-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 4px;
+    font-size: 0.9em;
+}
 
-        body.light-theme {
-            --primary-color: #ffffff;
-            --secondary-color: #f5f5f5;
-            --accent-color: #FCFAF1;
-            --text-color: #2a2a2a;
-        }
+.bonus-value {
+    font-weight: bold;
+}
 
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            transition: background-color var(--transition-speed);
-        }
+.bonus-value.positive {
+    color: #2ecc71;
+}
 
-        .navbar {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all var(--transition-speed);
-        }
+.bonus-value.negative {
+    color: #e74c3c;
+}
 
-        .navbar-brand {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
+/* Dark theme */
+.dark-theme .slain-card {
+    background: linear-gradient(145deg, #333, #2a2a2a);
+    border-color: #444;
+}
 
-        .navbar-brand:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
+.dark-theme .bonus-type {
+    color: #fff;
+    border-bottom-color: #444;
+}
 
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
+.dark-theme .bonus-item {
+    background: rgba(0,0,0,0.2);
+    color: #ddd;
+}
+/* ---------  */
 
-        .nav-item {
-            position: relative;
-            margin: 0 0.5rem;
-        }
 
-        .nav-link {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: block;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
+/* Локация обитания  */
+.section-star {
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin: 0;
+}
 
-        .nav-link:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    text-align: center !important;
+}
 
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 0.5rem;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all var(--transition-speed);
-        }
+.stat-label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    overflow: hidden;
+}
 
-        .nav-item:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
+.stat-value {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-align: right;
+}
 
-        .dropdown-item {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
 
-        .dropdown-item:hover {
-            background-color: var(--accent-color);
-            color: white;
-            transform: translateX(5px);
-        }
+.location-card {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
 
-        .dropdown-item img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            transition: transform var(--transition-speed);
-        }
+.location-card:hover {
+    background: var(--bg-module-light);
+    transform: translateY(-2px);
+}
 
-        .dropdown-item:hover img {
-            transform: scale(1.2);
-        }
+.location-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
 
+.location-icon {
+    color: var(--accent-color);
+    width: 1.25rem;
+    height: 1.25rem;
+}
 
+.location-name {
+    color: var(--text-dark);
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+/* ---------  */
 
-        .theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(360deg);
-        }
 
-        @media (max-width: 768px) {
-            .navbar-nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
 
-            .nav-item {
-                width: 100%;
-                margin: 0.25rem 0;
-            }
 
-            .dropdown-menu {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-                display: none;
-            }
 
-            .nav-item:hover .dropdown-menu {
-                display: block;
-            }
-        }
-    
-	
-	
 
 
 
@@ -593,2354 +1197,21 @@
 
 
 
-    script {
-        display: none;
-    }
 
-    /* Dark Theme */
-    :root {
 
 
 
 
-    /* Light Theme */
-    body {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        min-height: 100vh;
-        margin: 0;
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center;
-        background-size: cover;
-    }
 
-    /* Header styles */
-    h1 {
-        margin-bottom: 20px;
-        text-align: center;
-        color: #333;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        animation: fadeIn 1s ease-in-out;
-    }
 
-    /* Table styles */
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
 
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        animation: fadeIn 1s;
-        table-layout: fixed;
-    }
+/* by Victor Pavlov */
 
-    .table th,
-    .table td {
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        font-size: 14px;
-        text-align: center;
-        vertical-align: middle;
-    }
 
-    .table th {
-        background-color: #343a40;
-        color: #fff;
-        font-weight: bold;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
 
-    .table-hover tbody tr:hover {
-        background-color: rgba(0,0,0,0.075);
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
 
-    /* Menu styles */
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95) !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-        border-radius: 16px;
-        margin: 1rem;
-    }
 
-    .dropdown-menu {
-        display: none;
-        background-color: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-top: 0;
-        padding: 8px 0;
-        border: none;
-        border-radius: 0 0 8px 8px;
-    }
 
-    .nav-item.dropdown {
-        position: relative;
-    }
 
-    .nav-item.dropdown::after {
-        content: '';
-        position: absolute;
-        height: 20px;
-        width: 100%;
-        bottom: -20px;
-        left: 0;
-        z-index: 1000;
-    }
 
-    .dropdown-item {
-        padding: 8px 16px;
-        transition: all 0.3s;
-    }
 
-    .dropdown-item:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .dropdown-item img {
-        height: 24px;
-        width: 24px;
-        margin-right: 8px;
-        opacity: 0;
-        transition: opacity 0.3s, transform 0.3s;
-        transform: translateX(-10px);
-    }
-
-    .dropdown-item:hover img {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Search styles */
-    .search-container {
-        max-width: 600px;
-        margin: 0 auto 20px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 12px 20px;
-        border: 2px solid #ddd;
-        border-radius: 25px;
-        transition: all 0.3s;
-        font-size: 16px;
-        background: white;
-    }
-
-    .search-input:focus {
-        border-color: #2196F3;
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-        outline: none;
-    }
-
-    /* Image zoom */
-    .monster-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .monster-image:hover {
-        transform: scale(2);
-        z-index: 100;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Export button */
-    .export-btn {
-        padding: 10px 20px; /* Увеличено для лучшего визуального эффекта */
-        background: linear-gradient(145deg, #1976D2, #1565C0); /* Градиентный фон */
-        color: white;
-        border: none;
-        border-radius: 8px; /* Закругленные углы */
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
-        margin-bottom: 10px;
-    }
-    
-    .export-btn:hover {
-        background: linear-gradient(145deg, #2196F3, #1976D2); /* Более светлый градиент при наведении */
-        transform: translateY(-5px); /* Легкое поднятие */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Увеличенная тень */
-    }
-    
-    .export-btn:active {
-        background: linear-gradient(145deg, #1565C0, #0D47A1); /* Тёмный градиент при нажатии */
-        transform: translateY(0); /* Убираем эффект поднятия */
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Легкая тень при нажатии */
-    }
-    
-
-    /* Responsive styles */
-    @media (max-width: 768px) {
-        .dropdown-menu {
-            position: static;
-            float: none;
-            width: 100%;
-            margin-top: 0;
-            background-color: #f8f9fa;
-            border: none;
-            box-shadow: none;
-        }
-
-        .nav-item.dropdown::after {
-            display: none;
-        }
-    }
-
-
-
-
-
-
-    /* Dark Theme */
-    :root {
-        --bg-light: #ffffff;
-        --text-light: #333333;
-        --bg-dark: #1a1a1a;
-        --text-dark: #ffffff;
-    }
-
-    body.dark-theme {
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
-        color: var(--text-dark);
-    }
-
-    .dark-theme .table-wrapper {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .table th {
-        background-color: #2c3e50;
-    }
-
-    .dark-theme .table td {
-        border-color: #2c3e50;
-        color: white;
-    }
-
-    .dark-theme .search-container {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .search-input {
-        background: #2c3e50;
-        color: white;
-        border-color: #34495e;
-    }
-
-    /* Кнопка переключения темы */
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;  /* Фиксированная ширина */
-        height: 40px; /* Фиксированная высота */
-        border-radius: 50%;
-        background: #f1f1f1;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;           /* Для центрирования иконки */
-        align-items: center;     /* Центрирование по вертикали */
-        justify-content: center; /* Центрирование по горизонтали */
-        padding: 0;             /* Убираем padding */
-    }
-
-    .theme-toggle i {
-        font-size: 18px;    /* Размер иконки */
-        line-height: 1;     /* Убираем дополнительное пространство */
-    }
-
-    .dark-theme .theme-toggle {
-        background: #2c3e50;
-        color: white;
-    }
-
-    /* Добавляем белый цвет для всего текста в темной теме */
-    .dark-theme h1,
-    .dark-theme p,
-    .dark-theme label,
-    .dark-theme .table,
-    .dark-theme .dropdown-item,
-    .dark-theme .navbar-light .navbar-nav .nav-link {
-        color: white !important;
-    }
-
-    /* Изменяем цвет фона для меню в темной теме */
-    .dark-theme .navbar {
-        background-color: rgba(40, 40, 40, 0.95) !important;
-    }
-
-    .dark-theme .dropdown-menu {
-        background-color: rgba(40, 40, 40, 0.95);
-    }
-
-    /* Добавляем стили для navbar и пагинации в темной теме */
-    .dark-theme .navbar-light .navbar-brand,
-    .dark-theme .navbar-light .navbar-nav .nav-link,
-    .dark-theme .navbar-light .navbar-text {
-        color: white !important;
-    }
-
-    /* Стили для пагинации в темной теме */
-    .dark-theme .page-link {
-        background-color: #2c3e50 !important;
-        border-color: #34495e !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.active .page-link {
-        background-color: #3498db !important;
-        border-color: #3498db !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.disabled .page-link {
-        background-color: #1a1a1a !important;
-        border-color: #34495e !important;
-        color: #6c757d !important;
-    }
-
-    .dark-theme a {
-        color: #FFF5E6 !important; /* Кремово-белый цвет */
-    }
-
-    .dark-theme a:hover {
-        color: #FFE4B5 !important; /* Чуть темнее оттенок при наведении */
-        text-decoration: underline !important;
-    }
-
-    /* Hover эффект для пагинации */
-    .dark-theme .page-link:hover {
-        background-color: #34495e !important;
-        border-color: #2c3e50 !important;
-        color: white !important;
-    }
-
-    /* Стили для активной страницы */
-    .dark-theme .page-item.active .page-link:hover {
-        background-color: #2980b9 !important;
-        border-color: #2980b9 !important;
-    }
-
-
-
-
-
-    /* Skill image and hover text */
-
-    .hover-text-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .skill-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .item-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-        .monster-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .hover-text {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 4px;
-        font-size: 14px;
-        width: max-content;
-        max-width: 200px;
-        z-index: 1001;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        margin-top: 10px;
-        text-align: left;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .hover-text-wrapper:hover .skill-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .item-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .monster-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .hover-text-wrapper:hover .hover-text {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    /* Dark theme support for hover text */
-    .dark-theme .hover-text {
-        background: rgba(44, 62, 80, 0.95);
-        color: white;
-    }
-
-
-
-
-    
-        :root {
-            --primary-color: #F7F7F7;
-            --secondary-color: #EEEEEE;
-            --accent-color: #343434;
-            --text-color: #2a2a2a;
-            --transition-speed: 0.3s;
-        }
-
-        body.light-theme {
-            --primary-color: #ffffff;
-            --secondary-color: #f5f5f5;
-            --accent-color: #FCFAF1;
-            --text-color: #2a2a2a;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            transition: background-color var(--transition-speed);
-        }
-
-        .navbar {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-
-        .nav-item {
-            position: relative;
-            margin: 0 0.5rem;
-        }
-
-        .nav-link {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: block;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .nav-link:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 0.5rem;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all var(--transition-speed);
-        }
-
-        .nav-item:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-item {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--accent-color);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .dropdown-item img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            transition: transform var(--transition-speed);
-        }
-
-        .dropdown-item:hover img {
-            transform: scale(1.2);
-        }
-
-
-
-        .theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(360deg);
-        }
-
-        @media (max-width: 768px) {
-            .navbar-nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .nav-item {
-                width: 100%;
-                margin: 0.25rem 0;
-            }
-
-            .dropdown-menu {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-                display: none;
-            }
-
-            .nav-item:hover .dropdown-menu {
-                display: block;
-            }
-        }
-    
-
-
-
-
-
-
-
-
-    script {
-        display: none;
-    }
-
-    /* Dark Theme */
-    :root {
-
-
-
-
-    /* Light Theme */
-    body {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        min-height: 100vh;
-        margin: 0;
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center;
-        background-size: cover;
-    }
-
-    /* Header styles */
-    h1 {
-        margin-bottom: 20px;
-        text-align: center;
-        color: #333;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        animation: fadeIn 1s ease-in-out;
-    }
-
-    /* Table styles */
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        animation: fadeIn 1s;
-        table-layout: fixed;
-    }
-
-    .table th,
-    .table td {
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        font-size: 14px;
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .table th {
-        background-color: #343a40;
-        color: #fff;
-        font-weight: bold;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(0,0,0,0.075);
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
-
-    /* Menu styles */
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95) !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-        border-radius: 16px;
-        margin: 1rem;
-    }
-
-    .dropdown-menu {
-        display: none;
-        background-color: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-top: 0;
-        padding: 8px 0;
-        border: none;
-        border-radius: 0 0 8px 8px;
-    }
-
-    .nav-item.dropdown {
-        position: relative;
-    }
-
-    .nav-item.dropdown::after {
-        content: '';
-        position: absolute;
-        height: 20px;
-        width: 100%;
-        bottom: -20px;
-        left: 0;
-        z-index: 1000;
-    }
-
-    .dropdown-item {
-        padding: 8px 16px;
-        transition: all 0.3s;
-    }
-
-    .dropdown-item:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .dropdown-item img {
-        height: 24px;
-        width: 24px;
-        margin-right: 8px;
-        opacity: 0;
-        transition: opacity 0.3s, transform 0.3s;
-        transform: translateX(-10px);
-    }
-
-    .dropdown-item:hover img {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Search styles */
-    .search-container {
-        max-width: 600px;
-        margin: 0 auto 20px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 12px 20px;
-        border: 2px solid #ddd;
-        border-radius: 25px;
-        transition: all 0.3s;
-        font-size: 16px;
-        background: white;
-    }
-
-    .search-input:focus {
-        border-color: #2196F3;
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-        outline: none;
-    }
-
-    /* Image zoom */
-    .monster-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .monster-image:hover {
-        transform: scale(2);
-        z-index: 100;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Export button */
-    .export-btn {
-        padding: 10px 20px; /* Увеличено для лучшего визуального эффекта */
-        background: linear-gradient(145deg, #1976D2, #1565C0); /* Градиентный фон */
-        color: white;
-        border: none;
-        border-radius: 8px; /* Закругленные углы */
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
-        margin-bottom: 10px;
-    }
-    
-    .export-btn:hover {
-        background: linear-gradient(145deg, #2196F3, #1976D2); /* Более светлый градиент при наведении */
-        transform: translateY(-5px); /* Легкое поднятие */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Увеличенная тень */
-    }
-    
-    .export-btn:active {
-        background: linear-gradient(145deg, #1565C0, #0D47A1); /* Тёмный градиент при нажатии */
-        transform: translateY(0); /* Убираем эффект поднятия */
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Легкая тень при нажатии */
-    }
-    
-
-    /* Responsive styles */
-    @media (max-width: 768px) {
-        .dropdown-menu {
-            position: static;
-            float: none;
-            width: 100%;
-            margin-top: 0;
-            background-color: #f8f9fa;
-            border: none;
-            box-shadow: none;
-        }
-
-        .nav-item.dropdown::after {
-            display: none;
-        }
-    }
-
-
-
-
-
-
-    /* Dark Theme */
-    :root {
-        --bg-light: #ffffff;
-        --text-light: #333333;
-        --bg-dark: #1a1a1a;
-        --text-dark: #ffffff;
-    }
-
-    body.dark-theme {
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
-        color: var(--text-dark);
-    }
-
-    .dark-theme .table-wrapper {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .table th {
-        background-color: #2c3e50;
-    }
-
-    .dark-theme .table td {
-        border-color: #2c3e50;
-        color: white;
-    }
-
-    .dark-theme .search-container {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .search-input {
-        background: #2c3e50;
-        color: white;
-        border-color: #34495e;
-    }
-
-    /* Кнопка переключения темы */
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;  /* Фиксированная ширина */
-        height: 40px; /* Фиксированная высота */
-        border-radius: 50%;
-        background: #f1f1f1;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;           /* Для центрирования иконки */
-        align-items: center;     /* Центрирование по вертикали */
-        justify-content: center; /* Центрирование по горизонтали */
-        padding: 0;             /* Убираем padding */
-    }
-
-    .theme-toggle i {
-        font-size: 18px;    /* Размер иконки */
-        line-height: 1;     /* Убираем дополнительное пространство */
-    }
-
-    .dark-theme .theme-toggle {
-        background: #2c3e50;
-        color: white;
-    }
-
-    /* Добавляем белый цвет для всего текста в темной теме */
-    .dark-theme h1,
-    .dark-theme p,
-    .dark-theme label,
-    .dark-theme .table,
-    .dark-theme .dropdown-item,
-    .dark-theme .navbar-light .navbar-nav .nav-link {
-        color: white !important;
-    }
-
-    /* Изменяем цвет фона для меню в темной теме */
-    .dark-theme .navbar {
-        background-color: rgba(40, 40, 40, 0.95) !important;
-    }
-
-    .dark-theme .dropdown-menu {
-        background-color: rgba(40, 40, 40, 0.95);
-    }
-
-    /* Добавляем стили для navbar и пагинации в темной теме */
-    .dark-theme .navbar-light .navbar-brand,
-    .dark-theme .navbar-light .navbar-nav .nav-link,
-    .dark-theme .navbar-light .navbar-text {
-        color: white !important;
-    }
-
-    /* Стили для пагинации в темной теме */
-    .dark-theme .page-link {
-        background-color: #2c3e50 !important;
-        border-color: #34495e !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.active .page-link {
-        background-color: #3498db !important;
-        border-color: #3498db !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.disabled .page-link {
-        background-color: #1a1a1a !important;
-        border-color: #34495e !important;
-        color: #6c757d !important;
-    }
-
-    .dark-theme a {
-        color: #FFF5E6 !important; /* Кремово-белый цвет */
-    }
-
-    .dark-theme a:hover {
-        color: #FFE4B5 !important; /* Чуть темнее оттенок при наведении */
-        text-decoration: underline !important;
-    }
-
-    /* Hover эффект для пагинации */
-    .dark-theme .page-link:hover {
-        background-color: #34495e !important;
-        border-color: #2c3e50 !important;
-        color: white !important;
-    }
-
-    /* Стили для активной страницы */
-    .dark-theme .page-item.active .page-link:hover {
-        background-color: #2980b9 !important;
-        border-color: #2980b9 !important;
-    }
-
-
-
-
-
-    /* Skill image and hover text */
-
-    .hover-text-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .skill-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .item-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-        .monster-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .hover-text {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 4px;
-        font-size: 14px;
-        width: max-content;
-        max-width: 200px;
-        z-index: 1001;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        margin-top: 10px;
-        text-align: left;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .hover-text-wrapper:hover .skill-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .item-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .monster-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .hover-text-wrapper:hover .hover-text {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    /* Dark theme support for hover text */
-    .dark-theme .hover-text {
-        background: rgba(44, 62, 80, 0.95);
-        color: white;
-    }
-
-
-
-
-    
-        :root {
-            --primary-color: #F7F7F7;
-            --secondary-color: #EEEEEE;
-            --accent-color: #343434;
-            --text-color: #2a2a2a;
-            --transition-speed: 0.3s;
-        }
-
-        body.light-theme {
-            --primary-color: #ffffff;
-            --secondary-color: #f5f5f5;
-            --accent-color: #FCFAF1;
-            --text-color: #2a2a2a;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            transition: background-color var(--transition-speed);
-        }
-
-        .navbar {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-
-        .nav-item {
-            position: relative;
-            margin: 0 0.5rem;
-        }
-
-        .nav-link {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: block;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .nav-link:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 0.5rem;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all var(--transition-speed);
-        }
-
-        .nav-item:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-item {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--accent-color);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .dropdown-item img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            transition: transform var(--transition-speed);
-        }
-
-        .dropdown-item:hover img {
-            transform: scale(1.2);
-        }
-
-
-
-        .theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(360deg);
-        }
-
-        @media (max-width: 768px) {
-            .navbar-nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .nav-item {
-                width: 100%;
-                margin: 0.25rem 0;
-            }
-
-            .dropdown-menu {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-                display: none;
-            }
-
-            .nav-item:hover .dropdown-menu {
-                display: block;
-            }
-        }
-    
-
-
-
-
-
-
-
-    script {
-        display: none;
-    }
-
-    /* Dark Theme */
-    :root {
-
-
-
-
-    /* Light Theme */
-    body {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        min-height: 100vh;
-        margin: 0;
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center;
-        background-size: cover;
-    }
-
-    /* Header styles */
-    h1 {
-        margin-bottom: 20px;
-        text-align: center;
-        color: #333;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        animation: fadeIn 1s ease-in-out;
-    }
-
-    /* Table styles */
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        animation: fadeIn 1s;
-        table-layout: fixed;
-    }
-
-    .table th,
-    .table td {
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        font-size: 14px;
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .table th {
-        background-color: #343a40;
-        color: #fff;
-        font-weight: bold;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(0,0,0,0.075);
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
-
-    /* Menu styles */
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95) !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-        border-radius: 16px;
-        margin: 1rem;
-    }
-
-    .dropdown-menu {
-        display: none;
-        background-color: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-top: 0;
-        padding: 8px 0;
-        border: none;
-        border-radius: 0 0 8px 8px;
-    }
-
-    .nav-item.dropdown {
-        position: relative;
-    }
-
-    .nav-item.dropdown::after {
-        content: '';
-        position: absolute;
-        height: 20px;
-        width: 100%;
-        bottom: -20px;
-        left: 0;
-        z-index: 1000;
-    }
-
-    .dropdown-item {
-        padding: 8px 16px;
-        transition: all 0.3s;
-    }
-
-    .dropdown-item:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .dropdown-item img {
-        height: 24px;
-        width: 24px;
-        margin-right: 8px;
-        opacity: 0;
-        transition: opacity 0.3s, transform 0.3s;
-        transform: translateX(-10px);
-    }
-
-    .dropdown-item:hover img {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Search styles */
-    .search-container {
-        max-width: 600px;
-        margin: 0 auto 20px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 12px 20px;
-        border: 2px solid #ddd;
-        border-radius: 25px;
-        transition: all 0.3s;
-        font-size: 16px;
-        background: white;
-    }
-
-    .search-input:focus {
-        border-color: #2196F3;
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-        outline: none;
-    }
-
-    /* Image zoom */
-    .monster-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .monster-image:hover {
-        transform: scale(2);
-        z-index: 100;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Export button */
-    .export-btn {
-        padding: 10px 20px; /* Увеличено для лучшего визуального эффекта */
-        background: linear-gradient(145deg, #1976D2, #1565C0); /* Градиентный фон */
-        color: white;
-        border: none;
-        border-radius: 8px; /* Закругленные углы */
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
-        margin-bottom: 10px;
-    }
-    
-    .export-btn:hover {
-        background: linear-gradient(145deg, #2196F3, #1976D2); /* Более светлый градиент при наведении */
-        transform: translateY(-5px); /* Легкое поднятие */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Увеличенная тень */
-    }
-    
-    .export-btn:active {
-        background: linear-gradient(145deg, #1565C0, #0D47A1); /* Тёмный градиент при нажатии */
-        transform: translateY(0); /* Убираем эффект поднятия */
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Легкая тень при нажатии */
-    }
-    
-
-    /* Responsive styles */
-    @media (max-width: 768px) {
-        .dropdown-menu {
-            position: static;
-            float: none;
-            width: 100%;
-            margin-top: 0;
-            background-color: #f8f9fa;
-            border: none;
-            box-shadow: none;
-        }
-
-        .nav-item.dropdown::after {
-            display: none;
-        }
-    }
-
-
-
-
-
-
-    /* Dark Theme */
-    :root {
-        --bg-light: #ffffff;
-        --text-light: #333333;
-        --bg-dark: #1a1a1a;
-        --text-dark: #ffffff;
-    }
-
-    body.dark-theme {
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
-        color: var(--text-dark);
-    }
-
-    .dark-theme .table-wrapper {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .table th {
-        background-color: #2c3e50;
-    }
-
-    .dark-theme .table td {
-        border-color: #2c3e50;
-        color: white;
-    }
-
-    .dark-theme .search-container {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .search-input {
-        background: #2c3e50;
-        color: white;
-        border-color: #34495e;
-    }
-
-    /* Кнопка переключения темы */
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;  /* Фиксированная ширина */
-        height: 40px; /* Фиксированная высота */
-        border-radius: 50%;
-        background: #f1f1f1;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;           /* Для центрирования иконки */
-        align-items: center;     /* Центрирование по вертикали */
-        justify-content: center; /* Центрирование по горизонтали */
-        padding: 0;             /* Убираем padding */
-    }
-
-    .theme-toggle i {
-        font-size: 18px;    /* Размер иконки */
-        line-height: 1;     /* Убираем дополнительное пространство */
-    }
-
-    .dark-theme .theme-toggle {
-        background: #2c3e50;
-        color: white;
-    }
-
-    /* Добавляем белый цвет для всего текста в темной теме */
-    .dark-theme h1,
-    .dark-theme p,
-    .dark-theme label,
-    .dark-theme .table,
-    .dark-theme .dropdown-item,
-    .dark-theme .navbar-light .navbar-nav .nav-link {
-        color: white !important;
-    }
-
-    /* Изменяем цвет фона для меню в темной теме */
-    .dark-theme .navbar {
-        background-color: rgba(40, 40, 40, 0.95) !important;
-    }
-
-    .dark-theme .dropdown-menu {
-        background-color: rgba(40, 40, 40, 0.95);
-    }
-
-    /* Добавляем стили для navbar и пагинации в темной теме */
-    .dark-theme .navbar-light .navbar-brand,
-    .dark-theme .navbar-light .navbar-nav .nav-link,
-    .dark-theme .navbar-light .navbar-text {
-        color: white !important;
-    }
-
-    /* Стили для пагинации в темной теме */
-    .dark-theme .page-link {
-        background-color: #2c3e50 !important;
-        border-color: #34495e !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.active .page-link {
-        background-color: #3498db !important;
-        border-color: #3498db !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.disabled .page-link {
-        background-color: #1a1a1a !important;
-        border-color: #34495e !important;
-        color: #6c757d !important;
-    }
-
-    .dark-theme a {
-        color: #FFF5E6 !important; /* Кремово-белый цвет */
-    }
-
-    .dark-theme a:hover {
-        color: #FFE4B5 !important; /* Чуть темнее оттенок при наведении */
-        text-decoration: underline !important;
-    }
-
-    /* Hover эффект для пагинации */
-    .dark-theme .page-link:hover {
-        background-color: #34495e !important;
-        border-color: #2c3e50 !important;
-        color: white !important;
-    }
-
-    /* Стили для активной страницы */
-    .dark-theme .page-item.active .page-link:hover {
-        background-color: #2980b9 !important;
-        border-color: #2980b9 !important;
-    }
-
-
-
-
-
-    /* Skill image and hover text */
-
-    .hover-text-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .skill-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .item-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-        .monster-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .hover-text {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 4px;
-        font-size: 14px;
-        width: max-content;
-        max-width: 200px;
-        z-index: 1001;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        margin-top: 10px;
-        text-align: left;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .hover-text-wrapper:hover .skill-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .item-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    .hover-text-wrapper:hover .monster-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .hover-text-wrapper:hover .hover-text {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    /* Dark theme support for hover text */
-    .dark-theme .hover-text {
-        background: rgba(44, 62, 80, 0.95);
-        color: white;
-    }
-
-
-
-
-    
-        :root {
-            --primary-color: #F7F7F7;
-            --secondary-color: #EEEEEE;
-            --accent-color: #343434;
-            --text-color: #2a2a2a;
-            --transition-speed: 0.3s;
-        }
-
-        body.light-theme {
-            --primary-color: #ffffff;
-            --secondary-color: #f5f5f5;
-            --accent-color: #FCFAF1;
-            --text-color: #2a2a2a;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            transition: background-color var(--transition-speed);
-        }
-
-        .navbar {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-
-        .nav-item {
-            position: relative;
-            margin: 0 0.5rem;
-        }
-
-        .nav-link {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: block;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .nav-link:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 0.5rem;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all var(--transition-speed);
-        }
-
-        .nav-item:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-item {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--accent-color);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .dropdown-item img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            transition: transform var(--transition-speed);
-        }
-
-        .dropdown-item:hover img {
-            transform: scale(1.2);
-        }
-
-
-
-        .theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(360deg);
-        }
-
-        @media (max-width: 768px) {
-            .navbar-nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .nav-item {
-                width: 100%;
-                margin: 0.25rem 0;
-            }
-
-            .dropdown-menu {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-                display: none;
-            }
-
-            .nav-item:hover .dropdown-menu {
-                display: block;
-            }
-        }
-    
-
-
-
-
-
-
-    script {
-        display: none;
-    }
-
-    /* Dark Theme */
-    :root {
-
-
-
-
-    /* Light Theme */
-    body {
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        min-height: 100vh;
-        margin: 0;
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG.jpg');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-position: center;
-        background-size: cover;
-    }
-
-    /* Header styles */
-    h1 {
-        margin-bottom: 20px;
-        text-align: center;
-        color: #333;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        animation: fadeIn 1s ease-in-out;
-    }
-
-    /* Table styles */
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-        animation: fadeIn 1s;
-        table-layout: fixed;
-    }
-
-    .table th,
-    .table td {
-        padding: 12px;
-        border: 1px solid #dee2e6;
-        font-size: 14px;
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .table th {
-        background-color: #343a40;
-        color: #fff;
-        font-weight: bold;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(0,0,0,0.075);
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
-
-    /* Menu styles */
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.95) !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
-        border-radius: 16px;
-        margin: 1rem;
-    }
-
-    .dropdown-menu {
-        display: none;
-        background-color: rgba(255, 255, 255, 0.95);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-top: 0;
-        padding: 8px 0;
-        border: none;
-        border-radius: 0 0 8px 8px;
-    }
-
-    .nav-item.dropdown {
-        position: relative;
-    }
-
-    .nav-item.dropdown::after {
-        content: '';
-        position: absolute;
-        height: 20px;
-        width: 100%;
-        bottom: -20px;
-        left: 0;
-        z-index: 1000;
-    }
-
-    .dropdown-item {
-        padding: 8px 16px;
-        transition: all 0.3s;
-    }
-
-    .dropdown-item:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-
-    .dropdown-item img {
-        height: 24px;
-        width: 24px;
-        margin-right: 8px;
-        opacity: 0;
-        transition: opacity 0.3s, transform 0.3s;
-        transform: translateX(-10px);
-    }
-
-    .dropdown-item:hover img {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Search styles */
-    .search-container {
-        max-width: 600px;
-        margin: 0 auto 20px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 12px 20px;
-        border: 2px solid #ddd;
-        border-radius: 25px;
-        transition: all 0.3s;
-        font-size: 16px;
-        background: white;
-    }
-
-    .search-input:focus {
-        border-color: #2196F3;
-        box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-        outline: none;
-    }
-
-    /* Image zoom */
-    .item-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .item-image:hover {
-        transform: scale(2);
-        z-index: 100;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    /* Export button */
-    .export-btn {
-        padding: 10px 20px; /* Увеличено для лучшего визуального эффекта */
-        background: linear-gradient(145deg, #1976D2, #1565C0); /* Градиентный фон */
-        color: white;
-        border: none;
-        border-radius: 8px; /* Закругленные углы */
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Легкая тень */
-        margin-bottom: 10px;
-    }
-    
-    .export-btn:hover {
-        background: linear-gradient(145deg, #2196F3, #1976D2); /* Более светлый градиент при наведении */
-        transform: translateY(-5px); /* Легкое поднятие */
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Увеличенная тень */
-    }
-    
-    .export-btn:active {
-        background: linear-gradient(145deg, #1565C0, #0D47A1); /* Тёмный градиент при нажатии */
-        transform: translateY(0); /* Убираем эффект поднятия */
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Легкая тень при нажатии */
-    }
-    
-
-    /* Responsive styles */
-    @media (max-width: 768px) {
-        .dropdown-menu {
-            position: static;
-            float: none;
-            width: 100%;
-            margin-top: 0;
-            background-color: #f8f9fa;
-            border: none;
-            box-shadow: none;
-        }
-
-        .nav-item.dropdown::after {
-            display: none;
-        }
-    }
-
-
-
-
-    /* Dark Theme */
-    :root {
-        --bg-light: #ffffff;
-        --text-light: #333333;
-        --bg-dark: #1a1a1a;
-        --text-dark: #ffffff;
-    }
-
-    body.dark-theme {
-        background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
-        color: var(--text-dark);
-    }
-
-    .dark-theme .table-wrapper {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .table th {
-        background-color: #2c3e50;
-    }
-
-    .dark-theme .table td {
-        border-color: #2c3e50;
-        color: white;
-    }
-
-    .dark-theme .search-container {
-        background: rgba(40, 40, 40, 0.95);
-    }
-
-    .dark-theme .search-input {
-        background: #2c3e50;
-        color: white;
-        border-color: #34495e;
-    }
-
-    /* Кнопка переключения темы */
-    .theme-toggle {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;  /* Фиксированная ширина */
-        height: 40px; /* Фиксированная высота */
-        border-radius: 50%;
-        background: #f1f1f1;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;           /* Для центрирования иконки */
-        align-items: center;     /* Центрирование по вертикали */
-        justify-content: center; /* Центрирование по горизонтали */
-        padding: 0;             /* Убираем padding */
-    }
-
-    .theme-toggle i {
-        font-size: 18px;    /* Размер иконки */
-        line-height: 1;     /* Убираем дополнительное пространство */
-    }
-
-    .dark-theme .theme-toggle {
-        background: #2c3e50;
-        color: white;
-    }
-
-    /* Добавляем белый цвет для всего текста в темной теме */
-    .dark-theme h1,
-    .dark-theme p,
-    .dark-theme label,
-    .dark-theme .table,
-    .dark-theme .dropdown-item,
-    .dark-theme .navbar-light .navbar-nav .nav-link {
-        color: white !important;
-    }
-
-    /* Изменяем цвет фона для меню в темной теме */
-    .dark-theme .navbar {
-        background-color: rgba(40, 40, 40, 0.95) !important;
-    }
-
-    .dark-theme .dropdown-menu {
-        background-color: rgba(40, 40, 40, 0.95);
-    }
-
-    /* Добавляем стили для navbar и пагинации в темной теме */
-    .dark-theme .navbar-light .navbar-brand,
-    .dark-theme .navbar-light .navbar-nav .nav-link,
-    .dark-theme .navbar-light .navbar-text {
-        color: white !important;
-    }
-
-    /* Стили для пагинации в темной теме */
-    .dark-theme .page-link {
-        background-color: #2c3e50 !important;
-        border-color: #34495e !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.active .page-link {
-        background-color: #3498db !important;
-        border-color: #3498db !important;
-        color: white !important;
-    }
-
-    .dark-theme .page-item.disabled .page-link {
-        background-color: #1a1a1a !important;
-        border-color: #34495e !important;
-        color: #6c757d !important;
-    }
-
-    .dark-theme a {
-        color: #FFF5E6 !important; /* Кремово-белый цвет */
-    }
-
-    .dark-theme a:hover {
-        color: #FFE4B5 !important; /* Чуть темнее оттенок при наведении */
-        text-decoration: underline !important;
-    }
-
-    /* Hover эффект для пагинации */
-    .dark-theme .page-link:hover {
-        background-color: #34495e !important;
-        border-color: #2c3e50 !important;
-        color: white !important;
-    }
-
-    /* Стили для активной страницы */
-    .dark-theme .page-item.active .page-link:hover {
-        background-color: #2980b9 !important;
-        border-color: #2980b9 !important;
-    }
-
-
-
-
-    /* Skill image and hover text */
-    .skill-image-container {
-        position: relative;
-    }
-
-    .skill-wrapper {
-        position: relative;
-        display: inline-block;
-    }
-
-    .skill-image {
-        transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .skill-hover-text {
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 4px;
-        font-size: 14px;
-        width: max-content;
-        max-width: 200px;
-        z-index: 1001;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-        margin-top: 10px;
-        text-align: left;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .skill-wrapper:hover .skill-image {
-        transform: scale(2);
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .skill-wrapper:hover .skill-hover-text {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    /* Dark theme support for hover text */
-    .dark-theme .skill-hover-text {
-        background: rgba(44, 62, 80, 0.95);
-        color: white;
-    }
-
-
-    
-        :root {
-            --primary-color: #F7F7F7;
-            --secondary-color: #EEEEEE;
-            --accent-color: #343434;
-            --text-color: #2a2a2a;
-            --transition-speed: 0.3s;
-        }
-
-        body.light-theme {
-            --primary-color: #ffffff;
-            --secondary-color: #f5f5f5;
-            --accent-color: #FCFAF1;
-            --text-color: #2a2a2a;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            transition: background-color var(--transition-speed);
-        }
-
-        .navbar {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .navbar-brand:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .navbar-nav {
-            display: flex;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            align-items: center;
-        }
-
-        .nav-item {
-            position: relative;
-            margin: 0 0.5rem;
-        }
-
-        .nav-link {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: block;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .nav-link:hover {
-            color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--secondary-color);
-            border-radius: 8px;
-            padding: 0.5rem;
-            min-width: 200px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all var(--transition-speed);
-        }
-
-        .nav-item:hover .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-item {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            border-radius: 4px;
-            transition: all var(--transition-speed);
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--accent-color);
-            color: white;
-            transform: translateX(5px);
-        }
-
-        .dropdown-item img {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            transition: transform var(--transition-speed);
-        }
-
-        .dropdown-item:hover img {
-            transform: scale(1.2);
-        }
-
-
-
-        .theme-toggle:hover {
-            color: var(--accent-color);
-            transform: rotate(360deg);
-        }
-
-        @media (max-width: 768px) {
-            .navbar-nav {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .nav-item {
-                width: 100%;
-                margin: 0.25rem 0;
-            }
-
-            .dropdown-menu {
-                position: static;
-                width: 100%;
-                box-shadow: none;
-                display: none;
-            }
-
-            .nav-item:hover .dropdown-menu {
-                display: block;
-            }
-        }
-    

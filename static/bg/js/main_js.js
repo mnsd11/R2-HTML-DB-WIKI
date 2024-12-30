@@ -275,35 +275,35 @@ function initializeSpoilers() {
 }
 
 // Theme toggle functionality
-document.getElementById('theme-toggle')?.addEventListener('click', () => {
+const toggleButton = document.getElementById('theme-toggle');
+
+// Adding sound effect on click
+const soundEffect = new Audio('https://www.soundjay.com/buttons/sounds/button-30.mp3');
+
+toggleButton.addEventListener('click', () => {
     document.documentElement.classList.toggle('dark-theme');
     document.body.classList.toggle('dark-theme');
-    localStorage.setItem('theme',
+    localStorage.setItem(
+        'theme',
         document.documentElement.classList.contains('dark-theme') ? 'dark' : 'light'
     );
+
+    // Play sound effect
+    soundEffect.play();
+
+    // Toggle bounce effect for fun
+    toggleButton.classList.toggle('bouncing');
+    setTimeout(() => toggleButton.classList.remove('bouncing'), 1000);
 });
 
-// Filter Manager with search support
-FilterManager.filterData = function(data, filters) {
-    const isMonsterPage = $('.monster-image').length > 0;
-    const searchId = isMonsterPage ? '#monsterSearch' : '#itemSearch';
-    const searchTerm = document.querySelector(searchId)?.value.trim().toLowerCase();
+// Restore theme on page load
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark-theme');
+    document.body.classList.add('dark-theme');
+}
 
-    // Apply search filter before other filters
-    let filteredData = data;
-    if (searchTerm) {
-        filteredData = data.filter(item => {
-            const id = isMonsterPage ? item.MID : item.IID;
-            const name = isMonsterPage ? item.MName : item.IName;
-            const matchesId = id.toString().toLowerCase().includes(searchTerm);
-            const matchesName = name.toLowerCase().includes(searchTerm);
-            return matchesId || matchesName;
-        });
-    }
 
-    // Apply remaining filters
-    return filteredData.filter(item => 
-        FilterManager._applyAllFilters(item, filters));
-};
+
 
 

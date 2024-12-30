@@ -276,15 +276,19 @@ def monster_detail(monster_id: int):
     
     
     # Получение локации монстра
-    monster_location = None
+    monster_location = []
     if not sheets_data['location'].empty:
         location_match = sheets_data['location'][sheets_data['location']['MID'] == monster_id]
         if not location_match.empty:
-            row = location_match.iloc[0]
-            monster_location = {
-                "Location": row['Location'],
-                "LocationLevel": None if pd.isna(row['LocationLevel']) else row['LocationLevel']
-            }
+            monster_location = [
+                {
+                    "Location": row['mPlaceNmRus'],
+                    "LocationLevel": None if pd.isna(row['mMapNmRus']) else row['mMapNmRus']
+                }
+                for _, row in location_match.iterrows()
+            ]
+            print(monster_location)
+
 
     # Обработка изображений
     file_path = f"{current_app.config['GITHUB_URL']}{monster_id}.png"

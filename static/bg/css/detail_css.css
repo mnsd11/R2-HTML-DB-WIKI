@@ -83,14 +83,45 @@ body {
     max-height: 40px;
 }
 
+/* Кнопка переключения темы */
 .theme-toggle i {
-    font-size: 18px;
+    font-size: 22px;
     line-height: 1;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: linear-gradient(135deg, rgb(0, 174, 255), #0077cc);
+    color: #fff;
+    transform: rotate(360deg) scale(1.1);
+}
+
+.theme-toggle:active {
+    background: linear-gradient(135deg, #0077cc, rgb(0, 174, 255));
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+}
+
+body.dark-theme .theme-toggle {
+    background: linear-gradient(135deg, #333, #555);
+    color: #f1f1f1;
+}
+
+body.dark-theme .theme-toggle:hover {
+    background: linear-gradient(135deg, #555, #777);
+}
+.theme-toggle.bouncing {
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
 }
 
 .back-button {
@@ -103,7 +134,12 @@ body {
 }
 
 .back-button:hover {
-    background-color: #098714;
+    background-color:rgba(0, 158, 250, 0.77);
+    transform: translateX(-5px);
+}
+
+.back-button:active {
+    background-color:rgb(0, 158, 250);
     transform: translateX(-5px);
 }
 
@@ -298,6 +334,7 @@ img:hover {
 .stat-label {
     color: var(--text-muted);
     font-weight: 500;
+    text-align: left;
 }
 
 .stat-value {
@@ -495,16 +532,6 @@ body.dark-theme {
     background-image: url('https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/refs/heads/main/static/bg/BG_black.jpg') !important;
     color: var(--text-dark);
 }
-
-.dark-theme .theme-toggle {
-    background: #2c3e50;
-    color: white;
-}
-
-.dark-theme .theme-toggle:hover {
-    background: #34495e;
-}
-
 .dark-theme h1,
 .dark-theme h2,
 .dark-theme p {
@@ -526,6 +553,10 @@ body.dark-theme {
 
 .dark-theme .back-button:hover {
     background-color: #34495e;
+}
+
+.dark-theme .back-button:active {
+    background-color:rgba(52, 73, 94, 0.53);
 }
 
 .dark-theme a {
@@ -563,7 +594,7 @@ body.dark-theme {
         rgba(255,255,255,0.1) 50%,
         rgba(255,255,255,0) 100%);
 }
-
+/* ---------  */
 
 
 
@@ -605,18 +636,18 @@ body.dark-theme {
     filter: blur(5px);
     z-index: 0;
 }
+/* ---------  */
 
 
 
 
-
-
+/* ---------  */
 
 .col-12.col-md-6 {
     max-width: 500px; /* или другое подходящее значение */
     margin: 0 auto;
 }
-
+/* ---------  */
 
 
 
@@ -635,6 +666,7 @@ body.dark-theme {
     border-radius: 10px;
     background: rgba(50, 50, 50, 0.1);
 }
+/* ---------  */
 
 /* Header styles */
 .skill-header {
@@ -655,6 +687,7 @@ body.dark-theme {
 .dark-theme .abnormal-details-info {
     background: rgba(50, 50, 50, 0.1);
 }
+/* ---------  */
 
 /* Title and toggle styles */
 .skill-title-wrapper {
@@ -683,6 +716,7 @@ body.dark-theme {
 .skill-section.collapsed .skill-toggle::before {
     transform: rotate(-90deg);
 }
+/* ---------  */
 
 /* Content styles */
 .skill-content-wrapper {
@@ -719,6 +753,8 @@ body.dark-theme {
         transform: translateY(-10px);
     }
 }
+/* ---------  */
+
 
 /* Abnormal info styles */
 .abnormal-primary-info {
@@ -747,19 +783,22 @@ body.dark-theme {
     height: 32px;
     margin-right: 1rem;
 }
-
-
-
+/* ---------  */
 
 
 
 
 /* Обновленные стили для AbnormalResist */
 .abnormal-resist-row {
-    background: var(--bg-module-light);
     border-radius: 8px;
     margin-bottom: 0.5rem;
     padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.abnormal-resist-row:hover {
+    background: var(--bg-module-dark);
+    transform: translateY(-2px);
 }
 
 .abnormal-resist-info {
@@ -842,16 +881,19 @@ body.dark-theme {
 .abnormal-resist-row:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+/* ---------  */
 
 
 
+
+
+/* Цвета для IType предметов */
 .normal {
     color: white;
 }
 .dark-theme .normal {
     color: white;
 }
-
 
 .blessed {
     color: yellow;
@@ -866,8 +908,10 @@ body.dark-theme {
 .dark-theme .cursed {
     color: red;
 }
+/* ---------  */
 
-/* Случайный цвет для "Любой" */
+
+/* Случайный цвет для "Любой" IType = 3 */
 .random-color {
     animation: color-cycle 5s infinite, stop-on-random 6s forwards;
 }
@@ -906,18 +950,18 @@ body.dark-theme {
         );
     }
 }
+/* ---------  */
 
 
 
 
-
-
+/* ---------  */
 .stat-value .original-time {
     color: #666;  /* Серый цвет */
     font-size: 0.9em;  /* Немного меньший размер */
     margin-left: 8px;  /* Отступ слева */
 }
-
+/* ---------  */
 
 
 
@@ -1002,6 +1046,7 @@ body.dark-theme {
     70% { box-shadow: 0 0 0 6px rgba(255,0,0,0); }
     100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
 }
+/* ---------  */
 
 
 /* * skill_page_detail -- DT_SkillSlain Block Styles */
@@ -1077,8 +1122,67 @@ body.dark-theme {
     background: rgba(0,0,0,0.2);
     color: #ddd;
 }
+/* ---------  */
 
 
+/* Локация обитания  */
+.section-star {
+    color: #ffd700;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    text-align: center !important;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    overflow: hidden;
+}
+
+.stat-value {
+    color: var(--primary-color);
+    font-weight: 500;
+    text-align: right;
+}
+
+
+.location-card {
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.location-card:hover {
+    background: var(--bg-module-light);
+    transform: translateY(-2px);
+}
+
+.location-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.location-icon {
+    color: var(--accent-color);
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.location-name {
+    color: var(--text-dark);
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+/* ---------  */
 
 
 
@@ -1102,9 +1206,6 @@ body.dark-theme {
 
 
 /* by Victor Pavlov */
-
-
-
 
 
 

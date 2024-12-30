@@ -50,7 +50,7 @@ def parse_script(script: str, chest_mid: int) -> List[Dict]:
                            if chance_match:
                                chance = int(chance_match.group(1))
                                item_name = get_item_name(current_item)
-                               item_pic = get_item_pic_url(get_item_resource(current_item))
+                               item_pic = get_item_pic_url(current_item)
                                drops.append({
                                    'MID': chest_mid,
                                    'MID_pic': chest_mid_pic,

@@ -140,6 +140,7 @@ def apply_filters(items, filters):
 # Какие ячейки из запроса передаем на сайт для фильтров
 def item_to_dict(item):
     """Конвертирует объект DT_Item в словарь со всеми нужными атрибутами"""
+    print(item.IMaxStack)
     return {
         'IID': item.IID,
         'IName': item.IName,
@@ -436,9 +437,16 @@ def get_item_resource(item_ids: Union[int, List[int]]) -> Union[Optional[DT_Item
     return resources_dict
 
 #@lru_cache(maxsize=1000)
-def get_item_pic_url(item_id: int):
-    item_pic_url = f"{current_app.config['GITHUB_URL']}{item_id.RFileName}_{item_id.RPosX}_{item_id.RPosY}.png"
-    return item_pic_url
+# * Получаем ссылку на изображение предмета, по его IID
+def get_item_pic_url(item_id):
+    if isinstance(item_id, int):
+        item_id = get_item_resource(item_id)
+    
+    if hasattr(item_id, 'RFileName') and hasattr(item_id, 'RPosX') and hasattr(item_id, 'RPosY'):
+        item_pic_url = f"{current_app.config['GITHUB_URL']}{item_id.RFileName}_{item_id.RPosX}_{item_id.RPosY}.png"
+        return item_pic_url
+    else:
+        raise ValueError(f"Объект item_id ({item_id}) не содержит необходимых атрибутов (RFileName, RPosX, RPosY)")
 
 
 #@lru_cache(maxsize=1000)

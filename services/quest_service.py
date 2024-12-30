@@ -2,7 +2,17 @@ from typing import List, Dict, Optional
 from flask import current_app
 from services.database import execute_query
 from services.monster_service import get_monster_name, get_monster_pic_url
-from services.item_service import get_item_pic_url, get_item_resource, get_item_pic_url
+from services.item_service import get_item_pic_url, get_item_resource
+
+DEFAULT_IMAGE_URL = "https://raw.githubusercontent.com/Aksel911/R2-HTML-DB/main/static/no_monster/no_monster_image.png"
+
+def safe_get_item_pic(item_id: int) -> str:
+    """Безопасное получение URL картинки предмета с fallback на дефолтное изображение"""
+    try:
+        pic_url = get_item_pic_url(item_id)
+        return pic_url if pic_url else DEFAULT_IMAGE_URL
+    except Exception:
+        return DEFAULT_IMAGE_URL
 
 def get_quests_data() -> List[Dict]:
     """Получение данных о квестах"""
@@ -54,123 +64,93 @@ def get_quests_data() -> List[Dict]:
         LEFT OUTER JOIN DT_Item AS c2 ON (c2.IID = w.mID)
         LEFT OUTER JOIN TblQuestInfo AS e ON (e.mQuestNo = a.mQuestNo)
         LEFT OUTER JOIN TblPlace AS r ON (r.mPlaceNo = a.mPlace)
-        
         ORDER BY a.mQuestNo
         """
         
         results = execute_query(query)
-        quests = []
+        quests_dict = {}  # Словарь для группировки квестов по mQuestNo
         
         for row in results:
-            row_dict = {
-                'mQuestNo': row[0],
-                'mQuestNm': row[1],
-                'mClass': row[2],
-                'class_desc': row[3],
-                'mLevel1': row[4],
-                'mLevel2': row[5],
-                'mPreQuestNo': row[6],
-                'mIsOverlap': row[7],
-                'mQuestDesc': row[8],
-                'quest_info_desc': row[9],
-                'mAbandonment': row[10],
-                'mDifficulty': row[11],
-                'mRewardNo': row[12],
-                'mExp': row[13],
-                'reward_item_id': row[14],
-                'reward_name': row[15],
-                'reward_count': row[16],
-                'mBinding': row[17],
-                'mStatus': row[18],
-                'mEffTime': row[19],
-                'mValTime': row[20],
-                'required_item_id': row[21],
-                'required_item_name': row[22],
-                'required_count': row[23],
-                'mPlace': row[24],
-                'place_name': row[25],
-                'mPosX': row[26],
-                'mPosY': row[27],
-                'mPosZ': row[28],
-                'ref_monster_id': row[29],
-                'mFindNPC': row[30],
-                'find_npc_name': row[31],
-                'mCompletionNPC': row[32],
-                'completion_npc_name': row[33]
-            }
-
-            # Подготовка наград
-            rewards_items = []
-            if row_dict['reward_item_id']:
-                try:
-                    rewards_items.append({
-                        'id': row_dict['reward_item_id'],
-                        'name': row_dict['reward_name'] or 'Неизвестный предмет',
-                        'count': row_dict['reward_count'] or 1,
-                        'pic': get_item_pic_url(row_dict['reward_item_id'])
-                    })
-                except Exception as e:
-                    print(f"Error processing reward item {row_dict['reward_item_id']}: {e}")
-
-            # Подготовка требований
-            requirement_items = []
-            if row_dict['required_item_id']:
-                try:
-                    requirement_items.append({
-                        'id': row_dict['required_item_id'],
-                        'name': row_dict['required_item_name'] or 'Неизвестный предмет',
-                        'count': row_dict['required_count'] or 1,
-                        'pic': get_item_pic_url(row_dict['required_item_id'])
-                    })
-                except Exception as e:
-                    print(f"Error processing required item {row_dict['required_item_id']}: {e}")
-
-
-            # Подготовка NPC
-            completion_npc = None
-            if row_dict['mCompletionNPC']:
-                try:
-                    completion_npc = {
-                        'id': row_dict['mCompletionNPC'],
-                        'name': row_dict['completion_npc_name'],
-                        'pic': get_monster_pic_url(row_dict['mCompletionNPC']) if row_dict['mCompletionNPC'] else None
-                    }
-                except Exception as e:
-                    print(f"Error processing completion NPC {row_dict['mCompletionNPC']}: {e}")
-
-            find_npc = None
-            if row_dict['mFindNPC']:
-                try:
-                    find_npc = {
-                        'id': row_dict['mFindNPC'],
-                        'name': row_dict['find_npc_name'],
-                        'pic': get_monster_pic_url(row_dict['mFindNPC']) if row_dict['mFindNPC'] else None
-                    }
-                except Exception as e:
-                    print(f"Error processing find NPC {row_dict['mFindNPC']}: {e}")
-
-            quest = {
-                'questNo': row_dict['mQuestNo'],
-                'questName': row_dict['mQuestNm'],
-                'level': f"{row_dict['mLevel1']}-{row_dict['mLevel2']}",
-                'class': row_dict['class_desc'],
-                'difficulty': row_dict['mDifficulty'],
-                'description': row_dict['mQuestDesc'],
-                'place': row_dict['place_name'],
-                'rewards': {
-                    'exp': row_dict['mExp'],
-                    'itemList': rewards_items  # Изменено название с items на itemList
-                },
-                'requirements': {
-                    'itemList': requirement_items  # Изменено название с items на itemList
-                },
-                'npcs': {
-                    'completion': completion_npc,
-                    'find': find_npc
-                }
-            }
-            quests.append(quest)
+            quest_no = row[0]
             
+            # Если квест еще не добавлен в словарь, создаем базовую структуру
+            if quest_no not in quests_dict:
+                quests_dict[quest_no] = {
+                    'questNo': quest_no,
+                    'questName': row[1],
+                    'level': f"{row[4]}-{row[5]}" if row[5] else str(row[4]),
+                    'class': row[3] or 'Все классы',
+                    'difficulty': row[11],
+                    'description': row[8],
+                    'place': row[25],
+                    'rewards': {
+                        'exp': row[13],
+                        'itemList': []
+                    },
+                    'requirements': {
+                        'itemList': []
+                    },
+                    'npcs': {
+                        'completion': None,
+                        'find': None
+                    }
+                }
+
+                # Добавляем NPC только один раз при создании квеста
+                if row[32]:  # mCompletionNPC
+                    try:
+                        npc_pic = get_monster_pic_url(row[32])
+                        quests_dict[quest_no]['npcs']['completion'] = {
+                            'id': row[32],
+                            'name': row[33],
+                            'pic': npc_pic if npc_pic else DEFAULT_IMAGE_URL
+                        }
+                    except Exception:
+                        quests_dict[quest_no]['npcs']['completion'] = {
+                            'id': row[32],
+                            'name': row[33],
+                            'pic': DEFAULT_IMAGE_URL
+                        }
+
+                if row[30]:  # mFindNPC
+                    try:
+                        npc_pic = get_monster_pic_url(row[30])
+                        quests_dict[quest_no]['npcs']['find'] = {
+                            'id': row[30],
+                            'name': row[31],
+                            'pic': npc_pic if npc_pic else DEFAULT_IMAGE_URL
+                        }
+                    except Exception:
+                        quests_dict[quest_no]['npcs']['find'] = {
+                            'id': row[30],
+                            'name': row[31],
+                            'pic': DEFAULT_IMAGE_URL
+                        }
+
+            # Добавляем награду, если она есть и её еще нет в списке
+            if row[14] and row[15]:  # reward_item_id и reward_name
+                reward_item = {
+                    'id': row[14],
+                    'name': row[15] or 'Неизвестный предмет',
+                    'count': row[16] or 1,
+                    'pic': safe_get_item_pic(row[14])
+                }
+                if reward_item not in quests_dict[quest_no]['rewards']['itemList']:
+                    quests_dict[quest_no]['rewards']['itemList'].append(reward_item)
+
+            # Добавляем требуемый предмет, если он есть и его еще нет в списке
+            if row[21] and row[22]:  # required_item_id и required_item_name
+                required_item = {
+                    'id': row[21],
+                    'name': row[22] or 'Неизвестный предмет',
+                    'count': row[23] or 1,
+                    'pic': safe_get_item_pic(row[21])
+                }
+                if required_item not in quests_dict[quest_no]['requirements']['itemList']:
+                    quests_dict[quest_no]['requirements']['itemList'].append(required_item)
+
+        # Преобразуем словарь в список
+        quests = list(quests_dict.values())
         return quests
         
     except Exception as e:
