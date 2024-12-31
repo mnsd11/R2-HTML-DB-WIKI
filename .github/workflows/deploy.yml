@@ -33,6 +33,7 @@ jobs:
         cd $APP_DIR
         git reset --hard
         git clean -fd
+        git checkout deploy
         git pull --rebase
 
         # Copy .env file
@@ -43,6 +44,7 @@ jobs:
         docker stop r2wiki_flask
         docker rm r2wiki_flask
 
+        docker-compose build
         docker-compose up -d || {
           echo "Error: Failed to start the containers."
           exit 1
