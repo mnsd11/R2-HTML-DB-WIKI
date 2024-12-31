@@ -31,18 +31,21 @@
         top: 60px;
         left: 0.5rem;
         right: 0.5rem;
-        background: rgba(255, 255, 255, 0);
+        background: rgba(255, 255, 255, 0.8);
         border: 1px solid rgba(0, 0, 0, 0.1);
         margin: 0;
         border-radius: 16px;
         transform-origin: top;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+  
         z-index: 9999;
         max-height: calc(100vh - 80px);
         overflow-y: auto;
+    }
+
+    .dark-theme .navbar-collapse {
+        background: rgba(0, 0, 0, 0.8);
     }
 
     .nav-link.dropdown-toggle {
@@ -78,7 +81,6 @@
         display: block !important;
         overflow: hidden;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: rgba(255, 255, 255, 0.5) !important;
         padding: 0;
         margin: 0;
         border-radius: 8px;
@@ -99,7 +101,7 @@
         justify-content: center !important;
         text-align: center;
         padding: 1rem 1.5rem !important;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(255, 254, 254, 0.48);
         transition: all 0.3s ease;
         transform: translateY(-10px);
         opacity: 0;
