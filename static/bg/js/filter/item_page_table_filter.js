@@ -1,7 +1,7 @@
-// Constants and Configuration
+// * Constants and Configuration
 const CONSTANTS = {
     DEBOUNCE_DELAY: 300,
-    DEFAULT_PER_PAGE: 28,
+    DEFAULT_PER_PAGE: 25,
     LOADING_FADE_DELAY: 500,
     ERROR_DISPLAY_TIME: 5000,
     PAGINATION_RADIUS: 2,
@@ -12,23 +12,7 @@ const CONSTANTS = {
         FADE_ENTER: 'table-fade-enter',
         FADE_ENTER_ACTIVE: 'table-fade-enter-active'
     },
-    PER_PAGE_OPTIONS: [10, 25, 50, 75, 100, 150, 200],
-    ATROPOS_OPTIONS: {
-        activeOffset: 20,
-        shadowScale: 1.05,
-        rotateXMax: 10,
-        rotateYMax: 10,
-        duration: 400,
-        shadow: true,
-        shadowOffset: 30,
-        highlight: true,
-        onEnter(atropos) {
-            atropos.el.classList.add('atropos-active');
-        },
-        onLeave(atropos) {
-            atropos.el.classList.remove('atropos-active');
-        }
-    }
+    PER_PAGE_OPTIONS: [10, 25, 50, 75, 100, 150, 200, 500, 1000]
 };
 
 const TYPE_MAPPINGS = {
@@ -100,7 +84,6 @@ const CLASS_DESCRIPTIONS = {
     22: 'Рейнджер, Маг, Призыватель',
     23: 'Рыцарь, Рейнджер, Маг, Призыватель'
 };
-
 
 const ADVANCED_FILTERS = [{
         id: 'IDHIT',
@@ -184,12 +167,14 @@ const ADVANCED_FILTERS = [{
     }
 ];
 
-// Utilities
+// ! Utilities
+// ? Базовый класс для реализации событийной модели
 class EventEmitter {
     constructor() {
         this.events = {};
     }
 
+    // Подписка на событие
     on(event, callback) {
         if (!this.events[event]) {
             this.events[event] = [];
@@ -198,18 +183,21 @@ class EventEmitter {
         return () => this.off(event, callback);
     }
 
+    // Отписка от события
     off(event, callback) {
         if (!this.events[event]) return;
         this.events[event] = this.events[event].filter(cb => cb !== callback);
     }
 
+    // Вызов обработчиков события
     emit(event, data) {
         if (!this.events[event]) return;
         this.events[event].forEach(callback => callback(data));
     }
 }
 
-// State Management
+// ! State Management
+// ? Менеджер состояния приложения
 class StateManager extends EventEmitter {
     constructor() {
         super();
@@ -224,23 +212,22 @@ class StateManager extends EventEmitter {
         };
     }
 
+    // Установка значения состояния с оповещением подписчиков
     setState(key, value) {
         const oldValue = this._state[key];
         this._state[key] = value;
 
         if (oldValue !== value) {
-            this.emit('stateChange', {
-                key,
-                value,
-                oldValue
-            });
+            this.emit('stateChange', { key, value, oldValue });
         }
     }
 
+    // Получение значения состояния
     getState(key) {
         return this._state[key];
     }
 
+    // Сброс состояния к начальным значениям, кроме кэшированных данных
     resetState() {
         Object.keys(this._state).forEach(key => {
             if (key !== 'cachedData') {
@@ -250,12 +237,14 @@ class StateManager extends EventEmitter {
     }
 }
 
-// Data Service
+// ! Data Service
+// ? Сервис для работы с данными
 class ItemDataService {
     constructor(stateManager) {
         this.stateManager = stateManager;
     }
 
+    // Загрузка данных с возможностью принудительного обновления
     async fetchData(forceReload = false) {
         if (this.stateManager.getState('cachedData') && !forceReload) {
             return this.stateManager.getState('cachedData');
@@ -275,6 +264,7 @@ class ItemDataService {
         }
     }
 
+    // Загрузка всех страниц данных
     async _fetchAllPages() {
         const firstPageResponse = await this._fetchPage(1);
         let allItems = [...firstPageResponse.items];
@@ -302,6 +292,7 @@ class ItemDataService {
         };
     }
 
+    // Загрузка одной страницы данных
     async _fetchPage(page) {
         const response = await fetch(
             `${window.location.pathname}?all=1&page=${page}`, {
@@ -324,9 +315,10 @@ class ItemDataService {
     }
 }
 
-// Filter Logic
+// ! Filter Logic
+// ? Менеджер фильтрации предметов
 class ItemFilterManager {
-    
+    // Сбор всех активных фильтров со страницы
     static collectFilters() {
         const filters = {};
         document.querySelectorAll('.form-control, .custom-control-input').forEach(input => {
@@ -343,6 +335,7 @@ class ItemFilterManager {
         return filters;
     }
 
+    // Фильтрация списка предметов по всем фильтрам
     static filterData(items, filters) {
         // Проверяем структуру первого предмета
         // if (items.length > 0) {
@@ -364,6 +357,7 @@ class ItemFilterManager {
         return filteredData.filter(item => this._applyAllFilters(item, filters));
     }
 
+    // Применение всех фильтров к одному предмету
     static _applyAllFilters(item, filters) {
         return Object.entries(filters).every(([key, value]) => {
             // Фильтр стакаемости
@@ -403,6 +397,7 @@ class ItemFilterManager {
         });
     }
 
+    // Применение фильтра диапазона значений
     static _applyRangeFilter(item, key, value) {
         const baseKey = key.replace(/(Min|Max)$/, '');
         const isMin = key.endsWith('Min');
@@ -414,6 +409,7 @@ class ItemFilterManager {
             itemValue <= filterValue;
     }
 
+    // Проверка является ли фильтр булевым
     static _isBooleanFilter(key) {
         return [
             'eventItemFilter',
@@ -424,6 +420,7 @@ class ItemFilterManager {
         ].includes(key);
     }
 
+    // Применение булевого фильтра
     static _applyBooleanFilter(item, key) {
         const mappings = {
             eventItemFilter: 'IIsEvent',
@@ -436,6 +433,7 @@ class ItemFilterManager {
         return item[mappings[key]] === true;
     }
 
+    // Получение значения свойства предмета для фильтрации
     static _getItemValue(item, baseKey) {
         const mappings = {
             level: 'ILevel',
@@ -448,7 +446,11 @@ class ItemFilterManager {
     }
 }
 
-// UI Management
+
+
+
+// ! UI Management
+// ? Класс управления пользовательским интерфейсом
 class ItemUIManager {
     constructor(stateManager) {
         this.stateManager = stateManager;
@@ -456,9 +458,8 @@ class ItemUIManager {
         this.initializeAtropos();
         this.setupThemeChangeListener();
     }
-
-
     
+    // Инициализация библиотеки Atropos для 3D-эффектов карточек
     initializeAtropos() {
         const script = document.createElement('script');
         script.src = 'https://unpkg.com/atropos@2.0.2/atropos.js';
@@ -474,6 +475,7 @@ class ItemUIManager {
         document.head.appendChild(link);
     }
 
+    // Переинициализация карточек при изменении темы
     reinitializeCards() {
         // Сначала уничтожаем все существующие экземпляры
         document.querySelectorAll('.atropos').forEach(el => {
@@ -487,9 +489,10 @@ class ItemUIManager {
             this._initializeAtroposCards();
         });
     }
-
+    
+    // Настройка слушателя изменения темы
     setupThemeChangeListener() {
-        const themeToggle = document.querySelector('.theme-toggle'); // или ваш селектор для переключателя темы
+        const themeToggle = document.querySelector('.theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
                 // Даем небольшую задержку, чтобы тема успела переключиться
@@ -500,6 +503,7 @@ class ItemUIManager {
         }
     }
 
+    // Настройка подписок на изменения состояния
     setupStateSubscriptions() {
         this.stateManager.on('stateChange', ({
             key,
@@ -516,11 +520,13 @@ class ItemUIManager {
         });
     }
 
+    // Настройка всех анимаций
     setupAnimations() {
         this.setupTableAnimations();
         this.setupPaginationAnimations();
     }
 
+    // ! Настройка анимаций таблицы СТИЛЬ CSS
     setupTableAnimations() {
         const style = document.createElement('style');
         style.textContent = `
@@ -544,6 +550,7 @@ class ItemUIManager {
         document.head.appendChild(style);
     }
 
+    // Настройка анимаций пагинации
     setupPaginationAnimations() {
         document.addEventListener('click', e => {
             if (e.target.matches('.pagination-container button')) {
@@ -554,12 +561,14 @@ class ItemUIManager {
             }
         });
     }
-
+    
+    // Инициализация пользовательского интерфейса
     initializeUI() {
         this.initializeFilters();
         this.setupEventListeners();
     }
 
+    // Инициализация всех фильтров
     initializeFilters() {
         this.initializeTypeFilter(); // Инициализация типа предметов
         this.initializeClassFilter(); // Инициализация класс предметов
@@ -567,7 +576,7 @@ class ItemUIManager {
         this.initializePerPageSelect();
     }
 
-    // Инициализация типа предметов
+    // Инициализация фильтра типов предметов
     initializeTypeFilter() {
         const typeFilter = document.getElementById('typeFilter');
         if (!typeFilter) return;
@@ -576,12 +585,12 @@ class ItemUIManager {
 
         typeFilter.innerHTML = this._createTypeFilterOptions(allowedTypes);
     }
-    
+    // Получение разрешенных типов для текущей страницы
     _getAllowedTypes() {
         return TYPE_MAPPINGS[window.location.pathname] ||
             Object.keys(TYPE_DESCRIPTIONS);
     }
-
+    // ! Создание HTML-опций для фильтра типов
     _createTypeFilterOptions(types) {
         const options = ['<option value="">Все</option>'];
 
@@ -597,14 +606,14 @@ class ItemUIManager {
     }
 
 
-    // Инициализация класс предметов
+    // Инициализация фильтра классов предметов
     initializeClassFilter() {
         const classFilter = document.getElementById('typeClassFilter');
         if (!classFilter) return;
 
         classFilter.innerHTML = this._createClassFilterOptions();
     }
-
+    // ! Создание HTML карточки фильтра
     _createClassFilterOptions() {
         const options = ['<option value="255">Все классы</option>'];
         
@@ -620,9 +629,7 @@ class ItemUIManager {
     }
 
 
-
-
-
+    // Инициализация дополнительных фильтров
     initializeAdvancedFilters() {
         const container = document.querySelector('.advanced-filters-grid');
         if (!container) return;
@@ -631,7 +638,7 @@ class ItemUIManager {
             .map(this._createFilterCard)
             .join('');
     }
-
+    // ! Создание HTML для доп фильтров
     _createFilterCard(filter) {
         return `
                 <div class="filter-card" data-filter="${filter.id}">
@@ -658,6 +665,7 @@ class ItemUIManager {
             `;
     }
 
+    // Инициализация кнопок перехода по страницам таблицы
     initializePerPageSelect() {
         const perPageSelect = document.getElementById('perPageSelect');
         if (!perPageSelect) return;
@@ -669,12 +677,14 @@ class ItemUIManager {
         perPageSelect.value = this.stateManager.getState('perPage').toString();
     }
 
+    // Настройка обработчиков событий
     setupEventListeners() {
         this._setupFilterContainerListener();
         this._setupResetButton();
         this._setupPerPageSelect();
     }
 
+    // Настройка слушателя контейнера фильтров
     _setupFilterContainerListener() {
         const container = document.querySelector('.filters-container');
         if (!container) return;
@@ -686,11 +696,13 @@ class ItemUIManager {
         });
     }
 
+    // Проверка является ли элемент фильтром
     _isFilterInput(element) {
         return element.classList.contains('form-control') ||
             element.classList.contains('custom-control-input');
     }
 
+    // Обработка ввода в фильтр с задержкой
     _handleFilterInput() {
         clearTimeout(this.stateManager.getState('debounceTimer'));
 
@@ -702,6 +714,7 @@ class ItemUIManager {
         this.stateManager.setState('debounceTimer', timer);
     }
 
+    // Настройка кнопки сброса фильтров
     _setupResetButton() {
         const resetButton = document.getElementById('resetFilters');
         if (!resetButton) return;
@@ -712,6 +725,7 @@ class ItemUIManager {
         });
     }
 
+    // Настройка взаимодействий с карточками
     _setupCardInteractions() {
         document.querySelectorAll('.item-card').forEach(card => {
             card.addEventListener('mouseenter', () => {
@@ -724,6 +738,7 @@ class ItemUIManager {
         });
     }
 
+    // Сброс всех фильтров в начальное состояние
     _resetAllFilters() {
         document.querySelectorAll('.form-control, .custom-control-input')
             .forEach(input => {
@@ -737,6 +752,7 @@ class ItemUIManager {
             });
     }
 
+    // Настройка селектора количества элементов на странице
     _setupPerPageSelect() {
         const perPageSelect = document.getElementById('perPageSelect');
         if (!perPageSelect) return;
@@ -749,10 +765,12 @@ class ItemUIManager {
         });
     }
 
+     // Вызов события обновления фильтров
     _triggerFiltersUpdate() {
         document.dispatchEvent(new CustomEvent('filtersUpdated'));
     }
 
+    // ! Отрисовка HTML элементов с анимацией
     renderItems(items, resources) {
         const tableWrapper = document.querySelector('.table-wrapper');
         if (!tableWrapper) return;
@@ -770,37 +788,41 @@ class ItemUIManager {
     
                 return `
                     <div class="atropos" data-index="${index}">
-                        <div class="atropos-scale">
-                            <div class="atropos-rotate">
-                                <div class="atropos-inner" data-class="${classValue}">
-                                    <div class="item-card-id" data-atropos-offset="5">
-                                        #${item.IID}
+                        <a href="/item/${item.IID}" class="card-link">
+                            <div class="atropos-scale">
+                                <div class="atropos-rotate">
+                                    <div class="atropos-inner" data-class="${classValue}">
+                                        <div class="item-card-id" data-atropos-offset="5">
+                                            #${item.IID}
+                                        </div>
+                            
+                                        <div class="item-card-image" data-atropos-offset="8" data-class="${classValue}">
+                                            <img src="${resources[item.IID] || CONSTANTS.FALLBACK_IMAGE}"
+                                                alt="${item.IName}"
+                                                loading="lazy"
+                                                onerror="this.src='${CONSTANTS.FALLBACK_IMAGE}';">
+                                        </div>
+                                        
+                                        <div class="item-card-title" data-atropos-offset="8">
+                                            <span><img src="${item.IUseClass}" alt="Image description"></span>
+                                        </div>
+                
+                                        <div class="item-card-title" data-atropos-offset="6">
+                                            <span class="item-link">${item.IName}</span>
+                                        </div>
+                
+                                        <div class="stat-badges" data-atropos-offset="4">
+                                            ${this._generateStatBadges(item)}
+                                        </div>
+                
+                                        <div class="item-card-description" data-atropos-offset="2">
+                                            ${item.IDesc || 'Нет описания'}
+                                        </div>
                                     </div>
-    
-                                    <div class="item-card-image" data-atropos-offset="8" data-class="${classValue}">
-                                        <img src="${resources[item.IID] || CONSTANTS.FALLBACK_IMAGE}"
-                                            alt="${item.IName}"
-                                            loading="lazy"
-                                            onerror="this.src='${CONSTANTS.FALLBACK_IMAGE}';">
-                                    </div>
-                                    <div class="item-card-title" data-atropos-offset="8">
-                                        <span><img src="${item.IUseClass}" alt="Image description"></span>
-                                    </div>
-    
-                                    <div class="item-card-title" data-atropos-offset="6">
-                                        <a href="/item/${item.IID}" class="item-link">${item.IName}</a>
-                                    </div>
-    
-                                    <div class="stat-badges" data-atropos-offset="4">
-                                        ${this._generateStatBadges(item)}
-                                    </div>
-    
-                                    <div class="item-card-description" data-atropos-offset="2">
-                                        ${item.IDesc || 'Нет описания'}
-                                    </div>
+                                    <div class="atropos-shadow"></div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 `;
             }).join('');
@@ -815,15 +837,7 @@ class ItemUIManager {
 
 
 
-
-
-
-
-
-
-
-
-
+    // Инициализация 3D-карточек с помощью Atropos
     _initializeAtroposCards() {
         if (!window.Atropos) {
             console.warn('Waiting for Atropos...');
@@ -885,46 +899,41 @@ class ItemUIManager {
                 el: el,
                 activeOffset: 20,
                 shadowScale: 1.05,
+                rotate: true,
                 rotateXMax: 8,
                 rotateYMax: 8,
-                duration: 800,
+                duration: 400, // Уменьшил длительность анимации для большей отзывчивости
                 shadow: true,
-                shadowOffset: 30,
-                highlight: true,
-                onEnter() {
-                    el.classList.add('atropos-active');
-                },
+                shadowOffset: 50,
+                highlight: false,
+                // Добавляем дебаунс для оптимизации производительности
+                debounceDuration: 10,
+                // Используем requestAnimationFrame для плавности
                 onLeave() {
-                    el.classList.remove('atropos-active');
-                    // Сброс стилей при уходе мыши
-                    el.style.removeProperty('--x');
-                    el.style.removeProperty('--y');
-                },
-                onRotate(e) {
-                    // Плавное движение для названия
-                    const title = el.querySelector('.item-card-title');
-                    if (title) {
-                        const slowFactor = 0.3;
-                        const x = e.rotateX * slowFactor;
-                        const y = e.rotateY * slowFactor;
-                        title.style.transform = `translate3d(${y/2}px, ${-x/2}px, 40px)`;
-                    }
-    
-                    // Плавное движение для описания
-                    const description = el.querySelector('.item-card-description');
-                    if (description) {
-                        const ultraSlowFactor = 0.1;
-                        const dx = e.rotateX * ultraSlowFactor;
-                        const dy = e.rotateY * ultraSlowFactor;
-                        description.style.transform = `translate3d(${dy/2}px, ${-dx/2}px, 20px)`;
-                    }
+                    requestAnimationFrame(() => {
+                        el.classList.remove('atropos-active');
+                        el.style.cursor = 'default';
+                        
+                        // Плавно скрываем подсветку
+                        const overlay = el.querySelector('.highlight-overlay');
+                        if (overlay) {
+                            overlay.style.opacity = '0';
+                        }
+            
+                        // Сброс стилей
+                        el.style.removeProperty('--x');
+                        el.style.removeProperty('--y');
+                    });
                 }
             });
     
             el.atroposInstance = atroposInstance;
         });
+
+        
     }
 
+    // Очистка экземпляров Atropos
     destroy() {
         document.querySelectorAll('.atropos').forEach(el => {
             if (el.atroposInstance) {
@@ -932,7 +941,7 @@ class ItemUIManager {
             }
         });
     }
-
+    // Анимация обновления таблицы
     _animateTableUpdate(tableBody, updateFn) {
         tableBody.classList.add(CONSTANTS.ANIMATION_CLASSES.FADE_ENTER);
 
@@ -950,65 +959,243 @@ class ItemUIManager {
         });
     }
 
-
-
-    
+    // ! Генерация HTML бейджей со статистикой предмета для карточки предмета
     _generateStatBadges(item) {
         const badges = [];
-        
-        // // Класс предмета
-        // if (item.IUseClass) {
-        //     badges.push(`
-        //         <div class="stat-badge" data-atropos-offset="3">
-        //             <i class="fas fa-star"></i>
-        //             <span><img src="${item.IUseClass}" alt="Image description"></span>
-        //         </div>
-        //     `);
-        // }
-
-        // Уровень предмета
-        if (item.ILevel) {
+    
+        const hasValue = value => value && value !== "0" && value !== 0;
+    
+        // Базовые характеристики
+        if (hasValue(item.ILevel)) {
             badges.push(`
                 <div class="stat-badge" data-atropos-offset="3">
-                    <i class="fas fa-star"></i>
-                    <span>Ур. ${item.ILevel}</span>
+                    <i class="fa-solid fa-star"></i>
+                    <span>Ур: ${item.ILevel}</span>
                 </div>
             `);
         }
-        
-        // Вес предмета
-        if (item.IWeight) {
+    
+        if (hasValue(item.IWeight)) {
             badges.push(`
                 <div class="stat-badge" data-atropos-offset="3">
-                    <i class="fas fa-weight-hanging"></i>
-                    <span>${item.IWeight}</span>
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span>Вес: ${item.IWeight}</span>
                 </div>
             `);
         }
-        
-        // Характеристики атаки/защиты
-        if (item.IDHIT) {
+    
+        // Параметры ближнего боя
+        if (hasValue(item.IDHIT)) {
             badges.push(`
                 <div class="stat-badge" data-atropos-offset="3">
-                    <i class="fas fa-fist-raised"></i>
-                    <span>ATK ${item.IDHIT}</span>
+                    <i class="fa-solid fa-hand-fist"></i>
+                    <span>Урон: ${item.IDHIT}</span>
                 </div>
             `);
         }
-        
-        if (item.IDDD) {
+    
+        if (hasValue(item.IDDD)) {
             badges.push(`
                 <div class="stat-badge" data-atropos-offset="3">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>DEF ${item.IDDD}</span>
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Точность: ${item.IDDD}</span>
                 </div>
             `);
         }
-        
+    
+        // Параметры дальнего боя
+        if (hasValue(item.IRHIT)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Дальн. точность: ${item.IRHIT}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IRDD)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    <span>Дальн. урон: ${item.IRDD}</span>
+                </div>
+            `);
+        }
+    
+        // Магические параметры
+        if (hasValue(item.IMHIT)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-wand-sparkles"></i>
+                    <span>Маг. точность: ${item.IMHIT}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IMDD)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-hat-wizard"></i>
+                    <span>Маг. урон: ${item.IMDD}</span>
+                </div>
+            `);
+        }
+    
+        // Характеристики персонажа
+        if (hasValue(item.ISTR)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-dumbbell"></i>
+                    <span>Сила: ${item.ISTR}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IDEX)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-person-running"></i>
+                    <span>Ловкость: ${item.IDEX}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IINT)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Интеллект: ${item.IINT}</span>
+                </div>
+            `);
+        }
+    
+        // HP/MP параметры
+        if (hasValue(item.IHPPlus)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>HP: ${item.IHPPlus}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IMPPlus)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>MP: ${item.IMPPlus}</span>
+                </div>
+            `);
+        }
+    
+        // Регенерация
+        if (hasValue(item.IHPRegen)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <span>Реген HP: ${item.IHPRegen}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IMPRegen)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-rotate"></i>
+                    <span>Реген MP: ${item.IMPRegen}</span>
+                </div>
+            `);
+        }
+    
+        // Скорость и крит
+        if (hasValue(item.IAttackRate)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>Скор. атаки: ${item.IAttackRate}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IMoveRate)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-person-walking"></i>
+                    <span>Скор. движения: ${item.IMoveRate}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.ICritical)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-crutch"></i>
+                    <span>Крит: ${item.ICritical}</span>
+                </div>
+            `);
+        }
+    
+        // Поглощение урона
+        if (hasValue(item.IDPV)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-shield"></i>
+                    <span>Погл. ближ: ${item.IDPV}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IMPV)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-poo-storm"></i>
+                    <span>Погл. маг: ${item.IMPV}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IRPV)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-soap"></i>
+                    <span>Погл. дальн: ${item.IRPV}</span>
+                </div>
+            `);
+        }
+    
+        // Уклонение
+        if (hasValue(item.IDDV)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-brands fa-padlet"></i>
+                    <span>Укл. ближ: ${item.IDDV}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IMDV)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-solid fa-wind"></i>
+                    <span>Укл. маг: ${item.IMDV}</span>
+                </div>
+            `);
+        }
+    
+        if (hasValue(item.IRDV)) {
+            badges.push(`
+                <div class="stat-badge" data-atropos-offset="3">
+                    <i class="fa-brands fa-pied-piper-alt"></i>
+                    <span>Укл. дальн: ${item.IRDV}</span>
+                </div>
+            `);
+        }
+    
         return badges.join('');
     }
+    
 
-
+    // ! Генерация HTML заголовков таблицы
     _generateTableHeaders() {
         return `
                     <th>🖼️</th>
@@ -1018,7 +1205,8 @@ class ItemUIManager {
                     <th>Класс</th>
             `;
     }
-
+    
+    // Генерация строки таблицы для предмета
     _generateItemRow(item, resources) {
         return `
                 <tr>
@@ -1048,7 +1236,8 @@ class ItemUIManager {
                 </tr>
             `;
     }
-
+    
+    // Создание пагинации
     createPagination(total, currentPage, perPage) {
         const paginationContainer = document.querySelector('.pagination-container');
         if (!paginationContainer) return;
@@ -1064,7 +1253,8 @@ class ItemUIManager {
             paginationContainer.style.opacity = '1';
         });
     }
-
+    
+    // ! Генерация HTML для пагинации
     _generatePaginationHTML(totalPages, currentPage) {
         const buttons = [];
 
@@ -1098,14 +1288,16 @@ class ItemUIManager {
 
         return buttons.join('');
     }
-
+    
+    // Показывает первую, последнюю и страницы вокруг текущей
     _shouldShowPageNumber(pageNum, currentPage, totalPages) {
         return pageNum === 1 ||
             pageNum === totalPages ||
             (pageNum >= currentPage - CONSTANTS.PAGINATION_RADIUS &&
                 pageNum <= currentPage + CONSTANTS.PAGINATION_RADIUS);
     }
-
+    
+    // ! Создает HTML кнопки для пагинации с соответствующими классами и обработчиками
     _createPaginationButton(text, pageNum, isDisabled, isActive = false) {
         const className = isActive ? 'btn-primary' : 'btn-secondary';
         const disabled = isDisabled ? 'disabled' : '';
@@ -1117,20 +1309,23 @@ class ItemUIManager {
                 </button>
             `;
     }
-
+    
+    // Обновляет отображаемое количество найденных предметов
     updateTotalCount(count) {
         const totalCount = document.getElementById('totalCount');
         if (totalCount) {
             totalCount.textContent = `Найдено предметов: ${count}`;
         }
     }
-
+    
+    // Обновляет URL страницы с параметрами текущих фильтров
     updateURL(params) {
         const url = new URL(window.location.href);
         url.search = new URLSearchParams(params).toString();
         history.pushState({}, '', url);
     }
-
+    
+    // Управляет отображением индикатора загрузки
     toggleLoadingState(isLoading) {
         const loadingOverlay = document.getElementById('loadingOverlay');
         if (!loadingOverlay) return;
@@ -1143,7 +1338,8 @@ class ItemUIManager {
             }, CONSTANTS.LOADING_FADE_DELAY);
         }
     }
-
+    
+    // Отображает сообщение об ошибке с автоматическим скрытием
     showError(message) {
         const errorMessage = document.getElementById('errorMessage');
         if (!errorMessage) return;
@@ -1157,14 +1353,19 @@ class ItemUIManager {
     }
 }
 
-// Main Application Class
+
+
+
+// ! Main Application Class
+// ? Основной класс приложения для фильтрации предметов
 class ItemFilterApp {
     constructor() {
         this.stateManager = new StateManager();
         this.dataService = new ItemDataService(this.stateManager);
         this.uiManager = new ItemUIManager(this.stateManager);
     }
-
+    
+    // Инициализация приложения
     async initialize() {
         await this.dataService.fetchData();
         this.uiManager.initializeUI();
@@ -1172,13 +1373,15 @@ class ItemFilterApp {
         this.applyFilters(1);
         initializeSearch();
     }
-
+    
+    // Настройка слушателей событий
     setupEventListeners() {
         document.addEventListener('filtersUpdated', () => {
             this.applyFilters(1);
         });
     }
-
+    
+    // Применение фильтров и обновление UI
     async applyFilters(page = 1) {
         const cachedData = this.stateManager.getState('cachedData');
         if (!cachedData) return;
@@ -1195,14 +1398,16 @@ class ItemFilterApp {
         this.uiManager.createPagination(filteredData.length, page, perPage);
         this.uiManager.updateURL(filters);
     }
-
+    
+    // Пагинация отфильтрованных данных
     _paginateData(data, page, perPage) {
         const start = (page - 1) * perPage;
         return data.slice(start, start + perPage);
     }
 }
 
-// Initialize application
+// ! Initialize application
+// ? Инициализация приложения после загрузки DOM
 let app;
 document.addEventListener('DOMContentLoaded', () => {
     app = new ItemFilterApp();

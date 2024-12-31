@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light">
+    <link rel="stylesheet" href="/static/bg/css/menu/menu.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <a class="navbar-brand" href="/">R2 Online Game</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -71,50 +72,9 @@
     </div>
 </nav>
 
-<style>
 
-    /* 
-    * Стили кнопки переключения темы / Кнопка переключения темы
-    */
-    .theme-toggle  { 
-        position: absolute;
-        top: 50px;
-        right: 55px;
-        width: 40px;  /* Фиксированная ширина */
-        height: 40px; /* Фиксированная высота */
-        border-radius: 50%;
-        background: #f1f1f1;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;           /* Для центрирования иконки */
-        align-items: center;     /* Центрирование по вертикали */
-        justify-content: center; /* Центрирование по горизонтали */
-        padding: 0;             /* Убираем padding */
-    }
-
-
-    .theme-toggle i  { 
-        font-size: 18px;    /* Размер иконки */
-        line-height: 1;     /* Убираем дополнительное пространство */
-    }
-
-
-    .theme-toggle:hover  { 
-        color: var(--accent-color);
-        transform: rotate(360deg);
-    }
-
-    /* Стили для компактности на малых экранах */
-    @media (max-width: 576px) {
-        .theme-toggle {
-            right: 80px;
-        }
-    }
-
-</style>
-
-
-
-
+<!-- Required JS -->
+{% block scripts %}
+    <!-- Скрипты -->
+    <script src="/static/bg/js/menu/menu.js"></script>
+{% endblock %}

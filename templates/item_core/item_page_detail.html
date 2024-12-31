@@ -9,26 +9,27 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
 
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <!-- Подключение Dark Theme -->
     <link rel="stylesheet" href="/static/bg/css/detail_css.css">
 
 </head>
 <body>
-
+    
     <!-- Контейнер для sticky-кнопки -->
     <div class="back-button-container">
         <button class="back-button" onclick="window.history.back()">
             <i class="fas fa-arrow-left"></i>
             Назад
         </button>
-
+    
         <button class="theme-toggle" id="theme-toggle" aria-label="Переключить тему">
             <i class="fas fa-adjust"></i>
         </button>
     </div>
-
+    
     <main>
+        {% include 'main_page_menu.html' %}
         <div class="container text-center">
 
 			{% if monstermodelno_result %}

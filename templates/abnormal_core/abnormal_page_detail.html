@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <link rel="stylesheet" href="/static/bg/css/detail_css.css">
 </head>
 <body>
@@ -21,10 +22,11 @@
     </div>
 
     <main>
+        {% include 'main_page_menu.html' %}
         <div class="container text-center">
+            <!-- Первый блок -->
             <div class="row">
-                <!-- Первый блок -->
-                 
+
                 <!-- Информация -->
                 <div class="col-12 col-md-6">
                     {% include 'abnormal_core/detail/abnormal_page_detail_information.html' %}

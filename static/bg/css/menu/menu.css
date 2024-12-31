@@ -1,0 +1,353 @@
+/* Основные стили меню */
+.navbar {
+    background: rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin: 0.5rem;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 9999;
+}
+
+.navbar-brand {
+    color: inherit;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+    transform: translateY(-2px);
+}
+
+/* Мобильное меню */
+@media (max-width: 767px) {
+    .navbar-collapse {
+        position: fixed;
+        top: 60px;
+        left: 0.5rem;
+        right: 0.5rem;
+        background: rgba(255, 255, 255, 0);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin: 0;
+        border-radius: 16px;
+        transform-origin: top;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        z-index: 9999;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+
+    .nav-link.dropdown-toggle {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        transition: all 0.3s ease;
+        color: inherit;
+    }
+
+    .nav-link.dropdown-toggle::after {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border: none;
+        border-right: 2px solid currentColor;
+        border-bottom: 2px solid currentColor;
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+        position: absolute;
+        right: 20px;
+    }
+
+    .nav-item.show .nav-link.dropdown-toggle::after {
+        transform: rotate(-135deg);
+    }
+
+    .dropdown-menu {
+        max-height: 0;
+        opacity: 0;
+        display: block !important;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(255, 255, 255, 0.5) !important;
+        padding: 0;
+        margin: 0;
+        border-radius: 8px;
+        border: none;
+    }
+
+    .dropdown-menu.show {
+        max-height: 1000px;
+        opacity: 1;
+        padding: 0.5rem 0;
+    }
+
+    .dropdown-item {
+        display: grid !important;
+        grid-template-columns: 24px 1fr !important;
+        gap: 15px !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center;
+        padding: 1rem 1.5rem !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        transform: translateY(-10px);
+        opacity: 0;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .dropdown-menu.show .dropdown-item {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .dropdown-item:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-item img {
+        width: 24px;
+        height: 24px;
+        margin: 0 auto !important;
+        justify-self: center !important;
+        transition: transform 0.3s ease;
+    }
+
+    .dropdown-item:active img {
+        transform: scale(0.9);
+    }
+
+    .navbar-toggler {
+        border: none;
+        padding: 0.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-toggler:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .navbar-toggler:active {
+        transform: scale(0.95);
+    }
+}
+
+/* ПК версия */
+@media (min-width: 768px) {
+    /* Контейнер выпадающего меню */
+    .dropdown {
+        position: relative;
+    }
+
+    /* Сам dropdown-menu */
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 0.5rem 0;
+        min-width: 220px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+        display: block;
+        margin-top: 5px;
+    }
+
+    /* Показ меню при наведении */
+    .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    /* Добавляем небольшую невидимую область для лучшего наведения */
+    .dropdown::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 100%;
+        height: 20px;
+        background: transparent;
+    }
+
+    .dropdown-menu::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: 0;
+        width: 100%;
+        height: 20px;
+        background: transparent;
+    }
+
+    /* Стили для пунктов меню */
+    .dropdown-item {
+        position: relative;
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        gap: 15px;
+        align-items: center;
+        padding: 0.8rem 1.2rem;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        background: transparent;
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Эффект при наведении на пункт меню */
+    .dropdown-item:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    .dark-theme .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Стили для анимации иконок */
+    .dropdown-item img {
+        position: relative;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: perspective(100px) translateZ(0);
+        backface-visibility: hidden;
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+    }
+
+    .dropdown-item:hover img {
+        transform: perspective(100px) translateZ(20px) rotate(10deg);
+        filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+    }
+
+    /* Улучшенный hover эффект */
+    .dropdown-item::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 2px; /* Толщина линии */
+        background: linear-gradient(90deg, 
+            rgba(255, 215, 0, 0.0) 0%, 
+            rgba(0, 140, 255, 0.6) 50%, 
+            rgba(255, 215, 0, 0.0) 100%);
+        transform: translateX(-100%);
+        transition: transform 0.4s ease;
+        pointer-events: none;
+    }
+    
+    .dropdown-item:hover::before {
+        transform: translateX(0);
+    }
+
+    .dropdown-item span {
+        position: relative;
+        z-index: 2;
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .dropdown-item:hover span {
+        transform: translateX(5px);
+    }
+
+    /* Стили для nav-link */
+    .nav-link {
+        color: inherit;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .nav-link:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Темная тема */
+.dark-theme .navbar {
+    background: rgba(18, 18, 18, 0.7) !important;
+}
+
+.dark-theme .dropdown-menu {
+    background: rgba(30, 30, 30, 0.95) !important;
+}
+
+.dark-theme .dropdown-item {
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .dropdown-item::before {
+    background: linear-gradient(45deg, 
+        transparent 0%, 
+        rgba(255,255,255,0.03) 45%, 
+        rgba(255,255,255,0.05) 50%, 
+        rgba(255,255,255,0.03) 55%, 
+        transparent 100%);
+}
+
+/* Скроллбар */
+.navbar-collapse::-webkit-scrollbar {
+    width: 6px;
+}
+
+.navbar-collapse::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.navbar-collapse::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.dark-theme .navbar-collapse::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Дополнительные анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

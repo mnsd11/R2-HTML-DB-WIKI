@@ -656,7 +656,7 @@ body {
     }
 
 /* Dark theme support for hover text */
-    .dark-theme .skill-hover-text {
-        background: rgba(44, 62, 80, 0.95);
-        color: white;
-    }
+.dark-theme .skill-hover-text {
+    background: rgba(44, 62, 80, 0.95);
+    color: white;
+}

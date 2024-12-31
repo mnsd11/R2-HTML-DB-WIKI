@@ -15,6 +15,7 @@
     --summoner-color: rgba(255, 0, 0, 0.4);
     --border-opacity: 0.6;
     --glow-opacity: 0.4;
+    
 }
 
 script {
@@ -46,6 +47,8 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,.1);
     animation: fadeIn 1s ease-in-out
 }
+
+
 
 .table-wrapper {
     width: 100%;
@@ -85,12 +88,18 @@ h1 {
     cursor: pointer
 }
 
+
+
+/* Стили меню  */
 .navbar {
     background-color: rgba(255,255,255,.95)!important;
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
     margin-bottom: 20px;
     border-radius: 16px;
     margin: 1rem
+}
+.dropdown-item:hover {
+    text-decoration: underline;
 }
 
 .navbar-brand {
@@ -152,6 +161,17 @@ h1 {
     opacity: 1;
     transform: translateX(0)
 }
+
+.dark-theme .navbar {
+    background-color: rgba(40,40,40,.95)!important
+}
+
+.dark-theme .dropdown-menu {
+    background-color: rgba(40,40,40,.95)
+}
+/* ---------  */
+
+
 
 .search-container {
     max-width: 600px;
@@ -278,7 +298,6 @@ h1 {
 }
 
 .form-control {
-    padding: 10px 15px;
     border-radius: 8px;
     font-size: 1em;
     line-height: 1.5;
@@ -286,7 +305,7 @@ h1 {
     background-color: #fff;
     border: 1px solid #ccc;
     color: #333;
-    width: 200px
+    width: 180px
 }
 
 .form-control:hover {
@@ -399,10 +418,11 @@ h1 {
 }
 
 .filters-container {
-    background: rgba(255,255,255,.95);
+    background: rgba(255, 255, 255, 0.12);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    backdrop-filter: blur(10px);
     transition: background-color .3s,color .3s
 }
 
@@ -472,8 +492,9 @@ body.dark-theme {
 }
 
 .dark-theme .table-wrapper {
-    background: rgba(40,40,40,.95)
-}
+    background: linear-gradient(135deg, rgba(40, 40, 40, 0.95), rgba(60, 60, 60, 0.2));
+  }
+  
 
 .dark-theme .table th {
     background-color: #2c3e50;
@@ -496,13 +517,6 @@ body.dark-theme {
     border-color: #34495e
 }
 
-.dark-theme .navbar {
-    background-color: rgba(40,40,40,.95)!important
-}
-
-.dark-theme .dropdown-menu {
-    background-color: rgba(40,40,40,.95)
-}
 
 .dark-theme .form-control {
     background-color: #2c3e50;
@@ -611,12 +625,11 @@ body.dark-theme {
 
 .dark-theme a:hover {
     color: #ffe4b5!important;
-    text-decoration: underline
 }
 
 .dark-theme .filters-container {
-    background: rgba(40,40,40,.95);
-    color: #fff
+    background: rgba(19, 19, 19, 0.4);
+    padding-block: 5px;
 }
 
 .dark-theme .card {
@@ -935,8 +948,8 @@ body.dark-theme .theme-toggle:hover {
 }
 
 .spinner {
-    width: 24px;
-    height: 24px;
+    width: 42px;
+    height: 42px;
     border: 3px solid #f3f3f3;
     border-top: 3px solid #3498db;
     border-radius: 50%;
@@ -1282,23 +1295,61 @@ body.dark-theme .theme-toggle:hover {
 
 
 /* Отображение предметов */
+
+/* Оптимизация для мобильных устройств */
+@media (max-width: 768px) {
+    .atropos {
+        perspective: none;
+    }
+    
+    .atropos-rotate {
+        transform: none !important;
+    }
+    
+    .atropos-scale {
+        transform: none !important;
+    }
+    
+    .atropos-inner:hover {
+        transform: translateY(-2px) scale(1.01);
+    }
+}
+
+* {
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Добавляем плавную анимацию для всех переходов */
+
+.atropos * {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
 .items-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     padding: 1.5rem;
+    will-change: transform;
 }
 
 .atropos {
+    position: relative;
     width: 100%;
     opacity: 0;
     transform: translateY(20px);
-    animation: iconFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    pointer-events: none;
-    perspective: 800px;
+    animation: iconFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    perspective: 1000px;
+    cursor: pointer;
+    will-change: transform, opacity;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-
 
 .atropos:nth-child(n) {
     animation-delay: calc(var(--index) * 0.1s);
@@ -1310,35 +1361,293 @@ body.dark-theme .theme-toggle:hover {
     padding: 2rem;
     border: 1px solid rgba(230, 230, 230, 0.5);
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
-    transition: all 0.3s ease;
     will-change: transform;
     backface-visibility: hidden;
+    transform-style: preserve-3d;
+    position: relative;
+    cursor: pointer; 
+    perspective: 600px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+
+.atropos-inner .item-card-image {
+    width: 48px;
+    height: 48px;
+    transform: translateZ(10px) rotateX(0deg) rotateY(0deg) scale(1); /* Начальные параметры */
+    transition: transform 0.3s ease-out, filter 0.3s ease-out;
+    will-change: transform, filter; /* Оптимизация производительности */
+}
+
+.atropos-inner:hover .item-card-image {
+    transform: translateZ(30px) scale(1.05);
+    filter: brightness(1.3) saturate(1.3);
+}   
+
+
+
+/* Основные стили для hover */
 .atropos-inner:hover {
-    animation: rgbGlow 8s linear infinite;
+    --blur-strength: 15px;
+    cursor: pointer;
+    transform: translateY(-5px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
-/* Уменьшаем максимальный угол поворота в Atropos */
+/* Для комбинаций — зафиксируем состояние при убирании мышки */
+.atropos-inner[data-class="0"]:not(:hover),
+.atropos-inner[data-class="1"]:not(:hover),
+.atropos-inner[data-class="2"]:not(:hover),
+.atropos-inner[data-class="4"]:not(:hover),
+.atropos-inner[data-class="8"]:not(:hover),
+.atropos-inner[data-class="16"]:not(:hover),
+.atropos-inner[data-class="5"]:not(:hover),
+.atropos-inner[data-class="18"]:not(:hover),
+.atropos-inner[data-class="20"]:not(:hover),
+.atropos-inner[data-class="7"]:not(:hover),
+.atropos-inner[data-class="19"]:not(:hover),
+.atropos-inner[data-class="22"]:not(:hover),
+.atropos-inner[data-class="15"]:not(:hover),
+.atropos-inner[data-class="23"]:not(:hover),
+.atropos-inner[data-class="255"]:not(:hover) {
+    border-color: rgba(128, 128, 128, 0.15); /* Возвращаемся к серому цвету */
+    box-shadow: 0 4px 20px rgba(31, 38, 135, 0.1); /* Плавный переход обратно */
+    transition: all 0.3s ease, box-shadow 0.3 ease-in-out; /* Плавный переход обратно */
+    
+}
+
+
+/* Стили для разных классов */
+.atropos-inner[data-class="0"]:hover { /* Нет класса */
+    border-color: rgba(128, 128, 128, 0.4);
+}
+
+.atropos-inner[data-class="1"]:hover { /* Рыцарь */
+    border-color: rgba(0, 140, 255, 0.4);
+}
+
+.atropos-inner[data-class="2"]:hover { /* Рейнджер */
+    border-color: rgba(0, 255, 0, 0.4);
+}
+
+.atropos-inner[data-class="4"]:hover { /* Маг */
+    border-color: rgba(255, 255, 0, 0.4);
+}
+
+.atropos-inner[data-class="8"]:hover { /* Ассасин */
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.atropos-inner[data-class="16"]:hover { /* Призыватель */
+    border-color: rgba(255, 0, 0, 0.4);
+}
+
+/* Анимации для комбинаций */
+.atropos-inner[data-class="5"]:hover { /* Рыцарь + Маг */
+    animation: knightMageBorder 3s linear infinite;
+}
+
+.atropos-inner[data-class="18"]:hover { /* Рейнджер + Призыватель */
+    animation: rangerSummonerBorder 3s linear infinite;
+}
+
+.atropos-inner[data-class="20"]:hover { /* Маг + Призыватель */
+    animation: mageSummonerBorder 3s linear infinite;
+}
+
+.atropos-inner[data-class="7"]:hover { /* Рыцарь + Рейнджер + Маг */
+    animation: tripleKnightRangerMageBorder 4s linear infinite;
+}
+
+.atropos-inner[data-class="19"]:hover { /* Рыцарь + Рейнджер + Призыватель */
+    animation: tripleKnightRangerSummonerBorder 4s linear infinite;
+}
+
+.atropos-inner[data-class="22"]:hover { /* Рейнджер + Маг + Призыватель */
+    animation: tripleRangerMageSummonerBorder 4s linear infinite;
+}
+
+.atropos-inner[data-class="15"]:hover { /* Рыцарь + Рейнджер + Маг + Ассасин */
+    animation: quadKnightRangerMageAssassinBorder 5s linear infinite;
+}
+
+.atropos-inner[data-class="23"]:hover { /* Рыцарь + Рейнджер + Маг + Призыватель */
+    animation: quadKnightRangerMageSummonerBorder 5s linear infinite;
+}
+
+.atropos-inner[data-class="255"]:hover { /* Все классы */
+    animation: allClassesBorder 6s linear infinite;
+}
+
+/* Определение анимаций */
+@keyframes knightMageBorder {
+    0%, 100% { 
+        border-color: rgba(0, 140, 255, 0.4); /* Рыцарь */
+        box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); 
+    }
+    50% { 
+        border-color: rgba(255, 255, 0, 0.4); /* Маг */
+        box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); 
+    }
+}
+
+@keyframes rangerSummonerBorder {
+    0%, 100% { 
+        border-color: rgba(0, 255, 0, 0.4); /* Рейнджер */
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); 
+    }
+    50% { 
+        border-color: rgba(255, 0, 0, 0.4); /* Призыватель */
+        box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); 
+    }
+}
+
+@keyframes mageSummonerBorder {
+    0%, 100% { 
+        border-color: rgba(255, 255, 0, 0.4); /* Маг */
+        box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); 
+    }
+    50% { 
+        border-color: rgba(255, 0, 0, 0.4); /* Призыватель */
+        box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); 
+    }
+}
+
+@keyframes tripleKnightRangerMageBorder {
+    0%, 100% { 
+        border-color: rgba(0, 140, 255, 0.4); /* Рыцарь */
+        box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); 
+    }
+    33% { 
+        border-color: rgba(0, 255, 0, 0.4); /* Рейнджер */
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); 
+    }
+    66% { 
+        border-color: rgba(255, 255, 0, 0.4); /* Маг */
+        box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); 
+    }
+}
+
+@keyframes tripleKnightRangerSummonerBorder {
+    0%, 100% { 
+        border-color: rgba(0, 140, 255, 0.4); /* Рыцарь */
+        box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); 
+    }
+    33% { 
+        border-color: rgba(0, 255, 0, 0.4); /* Рейнджер */
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); 
+    }
+    66% { 
+        border-color: rgba(255, 0, 0, 0.4); /* Призыватель */
+        box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); 
+    }
+}
+
+@keyframes tripleRangerMageSummonerBorder {
+    0%, 100% { 
+        border-color: rgba(0, 255, 0, 0.4); /* Рейнджер */
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); 
+    }
+    33% { 
+        border-color: rgba(255, 255, 0, 0.4); /* Маг */
+        box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); 
+    }
+    66% { 
+        border-color: rgba(255, 0, 0, 0.4); /* Призыватель */
+        box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); 
+    }
+}
+
+@keyframes quadKnightRangerMageAssassinBorder {
+    0%, 100% { 
+        border-color: rgba(0, 140, 255, 0.4); /* Рыцарь */
+        box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); 
+    }
+    25% { 
+        border-color: rgba(0, 255, 0, 0.4); /* Рейнджер */
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); 
+    }
+    50% { 
+        border-color: rgba(255, 255, 0, 0.4); /* Маг */
+        box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); 
+    }
+    75% { 
+        border-color: rgba(255, 255, 255, 0.4); /* Ассасин */
+        box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4); 
+    }
+}
+
+@keyframes quadKnightRangerMageSummonerBorder {
+    0%, 100% { 
+        border-color: rgba(0, 140, 255, 0.4); /* Рыцарь */
+        box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); 
+    }
+    25% { 
+        border-color: rgba(0, 255, 0, 0.4); /* Рейнджер */
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); 
+    }
+    50% { 
+        border-color: rgba(255, 255, 0, 0.4); /* Маг */
+        box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); 
+    }
+    75% { 
+        border-color: rgba(255, 0, 0, 0.4); /* Призыватель */
+        box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); 
+    }
+}
+
+@keyframes allClassesBorder {
+    0%, 100% { 
+        box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4); /* Рыцарь */
+        border-color: rgba(0, 140, 255, 0.4); 
+    }
+    20% { 
+        box-shadow: 0 4px 20px rgba(0, 255, 0, 0.4); /* Рейнджер */
+        border-color: rgba(0, 255, 0, 0.4); 
+    }
+    40% { 
+        box-shadow: 0 4px 20px rgba(255, 255, 0, 0.4); /* Маг */
+        border-color: rgba(255, 255, 0, 0.4); 
+    }
+    60% { 
+        box-shadow: 0 4px 20px rgba(255, 255, 255, 0.4); /* Ассасин */
+        border-color: rgba(255, 255, 255, 0.4); 
+    }
+    80% { 
+        box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); /* Призыватель */
+        border-color: rgba(255, 0, 0, 0.4); 
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Оптимизация Atropos анимаций */
 .atropos-rotate {
-    transform: rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg)) !important;
-    /* Ограничиваем максимальный поворот */
-    --rotateX: clamp(-5deg, var(--raw-rotateX), 5deg);
-    --rotateY: clamp(-5deg, var(--raw-rotateY), 5deg);
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    transform: rotateX(var(--rotateX)) rotateY(var(--rotateY)) scale(1.02) !important;
+    --rotateX: clamp(-2deg, var(--raw-rotateX), 2deg);
+    --rotateY: clamp(-2deg, var(--raw-rotateY), 2deg);
 }
 
-/* Оптимизируем производительность */
 .atropos-scale {
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
     transform: scale(1) !important;
-    will-change: transform;
 }
 
-@keyframes rgbGlow {
-    0% { box-shadow: 0 0 20px rgba(0, 140, 255, 0.3); }
-    33% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
-    66% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
-    100% { box-shadow: 0 0 20px rgba(0, 140, 255, 0.3); }
+
+/* Улучшенные hover эффекты */
+.atropos-inner:hover {
+    --blur-strength: 20px;
+    transform: translateY(-5px) scale(1.02);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 
 
 /* Улучшаем качество текста при трансформациях */
@@ -1354,37 +1663,44 @@ body.dark-theme .theme-toggle:hover {
 
 /* Изображение предмета */
 .item-card-image {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 1.5rem;
+    width: 48px;
+    height: 48px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 16px;
-    overflow: hidden;
-    background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
-    transition: transform 0.3s ease;
-    animation: iconFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    overflow: visible;
+    padding: 0;
+    margin: 0 auto;
+
+    transform: translateZ(20px);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* Плавная анимация появления с мягкими эффектами */
 @keyframes iconFadeIn {
     0% {
         opacity: 0;
-        filter: blur(100px);
-        transform: scale(0.6) translateY(20px);
+        filter: blur(80px);
+        transform: scale(0.8) translateY(40px);
     }
-    60% {
-        opacity: 0.6;
-        filter: blur(30px);
-        transform: scale(0.9) translateY(10px);
+    50% {
+        opacity: 0.5;
+        filter: blur(1px);
     }
     100% {
         opacity: 1;
         filter: none;
         transform: scale(1) translateY(0);
     }
+}
+
+/* Анимация RGB (не используется) */
+@keyframes rgbGlow {
+    0% { box-shadow: 0 0 20px rgba(0, 140, 255, 0.3); }
+    33% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+    66% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.3); }
+    100% { box-shadow: 0 0 20px rgba(0, 140, 255, 0.3); }
 }
 
 
@@ -1400,7 +1716,7 @@ body.dark-theme .theme-toggle:hover {
 }
 
 .item-card-image[data-class="1"] { /* Рыцарь */
-    box-shadow: 0 4px 20px rgba(0, 140, 255, 0.4);
+    box-shadow: 0 4px 18px rgba(0, 140, 255, 0.4);
 }
 
 .item-card-image[data-class="2"] { /* Рейнджер */
@@ -1516,16 +1832,24 @@ body.dark-theme .theme-toggle:hover {
     80% { box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4); } /* Призыватель */
 }
 
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+
 .item-card-image img {
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.item-card-image:hover img {
-    transform: scale(2);
-}
+
 
 .item-card-id {
     position: absolute;
@@ -1546,6 +1870,7 @@ body.dark-theme .theme-toggle:hover {
     margin: 1.5rem 0;
     position: relative;
     z-index: 10;
+    font-size: 1.2rem;
 }
 
 /* Характеристики */
@@ -1559,6 +1884,7 @@ body.dark-theme .theme-toggle:hover {
 /* Общие стили для stat-badge */
 .stat-badge {
     background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
     padding: 0.75rem;
     display: flex;
@@ -1567,21 +1893,13 @@ body.dark-theme .theme-toggle:hover {
     font-size: 0.9rem;
     color: #4a5568;
     border: 1px solid rgba(226, 232, 240, 0.8);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.1, 0, 0.2, 1);
 }
 
-/* Светлая тема */
-.light-theme .stat-badge {
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.light-theme .stat-badge:hover {
+.stat-badge:hover {
     transform: translateY(-2px);
-    background: rgba(74, 158, 255, 0.1);
-    box-shadow: 
-        0 4px 6px rgba(0, 0, 0, 0.05);
+    background: rgba(0, 153, 255, 0.25);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* Темная тема */
@@ -1595,7 +1913,7 @@ body.dark-theme .theme-toggle:hover {
 .dark-theme .stat-badge:hover {
     transform: translateY(-2px);
     background: rgba(74, 158, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 /* Описание предмета */
@@ -1611,8 +1929,10 @@ body.dark-theme .theme-toggle:hover {
     opacity: 0;
     transform: translateY(10px);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    pointer-events: auto;
     
 }
+
 
 .item-card-description.visible {
     opacity: 1;
@@ -1624,6 +1944,12 @@ body.dark-theme .theme-toggle:hover {
     opacity: 1;
     transform: translateY(0);
 }
+
+
+
+
+
+
 
 /* Темная тема */
 .dark-theme .atropos-inner {
@@ -1684,10 +2010,6 @@ body.dark-theme .theme-toggle:hover {
 }
 
 
-.atropos-inner:hover {
-    --blur-strength: 15px;
-    border-color: rgba(255, 255, 255, 0.2);
-}
 
 
 /* Claymorphism для бейджей */
@@ -1723,31 +2045,7 @@ body.dark-theme .theme-toggle:hover {
     border-radius: inherit;
 }
 
-/* Магнитный эффект для иконок */
-.item-card-image {
-    cursor: none;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-@media (hover: hover) {
-    .item-card-image::after {
-        content: '';
-        position: absolute;
-        inset: -50px;
-        background: radial-gradient(
-            circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-            rgba(255, 255, 255, 0.1),
-            transparent 50%
-        );
-        opacity: 0;
-        transition: opacity 0.3s;
-        pointer-events: none;
-    }
-
-    .item-card-image:hover::after {
-        opacity: 1;
-    }
-}
 
 /* описания */
 .item-card-description {
@@ -1755,6 +2053,7 @@ body.dark-theme .theme-toggle:hover {
     scrollbar-width: thin;
     scrollbar-color: rgba(74, 158, 255, 0.3) transparent;
 }
+
 
 .item-card-description::-webkit-scrollbar {
     width: 6px;
@@ -2152,3 +2451,5 @@ body.dark-theme .theme-toggle:hover {
 .dark-theme .stat-badge {
     color: rgba(255, 255, 255, 0.9);
 }
+
+

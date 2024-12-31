@@ -287,7 +287,7 @@ def monster_detail(monster_id: int):
                 }
                 for _, row in location_match.iterrows()
             ]
-            print(monster_location)
+            #print(monster_location)
 
 
     # Обработка изображений

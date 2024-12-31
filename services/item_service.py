@@ -140,7 +140,6 @@ def apply_filters(items, filters):
 # Какие ячейки из запроса передаем на сайт для фильтров
 def item_to_dict(item):
     """Конвертирует объект DT_Item в словарь со всеми нужными атрибутами"""
-    print(item.IMaxStack)
     return {
         'IID': item.IID,
         'IName': item.IName,

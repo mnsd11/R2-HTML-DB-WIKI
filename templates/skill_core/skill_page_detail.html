@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     
     <link rel="stylesheet" href="/static/bg/css/detail_css.css">
 </head>
@@ -24,11 +24,13 @@
     </div>
 
     <main>
+        {% include 'main_page_menu.html' %}
+
         <div class="container text-center">
+            <!-- Первый блок -->
             <div class="row">
                 <div class="col-12 col-md-6">
-                    <!-- Первый блок -->
-
+                    
                     <!-- Информация -->
                     {% include 'skill_core/detail/skill_page_detail_information.html' %}
 
