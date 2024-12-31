@@ -307,9 +307,9 @@
 .dark-theme .dropdown-item::before {
     background: linear-gradient(45deg, 
         transparent 0%, 
-        rgba(255,255,255,0.03) 45%, 
-        rgba(255,255,255,0.05) 50%, 
-        rgba(255,255,255,0.03) 55%, 
+        rgba(0, 102, 255, 0.3) 45%, 
+        rgba(0, 102, 255, 0.6) 50%, 
+        rgba(0, 102, 255, 0.3) 55%, 
         transparent 100%);
 }
 
