@@ -1,6 +1,6 @@
-flask
-flask-talisman
-python-dotenv
-pyodbc
-pandas
-requests
+Flask==2.3.2
+Flask-Talisman==0.8.4
+python-dotenv==1.0.0
+pyodbc==4.0.35
+pandas==2.0.3
+requests==2.31.0
